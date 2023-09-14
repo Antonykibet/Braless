@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <section id="loginBody">
+        <img id="loginImage" src="/images/otherImage.jpg" alt="">
+        <div id="loginContents">
+            <h1 class="title" >Sign up</h1>
+            <div id="formDiv" style="width: 100%;display: flex;justify-content: center;">
+                <form id="Form" action="/signUp" method="post">
+                    <input class="formInput" type="text" name="firstname" id="firstname" placeholder="Firstname" required>
+                    <input class="formInput" type="text" name="lastname" placeholder="Lastname" id="lastname"  required>
+                    <input class="formInput" type="text" name="email" placeholder="Email" id="email"  required><br>
+                    <p class="errorMsg"><%= error %></p>
+                    <div style="width: 100%;position: relative;">
+                        <input class="formInput" type="password" name="password" placeholder="Password" id="password"  required><br>
+                        <img class="eyeIcon" src="/icons/hide password icon.png" alt="">
+                    </div>
+                    <div style="width: 100%;position: relative;">
+                        <input class="formInput" type="password" name="confirmPassword" placeholder="Confirm Password" id="confirmPassword"  required><br>
+                        <img class="eyeIcon" src="/icons/hide password icon.png" alt="">
+                    </div>
+                    <button class="submitBtn" id='signBtn' type="submit">Sign Up</button>
+                </form>`
+            </div>
+            <div id="altOptions">
+                <p>Or Sign up with</p>
+                <button class="altButton" type="submit">
+                    <img class="icon" src="/icons/google Icon.png" alt="">
+                    Google
+                </button>
+                <button class="altButton" type="submit">
+                    <img id="facebook" class="icon" src="/icons/facebook icon.png" alt="">
+                    Facebook
+                </button>
+                <p></p>
+            </div>
+        </div>
+    </section>
+    <script src="/js/login.js"></script>
+    <script>
+         function validateForm(event) {
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            
+            if (password.value !== confirmPassword.value) {
+                alert('Passwords do not match. Please enter matching passwords.');
+                password.style.border='1px solid rgb(238, 5, 5)'
+                confirmPassword.style.border='1px solid rgb(238, 5, 5)'
+                event.preventDefault(); // Prevent the form from being submitted
+            }
+        }
+        const signupForm = document.getElementById('Form');
+        signupForm.addEventListener('submit', validateForm);
+    </script>
+</body>
+</html>

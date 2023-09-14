@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cart.css">
+    <title>Cart</title>
+</head>
+<body>
+    <div id="itemDiv">No items in Cart</div>
+    <section id="content">
+        <div id="billingDiv">
+            <form id="billingForm" action="/order" method="post">
+                <label class="billingLabel" for="fname">First Name</label>
+                <input class="billingInput" type="text" id="fname" name="fname">
+                <label class="billingLabel" for="lname">Last Name</label>
+                <input class="billingInput" type="text" id="lname" name="lname">
+                <label class="billingLabel" for="phoneNo">Phone number</label>
+                <input class="billingInput" type="text" name="phoneNo" id="phoneNo">
+                <label class="billingLabel" for="email">Email Address</label>
+                <input class="billingInput" type="text" name="email" id="email">
+                <label class="billingLabel" class="billingInput" for="addNote">Add a Note</label>
+                <textarea name="note" id="addNote"></textarea>
+                <div id="totalDiv">
+                    <h3 class="totalElem">Total</h3>
+                    <h3 class="totalElem" id="totalPrice"></h3>
+                </div>
+                <button id="checkoutBtn" type="submit">Check Out</button>
+                <a id="error"  href="/"><button type="button" id="continueBtn">Continue shopping</button></a>
+            </form>
+        </div>
+    </section>
+    <script src="cart.js"></script>
+</body>
+</html>

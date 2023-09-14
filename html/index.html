@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/card.css">
+    <title>Home</title>
+</head>
+<body>
+    <header id="desktopHeader">
+        <img id="logo" src="images/logo.png" alt="">
+        <div style="display: flex;flex-direction: row;">
+            <div style="position: relative;width: 50%;height: 5vh;margin-right: 16px;">
+                <input id="filter" type="text" placeholder="Search">
+                <i class="bi bi-search"></i>
+                <div id="results">
+                    <ul id="list">
+                        <li class="items">Black Tape</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex;justify-content: space-evenly;align-items: center;">
+                <div class="headerIcons">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <div class="headerIcons">
+                    <i class="bi bi-cart4"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="hero">
+        <img class="heroImage" src="images/lady1.jpg" alt="">
+        <img class="heroImage" src="images/lady2.jpg" alt="">
+        <div id="screen">
+            <h1 id="catchPhrase" >Your <br> <span style="color: rgb(235, 72, 113);">Breast</span> Friend</h1>
+        </div>
+    </section>
+    <h1 class="title">Top Sellers</h1>
+    <section class="productSection">
+        <div class="productDiv">
+            <a class='imageHyperlink' href='/product/${_id}'>
+                <img class='productImage' src='whiteRose.jpg'>
+            </a>
+            <div class='nameDiv'>
+                <h3 class='productName'>Nude</h3>
+                <h4 class='productPrice'>1200/=</h4>
+            </div>
+            <div class='descDiv'>
+                <p class='description'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis molestiae tenetur sit excepturi quibusdam? Veritatis quaerat inventore nam voluptatem tempore eveniet. Nisi est consequatur reiciendis vero a, cupiditate unde ipsa.
+                </p>
+            </div>
+            <button class='cartButton' index='${index}'>Add to Cart</button>    
+        </div>
+        <div class="productDiv">
+            <a class='imageHyperlink' href='/product/${_id}'>
+                <img class='productImage' src='whiteRose.jpg'>
+            </a>
+            <div class='nameDiv'>
+                <h3 class='productName'>Nude</h3>
+                <h4 class='productPrice'>1200/=</h4>
+            </div>
+            <div class='descDiv'>
+                <p class='description'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis molestiae tenetur sit excepturi quibusdam? Veritatis quaerat inventore nam voluptatem tempore eveniet. Nisi est consequatur reiciendis vero a, cupiditate unde ipsa.
+                </p>
+            </div>
+            <button class='cartButton' index='${index}'>Add to Cart</button>    
+        </div>
+        <div class="productDiv">
+            <a class='imageHyperlink' href='/product/${_id}'>
+                <img class='productImage' src='whiteRose.jpg'>
+            </a>
+            <div class='nameDiv'>
+                <h3 class='productName'>Nude</h3>
+                <h4 class='productPrice'>1200/=</h4>
+            </div>
+            <div class='descDiv'>
+                <p class='description'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis molestiae tenetur sit excepturi quibusdam? Veritatis quaerat inventore nam voluptatem tempore eveniet. Nisi est consequatur reiciendis vero a, cupiditate unde ipsa.
+                </p>
+            </div>
+            <button class='cartButton' index='${index}'>Add to Cart</button>    
+        </div>
+        <div class="productDiv">
+            <a class='imageHyperlink' href='/product/${_id}'>
+                <img class='productImage' src='whiteRose.jpg'>
+            </a>
+            <div class='nameDiv'>
+                <h3 class='productName'>Nude</h3>
+                <h4 class='productPrice'>1200/=</h4>
+            </div>
+            <div class='descDiv'>
+                <p class='description'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis molestiae tenetur sit excepturi quibusdam? Veritatis quaerat inventore nam voluptatem tempore eveniet. Nisi est consequatur reiciendis vero a, cupiditate unde ipsa.
+                </p>
+            </div>
+            <button class='cartButton' index='${index}'>Add to Cart</button>    
+        </div>
+    </section>
+    <section id="productCatalogue">
+        <div class="catalogue"></div>
+        <div class="catalogue"></div>
+        <div class="catalogue"></div>
+    </section>
+    <h1 class="title">Tape</h1>
+    <section class="productSection"></section>
+    <h1 class="title">Rabbit </h1>
+    <section class="productSection"></section>
+    <h1 class="title">Sex Toys</h1>
+    <section class="productSection"></section>
+    <footer id="footer"></footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
