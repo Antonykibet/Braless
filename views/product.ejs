@@ -7,13 +7,36 @@
     <link rel="stylesheet" href="/css/product.css" type="text/css">
     <link rel="stylesheet" href="/css/card.css" type="text/css">
     <link rel="stylesheet" href="/css/footer.css" type="text/css">
-    <title>Document</title>
+    <title>Product</title>
 </head>
 <body>
+    <header id="desktopHeader">
+        <img id="logo" src="/images/logo.png" alt="">
+        <div style="display: flex;flex-direction: row;">
+            <div style="position: relative;width: 50%;height: 5vh;margin-right: 16px;">
+                <input id="filter" type="text" placeholder="Search">
+                <i class="bi bi-search"></i>
+                <div id="results">
+                    <ul id="list">
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex;justify-content: space-evenly;align-items: center;">
+                <div class="headerIcons">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <div class="headerIcons">
+                    <i class="bi bi-cart4"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
     <h1 class="title">Product</h1>
     <section id="content">
         <div id="imgSection">
-            <img class="productImageMain" src="<%= image %>"alt="">
+            <img class="productImageMain" src="/<%= image %>"alt="">
             <div id="imgCollection">
                 <div id="images" style="display: none;"><%= images %></div>    
             </div>
@@ -46,46 +69,7 @@
     <h1 class="title">Goes well with...</h1>
     <section id="addOns">
     </section>
-    <footer id="footer">
-        <div id="mainFooter" style="width: 100%;display: flex;justify-content: space-around;">
-          <div id="footerLogo" ></div>
-          <div class="footerNavs">
-              By Occassion
-              <div class="footerDropdown">
-                  <a class="footerLists" href="">Birthdays</a>
-                  <a class="footerLists" href="">Congratulation</a>
-                  <a class="footerLists" href="">love and Romance</a>
-                  <a class="footerLists" href="">Thank You</a>
-                  <a class="footerLists" href="">For Him</a>                
-                  <a class="footerLists" href="">Valentines</a>
-                  <a class="footerLists" href="">Mother's Day</a>
-                  <a class="footerLists" href="">Get well</a>
-                  <a class="footerLists" href="">Funeral</a>
-              </div>
-          </div>
-          <div class="footerNavs">
-              Events
-              <div class="footerDropdown">
-                  <a class="footerLists" href="">Backdrop</a>
-                  <a class="footerLists" href="">Flower arrangement</a>
-                  <a class="footerLists" href="">Room decoration</a>
-              </div>
-          </div>
-          <div class="footerNavs">
-              Gift Hampers
-              <div class="footerDropdown">
-                  <a class="footerLists" href="">For Her</a>
-                  <a class="footerLists" href="">For Him</a>
-                  <a class="footerLists" href="">Bestie</a>
-                  <a class="footerLists" href="">Baby Shower</a>
-              </div>
-          </div>
-          <div class="footerNavs">By Price</div>
-          <div class="footerNavs">By Price</div>
-      </div>
-      <div id="lowerFooter"> Designed and developed by <a href="">webGuy</a> </div>
-      </footer>
-      <script src="/js/script.js"></script>
+        <script src="/js/script.js"></script>
       <script>
             let productImageMain = document.getElementsByClassName('productImageMain').item(0)
             let imgCollection = document.getElementById('imgCollection')

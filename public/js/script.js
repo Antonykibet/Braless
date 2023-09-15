@@ -11,13 +11,13 @@ async function getItems(){
     let result = await response.json()
     result=result.result
     result.forEach(item=>items.push(item.name))
-    alert(JSON.stringify(items))
 }
 
 
 let list =document.getElementById('list')
 let results=document.getElementById('results')
 let input = document.getElementById('filter')
+
 input.addEventListener('focus',()=>{
     results.style.display='flex'
     renderList(items)
@@ -29,7 +29,7 @@ input.addEventListener('keyup',()=>{
 function renderList(items){
     list.innerHTML=``    
     items.forEach((item)=>{
-        list.innerHTML+=`<a href='/products/${item}'><li class="items">${item}</li></a>`
+        list.innerHTML+=`<a href='/product/${item}'><li class="items">${item}</li></a>`
     })
 }
 document.addEventListener('click', (event) => {

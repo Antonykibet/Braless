@@ -68,9 +68,9 @@ routes.get('/products/:product',async(req,res)=>{
     let result = await flowerCollection.find({catalogue:`${product}`}).toArray()
     res.json(result)
 })
-routes.get('/product/:name',async(req,res)=>{
-    let {productID} =req.params
-    let {image,name,description,price,images} = await flowerCollection.findOne(new ObjectId(productID))
+routes.get('/product/:productName',async(req,res)=>{
+    let {productName} =req.params
+    let {image,name,description,price,images} = await flowerCollection.findOne({name:`${productName}`})
     let details={
         image:image,
         images:JSON.stringify(images),
@@ -82,7 +82,6 @@ routes.get('/product/:name',async(req,res)=>{
 })
 routes.get('/getFlowers',async (req,res)=>{
     let result = await flowerCollection.find().toArray()
-    console.log(result)
     res.json(result)
 })
 routes.get('/',async(req,res)=>{
