@@ -75,6 +75,14 @@ span{
     justify-content: center;
     align-items: center;
 }
+#topProducts{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+}
 #productCatalogue{
     width: 100%;
     display: flex;

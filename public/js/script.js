@@ -1,11 +1,33 @@
 let cartArray = []
 let headerIconsDiv =document.getElementById('headerIconsDiv')
+let projectSection = document.querySelectorAll('.projectSection')
 let result=null
 let addcartBtn
 let items =[]
 
 
+async function getTopProducts(){
+    let response = await fetch('/topProducts')
+    let result = await response.json()
+    productDisplay(result,'topProducts')
+}
+// Generic function to fetch and display products
+async function fetchAndDisplayProducts(productType, sectionId) {
+    try {
+      let response = await fetch(`/products/${productType}`);
+      let result = await response.json();
+      productDisplay(result, sectionId);
+    } catch (error) {
+      console.error(`Error fetching ${productType} products: ${error}`);
+    }
+  }
+  
+  // Call the generic function for different product types
+  fetchAndDisplayProducts('Boob Tapes', 'tapeSection');
+  fetchAndDisplayProducts('Rabbit', 'rabbitSection');
+  fetchAndDisplayProducts('Sex Toys', 'sexSection');
 
+getTopProducts()
 getItems()
 adminBtn()
 async function getItems(){
@@ -20,7 +42,7 @@ let list =document.getElementById('list')
 let results=document.getElementById('results')
 let input = document.getElementById('filter')
 
-alert(document.cookie)
+
 input.addEventListener('focus',()=>{
     results.style.display='flex'
     renderList(items)
@@ -66,13 +88,16 @@ async function adminBtn(){
 function productDisplay(result,section = 'content'){
     let contentDiv = document.getElementById(section)
     result.forEach((item, index)=>{
-        let {_id,name,description,price,image} = item
+        let {_id,name,type,description,price,image} = item
         let productDiv = document.createElement('div')
         productDiv.classList.add('productDiv')
         productDiv.innerHTML=`
             <a class='imageHyperlink' href='/product/${_id}'>
                 <img class='productImage' src='${image}'>
             </a>
+            <div class='nameDiv'>
+                <h3 class='productName'>${type}</h3>
+            </div>
             <div class='nameDiv'>
                 <h3 class='productName'>${name}</h3>
                 <h4 class='productPrice'>${price}</h4>

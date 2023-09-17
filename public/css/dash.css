@@ -1,0 +1,11 @@
+ul li{
+    list-style: none;
+}
+#productSection{
+    border: solid;
+}
+.modal{
+    height: 30vh;
+    width: 50%;
+    border: solid;
+}
