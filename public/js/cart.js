@@ -2,9 +2,7 @@
 //alert( localStorage.getItem('cartItems'))
 let cartItems = JSON.parse(localStorage.getItem('cartItems'))
 let contentDiv = document.getElementById('content')
-let links =document.querySelectorAll('.link')
 let totalPrice =document.getElementById('totalPrice')
-let result=null
 
 
 function calcTotal(){
@@ -15,34 +13,6 @@ function calcTotal(){
     totalPrice.innerText=total
 }
 
-
-links.forEach((link)=>{
-    link.addEventListener('click',async ()=>{
-        contentDiv.style.justifyContent='space-around'
-        contentDiv.innerHTML=``
-        let product = link.getAttribute('data-product')
-        let response = await fetch(`/products/${product}`)
-        result = await response.json()
-        result.forEach((item,index)=>{
-            let {name,price,image,description} = item
-            contentDiv.innerHTML+=`<div class='productDiv'>
-                <img class='productImage' src='${image}'>
-                <h3 class='productName'>${name}</h3>
-                <h4 class='productPrice'>${price}</h4>
-                <button class='cartButton' index='${index}'>OrderNow</button>
-            </div>`
-            })
-        addcartBtn = document.querySelectorAll('.cartButton')
-        addcartBtn.forEach((cartBtns)=>{
-        cartBtns.addEventListener('click',()=>{
-                let index = cartBtns.getAttribute('index')
-                cartItems.push(result[Number(index)])
-                localStorage.setItem('cartItems',JSON.stringify(cartItems))
-            })
-        })
-
-    })
-})
 
 
 //function displayCart(){}
@@ -55,12 +25,12 @@ if(cartItems!==null){
         bigDiv.innerHTML=`
                 <img class='cartProductImage' src='${image}'>
                 <div class='productDesc'>
-                    <h2>${name}</h2>
-                    <h3>${price}</h3>
-                    <div style='display:flex;'>
-                        <button class='subsBtn' index='${index}'>-</button>
-                        <div id='div${index}' >${unit}</div>
-                        <button class='addBtn' index='${index}' >+</button>
+                    <h2 class='cartName'>${name}</h2>
+                    <h3 class='cartPrice'>${price}</h3>
+                    <div style='display:flex;align-items:center;margin-bottom:8px;'>
+                        <i class="bi bi-dash-lg" index='${index}'></i>
+                        <div class='digitDisplay' id='div${index}' >${unit}</div>
+                        <i class="bi bi-plus-lg" index='${index}'></i>
                     </div>
                     <button class='removeBtn index='${index}' >Remove</button>
                 </div>
@@ -81,7 +51,6 @@ addBtns.forEach((btn)=>{
         let index = btn.getAttribute('index')
         cartItems[index].unit+=1
         let {unit} =cartItems[index]
-        alert(unit)
         document.getElementById(`div${index}`).innerText=unit
         localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()

@@ -2,7 +2,8 @@ const { urlencoded } = require('body-parser')
 const express = require('express')
 const {readFile} = require('fs')
 const { get } = require('http')
-const {routes,dbClient, dbInit} = require('./routes.js')
+const {routes,dbClient} = require('./routes.js')
+const {dbInit} =require('./mongoConfig.js')
 const {admnRoute} = require('./adminRoutes.js')
 const sessions = require('express-session')
 const app = express()
@@ -13,12 +14,12 @@ app.use(sessions({
         resave:false,
         saveUninitialized:false,
         cookie:{
+            name: 'braless',
             secure:false,//set to true in production
             maxAge:1000*60*60*24,
         }
     }
 ))
-
 app.use(express.static('./public'))
 app.set('view engine', 'ejs');
 app.use(express.json())
@@ -28,8 +29,12 @@ app.use(admnRoute)
 
 
 
-app.listen(PORT,async()=>{
-    await dbInit()
-    console.log(`db connected...`)
-    console.log(`Server listening at Port ${PORT}...`)
-})
+app.listen(PORT, async () => {
+    try {
+        await dbInit();
+        console.log(`db connected...`);
+        console.log(`Server listening at Port ${PORT}...`);
+    } catch (error) {
+        console.error("Error initializing the database:", error);
+    }
+});

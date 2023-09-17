@@ -1,11 +1,13 @@
 let cartArray = []
-let links =document.querySelectorAll('.link')
-let headerIcons =document.querySelectorAll('.headerIcons')
+let headerIconsDiv =document.getElementById('headerIconsDiv')
 let result=null
 let addcartBtn
 let items =[]
 
+
+
 getItems()
+adminBtn()
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
@@ -18,6 +20,7 @@ let list =document.getElementById('list')
 let results=document.getElementById('results')
 let input = document.getElementById('filter')
 
+alert(document.cookie)
 input.addEventListener('focus',()=>{
     results.style.display='flex'
     renderList(items)
@@ -40,21 +43,24 @@ document.addEventListener('click', (event) => {
 });
 
 
+// Check if the session cookie exists
+function isAdmin() {
+    var cookies = document.cookie.split('; ');
+    alert(cookies)
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split('=');
+        if (cookie[0] === 'braless') {
+            return true; // Found the "braless" session cookie
+        }
+    }
+    return false; // "braless" session cookie not found
+}
 
 
-// async function adminBtn(){
-//     let response = await fetch('/role')
-//     let role = await response.json()
-//     //alert(role)
-//     if(role=='Admin'){
-//         headerIcons.forEach((header)=>{
-//             header.innerHTML+=`
-//                 <a href='/admin/dashboard'><button>Admin</button></a>
-//             `
-//         })
-//     }
-// }
-// adminBtn()
+async function adminBtn(){
+    if(isAdmin) headerIconsDiv.innerHTML+=`<a href='/admin/dashboard'><button>Admin</button></a>`
+}
+
 
 
 function productDisplay(result,section = 'content'){

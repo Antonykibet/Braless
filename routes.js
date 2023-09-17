@@ -1,26 +1,31 @@
 const { log } = require('console');
 const express = require('express')
-const {MongoClient, ObjectId} = require('mongodb')
 const routes = express.Router()
 const path =require('path')
-const uri = "mongodb+srv://antonykibet059:123Acosta@cluster0.eoos6vz.mongodb.net/?retryWrites=true&w=majority";
+const {dbInit,accountCollection,flowerCollection} = require('./mongoConfig')
+//const {MongoClient} = require('mongodb')
+// const uri = "mongodb+srv://antonykibet059:123Acosta@cluster0.eoos6vz.mongodb.net/?retryWrites=true&w=majority";
 
-const dbClient = new MongoClient(uri)
-let flowerCollection =null
-let accountCollection =null
+// const dbClient = new MongoClient(uri)
+// let flowerCollection =null
+// let accountCollection =null
 
-async function dbInit(){
-    let db = dbClient.db('flowerShop');
-    flowerCollection = await db.collection('flowers')
-    accountCollection = await db.collection('accounts')
-} 
+// async function dbInit(){
+//     let db = dbClient.db('flowerShop');
+//     flowerCollection = await db.collection('flowers')
+//     accountCollection = await db.collection('accounts')
+// }
+
 routes.get('/role',(req,res)=>{
-    const {role} = req.session.user 
-    res.json(role)
+    if(req.session.user){
+        const {role} = req.session.user 
+        res.json(role)
+        return
+    }
+    
 })
 routes.post('/login',async (req,res)=>{
     const {email,password} = req.body
-    console.log(email,password)
     let user
     try{
         user = await accountCollection.findOne({email:email})
@@ -36,7 +41,10 @@ routes.post('/login',async (req,res)=>{
         res.render('login',{wrongUser:'',wrongPass:'Wrong Password'})
         return
     }
-    if(email=='antonykibet059@gmail.com' && password=='123@Anto')req.session.user = {email,role:'Admin'}  
+    if(email=='antonykibet059@gmail.com' && password=='123@Anto'){
+        res.cookie('braless', 'boss', { maxAge: 1000*60*60*24});
+        req.session.user = {email,role:'Admin'}
+    }     
     res.redirect('/')
 })
 
@@ -85,7 +93,8 @@ routes.get('/getFlowers',async (req,res)=>{
     res.json(result)
 })
 routes.get('/',async(req,res)=>{
-    res.sendFile(path.join(__dirname,'html','index.html') )
+    res.sendFile(path.join(__dirname,'html','index.html'))
+    
 })
 routes.get('/cart',(req,res)=>{
     res.sendFile(path.join(__dirname,'html','cart.html'))

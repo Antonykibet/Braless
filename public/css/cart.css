@@ -1,118 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-body{
-    margin: 0px;
+.title{
+    margin-top: 0px;
+    margin-bottom: 0px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    overflow-x: hidden;
-    background-color: rgb(245, 245, 245);
-}
-a{
-    padding-left: 8px;
-    padding-right: 8px;
-    text-decoration: none;
-    color: whitesmoke;
-}
-a:hover{
-    background-color: #a07078;
-}
-#mobileHeader{
-    display: none;
-}
-#desktopNav{
-    background-color: #b7828a;
-    height: 7vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding-left: 15%;
-    padding-right: 15%;
-}
-#topHeader{
-    font-family: 'Poppins';
-    font-size: 2.5vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 5vh;
-    background-color: rgba(223, 223, 223, 0.89);
-}
-#desktopHeader{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* padding-left: 5%;
-    padding-right: 10%; */
-    font-family: 'Poppins';
-    color: whitesmoke;
     width: 95%;
-    border: solid;
+    color: #2e2e2e;
+    font-family: 'Montserrat';
 }
-#logo{
-    width: 10%;
-    height: 9vh;
-    object-fit: cover;
-}
-#account{
-    width: 24px;
-    height: 24px;
-}
-#addToCart{
-    width: 24px;
-    height: 24px;
-}
-.nav-item {
-    color: whitesmoke;
-    position: relative;
-    display: inline-block;
-    margin-right: 20px; /* Adjust the spacing between menu items */
-}
-
-.nav-button {
-    color: whitesmoke;
-    font-family: 'Poppins';
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%; /* Position the menu below the button */
-    left: 0;
-    display: none;
-    flex-direction: column;
-    border: 1px solid #b7828a;
-    background-color: #b7828a;
-    color: whitesmoke;
-    font-family: 'Poppins';
-    font-size: 13px;
-}
-.nav-item:hover .dropdown-menu {
-    display: flex;
+#cartTitle{
+    justify-content: center;
+    align-items: center;
 }
 #content{
-    margin-top: 24px;
-    width: 85%;
+    width: 95%;
     position: relative;
     display: flex;
-    width: 85%;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: top; 
-    margin-top: 24px;
+    margin-top: 16px;
     margin-bottom: 24px;
 }
-
 .cartProductDiv{
-    border: solid red;
     display: flex;
     width: 65%;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
+    font-family:'Montserrat' ;
 }
 .cartProductImage{
     width: 30%;
@@ -147,11 +61,35 @@ a:hover{
     margin-top: 0px;
     margin-bottom: 8px;
 }
+.cartName{
+    margin-bottom: 8px;
+}
+.cartPrice{
+    margin-top: 0px;
+    margin-bottom: 16px;
+}
+.bi-dash-lg{
+    color: #2e2e2e;
+    font-size: 12px;
+    -webkit-text-stroke: 1px;
+}
+.bi-plus-lg{
+    color: #2e2e2e;
+    -webkit-text-stroke: 1px;
+}
+.digitDisplay{
+    border: solid #2e2e2e 2px;
+    border-radius: 4px;
+    padding: 6px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
 #billingDiv{
     position: absolute;
     top: 0px;
     right: 0px;
-    border: solid;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
     width: 30%;
     display: flex;
     flex-direction: column;
