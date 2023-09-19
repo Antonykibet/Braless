@@ -11,7 +11,7 @@ function auth(req,res,next){
         res.send('intruder')
     }
 }
-admnRoute.use('/admin',auth)
+//admnRoute.use('/admin',auth)
 admnRoute.get('/admin/dashboard',(req,res)=>{
     res.render('dashboard.ejs')
 })

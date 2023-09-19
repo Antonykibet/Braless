@@ -25,7 +25,7 @@ span{
     display: flex;
     justify-content: space-between;
     overflow: hidden;
-    background: url(lady3.jpg);
+    background: url(/images/lady3.jpg);
     background-size: contain;
     background-position: center;
     position: relative;

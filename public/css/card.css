@@ -32,6 +32,10 @@
     margin-top: 8px;
     color: rgb(46, 46, 46);
 }
+#type{
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
 .type{
     margin-top: 0px;
     margin-bottom: 8px;

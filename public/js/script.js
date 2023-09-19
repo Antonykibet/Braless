@@ -88,18 +88,18 @@ async function adminBtn(){
 function productDisplay(result,section = 'content'){
     let contentDiv = document.getElementById(section)
     result.forEach((item, index)=>{
-        let {_id,name,type,description,price,image} = item
+        let {_id,catalogue,type,description,price,image} = item
         let productDiv = document.createElement('div')
         productDiv.classList.add('productDiv')
         productDiv.innerHTML=`
             <a class='imageHyperlink' href='/product/${_id}'>
                 <img class='productImage' src='${image}'>
             </a>
-            <div class='nameDiv'>
-                <h3 class='productName'>${type}</h3>
+            <div id='type' class='nameDiv'>
+            <h3  class='productName'>${catalogue}</h3>
             </div>
-            <div class='nameDiv'>
-                <h3 class='productName'>${name}</h3>
+            <div id='type' class='nameDiv'>
+                <h4 class='productName'>${type}</h4>
                 <h4 class='productPrice'>${price}</h4>
             </div>
             <div class='descDiv'>
