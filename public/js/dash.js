@@ -1,20 +1,51 @@
 let lists = document.querySelectorAll('.CRUD')
+
+let items = []
+async function getItems(){
+    let response = await fetch('/allProducts')
+    let result = await response.json()
+    result=result.result
+    result.forEach(item=>items.push(`${item.catalogue}:${item.type}` ))
+}
+function renderList(items){
+    results.innerHTML=``    
+    items.forEach((item)=>{
+        results.innerHTML+=`<li class="items">${item}</li>`
+    })
+}
+function searchFunc(div){
+    const input = div.querySelector('#productSearch');
+            const results = div.querySelector('#results')
+            input.addEventListener('focus', () => {
+                results.style.display = 'flex';
+                renderList(items);
+            });
+        
+            input.addEventListener('keyup', () => {
+                const filteredItems = items.filter(item => item.toLowerCase().includes(input.value));
+                renderList(filteredItems);
+            });
+}
 getItems()
 lists.forEach((list)=>{
     list.addEventListener('click',()=>{
         let modalBackground = document.createElement('div')
         modalBackground.classList.add('modalBackground')
         if(list.getAttribute('id')=='create') modalBackground.innerHTML=createForm()
-        if(list.getAttribute('id')=='update') modalBackground.innerHTML=updateForm()
-        document.body.appendChild(modalBackground)
+        if(list.getAttribute('id')=='update'){
+            modalBackground.innerHTML=updateForm()
+            searchFunc(modalBackground)
+        }
+        
         modalBackground.querySelector('.closeBtn').addEventListener('click', () => {
             // Close the modal or perform any desired action here
             modalBackground.remove();
         });
+        document.body.appendChild(modalBackground)
     })
 })
 function updateForm(){
-    return `
+    return  `
     <div class='modal'>
         <button class='closeBtn'>X</button>
         <form action="/admin/create" method="post">
@@ -73,35 +104,14 @@ function createForm(){
 }
 
 //Dropdown menu
-let results=document.getElementById('results')
-let input = document.getElementById('productSearch')
 
-let items = []
-async function getItems(){
-    let response = await fetch('/allProducts')
-    let result = await response.json()
-    result=result.result
-    result.forEach(item=>items.push(`${item.catalogue}:${item.type}` ))
-}
 
-input.addEventListener('focus',()=>{
-    results.style.display='flex'
-    renderList(items)
-})
-input.addEventListener('keyup',()=>{
-    let filteredItems = items.filter(item=>item.toLowerCase().includes(input.value))
-    renderList(filteredItems)
-})
-function renderList(items){
-    results.innerHTML=``    
-    items.forEach((item)=>{
-        results.innerHTML+=`<li class="items">${item}</li>`
-    })
-}
-document.addEventListener('click', (event) => {
-    if (!results.contains(event.target) && !input.contains(event.target)) {
+
+
+//document.addEventListener('click', (event) => {
+//    if (!results.contains(event.target) && !input.contains(event.target)) {
         // Clicked outside the list container, hide the list
-        results.style.display = 'none';
-    }
-});
+//        results.style.display = 'none';
+//    }
+//});
 
