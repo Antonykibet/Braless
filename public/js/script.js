@@ -1,11 +1,15 @@
-let cartArray = []
+let cartItems = []
 let headerIconsDiv =document.getElementById('headerIconsDiv')
 let projectSection = document.querySelectorAll('.projectSection')
 let result=null
 let addcartBtn
 let items =[]
 
-
+async function getCartItems(){
+    let response = await fetch('/addCart')
+    cartItems = await response.json()
+}
+getCartItems()
 async function getTopProducts(){
     let response = await fetch('/topProducts')
     let result = await response.json()
@@ -105,20 +109,25 @@ function productDisplay(result,section = 'content'){
             <div class='descDiv'>
                 <p class='description'>${description}</p>
             </div>
-            <button class='cartButton' index='${index}'>Order Now</button>    
+            <button class='cartButton' index='${_id}'>Add to Cart</button>    
         `
         contentDiv.appendChild(productDiv)
+        addCartFunc(productDiv,item)
     })
-    addCartFunc()
+    
 }
 
-function addCartFunc(){
-    addcartBtn = document.querySelectorAll('.cartButton')
-    addcartBtn.forEach((cartBtns)=>{
-        cartBtns.addEventListener('click',()=>{
-            let index = cartBtns.getAttribute('index')
-            cartArray.push(result[ Number(index)])
-            localStorage.setItem('cartItems',JSON.stringify(cartArray))
+function addCartFunc(elem,item){
+    addcartBtn = elem.querySelector('.cartButton')
+    addcartBtn.addEventListener('click', async()=>{
+        if(cartItems.some(cartItem=>cartItem._id===item._id)) return
+        cartItems.push(item)
+        await fetch('/addCart',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify({cartItems:cartItems}),
         })
     })
 }

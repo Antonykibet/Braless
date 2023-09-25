@@ -1,9 +1,16 @@
-const { log } = require('console');
 const express = require('express')
 const routes = express.Router()
 const path =require('path')
 const {dbInit,accounts,products} = require('./mongoConfig')
 
+routes.post('/addCart',(req,res)=>{
+    const {cartItems} = req.body
+    req.session.cartItems=cartItems
+    req.session.save()
+})
+routes.get('/addCart',(req,res)=>{
+    res.json(req.session.cartItems)
+})
 routes.get('/role',(req,res)=>{
     if(req.session.user){
         const {role} = req.session.user 
@@ -60,7 +67,7 @@ routes.get('/flower',(req,res)=>{
     })
 })
 routes.get('/topProducts',async(req,res)=>{
-    let result = await products.find({top:`true`}).toArray()
+    let result = await products.find({top:true}).toArray()
     res.json(result)
 })
 routes.get('/products/:product',async(req,res)=>{
@@ -70,9 +77,9 @@ routes.get('/products/:product',async(req,res)=>{
 })
 routes.get('/product/:productName',async(req,res)=>{
     let {productName} =req.params
-    let {name,description,price,images} = await products.findOne({name:`${productName}`})
+    let {image,name,description,price,images} = await products.findOne({name:`${productName}`})
     let details={
-        
+        image:image,
         images:JSON.stringify(images),
         name:name,
         description:description,
@@ -86,7 +93,7 @@ routes.get('/getFlowers',async (req,res)=>{
 })
 routes.get('/',async(req,res)=>{
     res.sendFile(path.join(__dirname,'html','index.html'))
-    
+    req.session.cartItems=[]
 })
 routes.get('/cart',(req,res)=>{
     res.sendFile(path.join(__dirname,'html','cart.html'))

@@ -1,11 +1,15 @@
 let lists = document.querySelectorAll('.CRUD')
 
 let items = []
+let itemsName = []
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
     result=result.result
-    result.forEach(item=>items.push(`${item.catalogue}:${item.type}` ))
+    result.forEach((item)=>{
+        items.push(item)
+        itemsName.push(`${item.catalogue}:${item.type}` )
+    })
 }
 function renderList(items){
     results.innerHTML=``    
@@ -18,12 +22,33 @@ function searchFunc(div){
             const results = div.querySelector('#results')
             input.addEventListener('focus', () => {
                 results.style.display = 'flex';
-                renderList(items);
+                renderList(itemsName);
+                let prodList = div.querySelectorAll('.items')
+                prodList.forEach((item)=>{
+                    item.addEventListener('click',()=>{
+                        div.querySelector('#productSearch').value=item.innerHTML
+                        const [prodCatalogue,prodType] = item.innerHTML.split(':')
+                        const product = items.find((item)=>item.catalogue==prodCatalogue&&item.type==prodType)
+                        const {price,description,catalogue,type,top} = product
+                        div.querySelector('#price').value=price
+                        div.querySelector('#description').value=description
+                        div.querySelector('#type').value=type
+                        div.querySelector('#topProduct').checked=top
+                        div.querySelector('#catalogue').value=catalogue
+                        
+                    })
+                })
             });
         
             input.addEventListener('keyup', () => {
-                const filteredItems = items.filter(item => item.toLowerCase().includes(input.value));
+                const filteredItems = itemsName.filter(item => item.toLowerCase().includes(input.value));
                 renderList(filteredItems);
+                let prodList = div.querySelectorAll('.items')
+                prodList.forEach((item)=>{
+                    item.addEventListener('click',()=>{
+                        div.querySelector('#productSearch').value=item.innerHTML
+                    })
+                })
             });
 }
 getItems()
@@ -35,6 +60,7 @@ lists.forEach((list)=>{
         if(list.getAttribute('id')=='update'){
             modalBackground.innerHTML=updateForm()
             searchFunc(modalBackground)
+            
         }
         
         modalBackground.querySelector('.closeBtn').addEventListener('click', () => {
@@ -53,24 +79,25 @@ function updateForm(){
                 <input type="text" name="product" id="productSearch" placeholder="Product">
                 <div id="results"></div>
             </div>
-            <input type="text" placeholder="price">
-            <input type="text" placeholder="mainImage">
-            <input type="text" placeholder="description">
+            <input id='price' type="text" placeholder="price">
+            <input id='mainImage' type="text" placeholder="mainImage">
+            <input id='description' type="text" placeholder="description">
             <div>
                 <label for="catalogue">Catalogue</label>
-                <select name="catalogue" id="catalogue">
+                <select  name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
                     <option value="Rabbit Bra">Rabbit Bra</option>
                     <option value="Floral">Floral</option>
                     <option value="">Sex Toys</option>
                 </select>
             </div>
-            <input type="text" placeholder="Other Images">
-            <input type="text" placeholder="Type eg 1m x 10cm or small">
+            <input id='otherImages' type="text" placeholder="Other Images">
+            <input id='type' type="text" placeholder="Type eg 1m x 10cm or small">
             <div>
                 <input type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>
             </div>
+            <button type ='submit'>Update<button>
         </form>
     </div>
     `

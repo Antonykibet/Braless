@@ -1,8 +1,16 @@
-//localStorage.removeItem('cartItems')
-//alert( localStorage.getItem('cartItems'))
-let cartItems = JSON.parse(localStorage.getItem('cartItems'))
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
+let cartItems = null
+async function getCartItems(){
+    let response = await fetch('/addCart')
+    cartItems = await response.json()
+    displayCartItems()
+    calcTotal()
+}
+getCartItems()
+
+
+
 
 
 function calcTotal(){
@@ -15,66 +23,72 @@ function calcTotal(){
 
 
 
-//function displayCart(){}
-if(cartItems!==null){
-    //cartItems = cartItems
+function displayCartItems(){
     cartItems.forEach((item,index)=>{
-        let {name,price,image,unit} = item
+        let {type,catalogue,price,image,unit} = item
         let bigDiv = document.createElement('div')
         bigDiv.classList.add('cartProductDiv')
         bigDiv.innerHTML=`
-                <img class='cartProductImage' src='${image}'>
-                <div class='productDesc'>
-                    <h2 class='cartName'>${name}</h2>
-                    <h3 class='cartPrice'>${price}</h3>
-                    <div style='display:flex;align-items:center;margin-bottom:8px;'>
-                        <i class="bi bi-dash-lg" index='${index}'></i>
-                        <div class='digitDisplay' id='div${index}' >${unit}</div>
-                        <i class="bi bi-plus-lg" index='${index}'></i>
-                    </div>
-                    <button class='removeBtn index='${index}' >Remove</button>
+            <img class='cartProductImage' src='${image}'>
+            <div class='productDesc'>
+                <h2 class='cartName'>${type}</h2>
+                <h3>${catalogue}<h3>
+                <h3 class='cartPrice'>${price}</h3>
+                <div style='display:flex;align-items:center;margin-bottom:8px;'>
+                    <i class="bi bi-dash-lg" index='${index}'></i>
+                    <div class='digitDisplay ' id='div${index}' >${unit}</div>
+                    <i class="bi bi-plus-lg " index='${index}'></i>
                 </div>
-        `
-        contentDiv.appendChild(bigDiv)
-        document.getElementById('itemDiv').innerText= ''
-    })
-    calcTotal()
-}else{
-    document.getElementById('itemDiv').innerText='No items'
+                <button class='removeBtn index='${index}' >Remove</button>
+            </div>
+            `
+            contentDiv.appendChild(bigDiv)
+            addFunc(bigDiv,item)
+            subFunc(bigDiv,item)
+            removeFunc(bigDiv,item)
+        })
+        //calcTotal()
 }
 
-let removeBtns = document.querySelectorAll('.removeBtn')
-let addBtns = document.querySelectorAll('.addBtn')
-let subsBtns = document.querySelectorAll('.subsBtn')
-addBtns.forEach((btn)=>{
-    btn.addEventListener('click',()=>{
-        let index = btn.getAttribute('index')
-        cartItems[index].unit+=1
-        let {unit} =cartItems[index]
-        document.getElementById(`div${index}`).innerText=unit
+
+function addFunc(div,item){
+    let addBtn = div.querySelector('.bi-plus-lg')
+    addBtn.addEventListener('click',()=>{
+        let {unit} = item
+        unit+=1
+        let itemIndex = cartItems.indexOf(item)
+        cartItems[itemIndex].unit = unit
+        div.querySelector('.digitDisplay').innerText=unit
         localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()
     })
-})
-subsBtns.forEach((btn)=>{
-    btn.addEventListener('click',()=>{
-        let index = btn.getAttribute('index')
-        let {unit} =cartItems[index]
-        if(unit>1){
+}
+
+function subFunc(div,item){
+    let subBtn = div.querySelector('.bi-dash-lg')
+    subBtn.addEventListener('click',()=>{
+        let {unit} = item
+        if(unit!==1){
             unit-=1
-            cartItems[index].unit=unit
-            document.getElementById(`div${index}`).innerText=unit
+            let itemIndex = cartItems.indexOf(item)
+            cartItems[itemIndex].unit = unit
+            div.querySelector('.digitDisplay').innerText=unit
             localStorage.setItem('cartItems',JSON.stringify(cartItems))
             calcTotal()
         }
     })
-})
+}
 
-removeBtns.forEach((btn)=>{
-    btn.addEventListener('click',()=>{
-        let index = btn.getAttribute('index')
+
+function removeFunc(div,item){
+    let removeBtn =div.querySelector('.removeBtn')
+    removeBtn.addEventListener('click',()=>{
+        alert('hello')
+        let index = cartItems.indexOf(item)
         cartItems.splice(index,1)
+        div.remove()
         localStorage.setItem('cartItems',JSON.stringify(cartItems))
-        location.reload()
+        calcTotal()
+        
     })
-})
+}
