@@ -19,6 +19,7 @@ function calcTotal(){
         total+= Number(item.price*item.unit) 
     })
     totalPrice.innerText=total
+    document.getElementById('total').value=total
 }
 
 
@@ -53,7 +54,7 @@ function displayCartItems(){
 
 function addFunc(div,item){
     let addBtn = div.querySelector('.bi-plus-lg')
-    addBtn.addEventListener('click',()=>{
+    addBtn.addEventListener('click',async()=>{
         let {unit} = item
         unit+=1
         let itemIndex = cartItems.indexOf(item)
@@ -61,12 +62,13 @@ function addFunc(div,item){
         div.querySelector('.digitDisplay').innerText=unit
         localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()
+        await updFunc()
     })
 }
 
 function subFunc(div,item){
     let subBtn = div.querySelector('.bi-dash-lg')
-    subBtn.addEventListener('click',()=>{
+    subBtn.addEventListener('click',async()=>{
         let {unit} = item
         if(unit!==1){
             unit-=1
@@ -75,6 +77,7 @@ function subFunc(div,item){
             div.querySelector('.digitDisplay').innerText=unit
             localStorage.setItem('cartItems',JSON.stringify(cartItems))
             calcTotal()
+            await updFunc()
         }
     })
 }
@@ -82,13 +85,25 @@ function subFunc(div,item){
 
 function removeFunc(div,item){
     let removeBtn =div.querySelector('.removeBtn')
-    removeBtn.addEventListener('click',()=>{
+    removeBtn.addEventListener('click',async()=>{
         alert('hello')
         let index = cartItems.indexOf(item)
         cartItems.splice(index,1)
         div.remove()
         localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()
+        await updFunc()
         
     })
+}
+
+async function updFunc(){
+    await fetch('/updCart',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+        body:JSON.stringify({cartItems:cartItems}),
+    })
+    alert('updated')
 }

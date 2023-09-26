@@ -5,9 +5,10 @@ const dbClient = new MongoClient(uri)
 let db = dbClient.db('Braless');
 let products = db.collection('products')
 let accounts =  db.collection('accounts')
+let orders = db.collection('Orders')
 
 async function dbInit(){
     await dbClient.connect();
 }
 
-module.exports = {dbInit,products,accounts}
+module.exports = {dbInit,products,accounts,orders}

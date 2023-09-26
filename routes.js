@@ -1,12 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 const path =require('path')
-const {dbInit,accounts,products} = require('./mongoConfig')
+const {dbInit,accounts,products,orders} = require('./mongoConfig')
 
-routes.post('/addCart',(req,res)=>{
+routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
     req.session.cartItems=cartItems
-    req.session.save()
+    res.redirect('/')
+})
+routes.post('/updCart',(req,res)=>{
+    const {cartItems} =req.body
+    req.session.cartItems=cartItems
+    res.redirect('/cart')
 })
 routes.get('/addCart',(req,res)=>{
     res.json(req.session.cartItems)
@@ -18,6 +23,26 @@ routes.get('/role',(req,res)=>{
         return
     }
     
+})
+routes.post('/checkout',async(req,res)=>{
+    
+    try {
+        const {fname,lname,phoneNo,email,totalPrice} = req.body
+        const cart = req.session.cartItems
+        let order ={
+            name:`${fname} ${lname}`,
+            phoneNo,
+            email,
+            totalPrice,
+            cart,
+        }
+        await orders.insertOne(order)
+        req.session.cartItems=[]
+        res.redirect('/')
+    } catch (error) {
+        console.log(`Failed CheckOut ${fname} ${lname}`)
+        console.log(error)
+    }
 })
 routes.post('/login',async (req,res)=>{
     const {email,password} = req.body
@@ -93,7 +118,7 @@ routes.get('/getFlowers',async (req,res)=>{
 })
 routes.get('/',async(req,res)=>{
     res.sendFile(path.join(__dirname,'html','index.html'))
-    req.session.cartItems=[]
+    //req.session.cartItems=[]
 })
 routes.get('/cart',(req,res)=>{
     res.sendFile(path.join(__dirname,'html','cart.html'))

@@ -32,19 +32,15 @@
     </header>
     <h1 class="title" id="cartTitle">Cart</h1>
     <div id="itemDiv">No items in Cart</div>
+
     <section id="content">
         <div id="billingDiv">
-            <form id="billingForm" action="/order" method="post">
-                <label class="billingLabel" for="fname">First Name</label>
-                <input class="billingInput" type="text" id="fname" name="fname">
-                <label class="billingLabel" for="lname">Last Name</label>
-                <input class="billingInput" type="text" id="lname" name="lname">
-                <label class="billingLabel" for="phoneNo">Phone number</label>
-                <input class="billingInput" type="text" name="phoneNo" id="phoneNo">
-                <label class="billingLabel" for="email">Email Address</label>
-                <input class="billingInput" type="text" name="email" id="email">
-                <label class="billingLabel" class="billingInput" for="addNote">Add a Note</label>
-                <textarea name="note" id="addNote"></textarea>
+            <form id="billingForm" action="/checkout" method="post">
+                <input class="billingInput" placeholder="First Name" type="text" id="fname" name="fname" required>
+                <input class="billingInput" placeholder="Last Name" type="text" id="lname" name="lname" required>
+                <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
+                <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
+                <input type="hidden" name="totalPrice" id="total">
                 <div id="totalDiv">
                     <h3 class="totalElem">Total</h3>
                     <h3 class="totalElem" id="totalPrice"></h3>
@@ -54,6 +50,7 @@
             </form>
         </div>
     </section>
+
     <script src="js/cart.js"></script>
 </body>
 </html>

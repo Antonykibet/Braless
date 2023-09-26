@@ -7,17 +7,70 @@
     <title>Dashboard</title>
 </head>
 <body>
-    <div>
-        <div id="productSection">
-            <h1>Products</h1>
+    <header id="dashHeader" id="desktopHeader">
+        <img id="logo" src="/images/logo.png" alt="">
+        <h2 style="margin-right: 56px;" >Admin Dashboard</h2>
+    </header>
+    <section class="column" id="firstColumn">
+        <div id="productLab">
+            <h2 class="title">Product Lab</h2>
             <ul>
                 <li id="create" class="CRUD">Create</li>
                 <li id="update" class="CRUD">Update</li>
-                <li class="CRUD">Delete</li>
+                <li id="delete" class="CRUD">Delete</li>
             </ul>
         </div>
-    </div>
+        <div id="productList">
+            <h2 class="title">Product List</h2>
+        </div>
+    </section>
+    <section class="column" id="secondColumn">
+        <div id="indicators">
+            <div class="indicator" id="siteVisits">
+                <h1>Site Visits</h1>
+                <h2 class="indicatorValue">25</h2>
+            </div>
+            <div class="indicator" id="carts">
+                <h1>Carts</h1>
+                <h2 class="indicatorValue">25</h2>
+            </div>
+            <div class="indicator" id="checkouts">
+                <h1>Checkouts</h1>
+                <h2 class="indicatorValue">25</h2>
+            </div>
+        </div>
+        <div id="orderTrack">
+            <h1 class="title">Track Orders</h1>
 
-        <script src="/js/dash.js"></script>
+            <div class="orderRecord">
+                <div class="credentials">
+                    <h4>Antony Kibet</h4>
+                    <h4>antonkibet@gmail.com</h4>
+                    <h4>0769819306</h4>
+                </div>
+                <div class="productItems">
+                    <div>
+                        <h4>Boob tape: 1m x 10cm</h4>
+                        <h4>unit: 2</h4>
+                    </div>
+                    <div>
+                        <h4>Boob tape: 1m x 10cm</h4>
+                        <h4>unit: 2</h4>
+                    </div>
+                </div>
+
+                <div class="status">
+                    <select name="" id="">
+                        <option value="">Processing</option>
+                        <option value="">Complete</option>
+                        <option value="">Shipping</option>
+                        <option value="">Delivered</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="column" id="thirdColumn"></section>
+    <script src="/js/dash.js"></script>
 </body>
 </html>

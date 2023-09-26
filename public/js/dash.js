@@ -1,5 +1,5 @@
 let lists = document.querySelectorAll('.CRUD')
-
+let productList=document.getElementById('productList')
 let items = []
 let itemsName = []
 async function getItems(){
@@ -8,21 +8,24 @@ async function getItems(){
     result=result.result
     result.forEach((item)=>{
         items.push(item)
-        itemsName.push(`${item.catalogue}:${item.type}` )
+        itemsName.push(`${item.catalogue}:${item.type}`)
+        productList.innerHTML+=`<a href='/product/${item._id}'><li>${item.catalogue}:${item.type}</li></a>`
     })
 }
-function renderList(items){
+getItems()
+function renderSearchList(items){
     results.innerHTML=``    
     items.forEach((item)=>{
         results.innerHTML+=`<li class="items">${item}</li>`
     })
 }
+
 function searchFunc(div){
     const input = div.querySelector('#productSearch');
             const results = div.querySelector('#results')
             input.addEventListener('focus', () => {
                 results.style.display = 'flex';
-                renderList(itemsName);
+                renderSearchList(itemsName);
                 let prodList = div.querySelectorAll('.items')
                 prodList.forEach((item)=>{
                     item.addEventListener('click',()=>{
@@ -42,7 +45,7 @@ function searchFunc(div){
         
             input.addEventListener('keyup', () => {
                 const filteredItems = itemsName.filter(item => item.toLowerCase().includes(input.value));
-                renderList(filteredItems);
+                renderSearchList(filteredItems);
                 let prodList = div.querySelectorAll('.items')
                 prodList.forEach((item)=>{
                     item.addEventListener('click',()=>{
@@ -51,7 +54,7 @@ function searchFunc(div){
                 })
             });
 }
-getItems()
+
 lists.forEach((list)=>{
     list.addEventListener('click',()=>{
         let modalBackground = document.createElement('div')
