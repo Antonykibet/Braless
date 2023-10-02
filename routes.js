@@ -1,12 +1,19 @@
 const express = require('express')
 const routes = express.Router()
 const path =require('path')
-const {dbInit,accounts,products,orders} = require('./mongoConfig')
+const {dbInit,accounts,products,orders,dashboard,ObjectId} = require('./mongoConfig')
 
 routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
     req.session.cartItems=cartItems
+    await dashboard.updateOne({ _id: new ObjectId('6517ac53474a5ac96b8de971')},{ $inc: {cartItems: 1 }})
     res.redirect('/')
+})
+routes.post('/checkOrder',async(req,res)=>{
+    const {phonenumber} = req.body
+    let result = await orders.find({phoneNo:phonenumber}).toArray()
+    console.log(``)
+    res.json(result)
 })
 routes.post('/updCart',(req,res)=>{
     const {cartItems} =req.body
@@ -34,6 +41,7 @@ routes.post('/checkout',async(req,res)=>{
             phoneNo,
             email,
             totalPrice,
+            status:'processing',
             cart,
         }
         await orders.insertOne(order)
@@ -117,11 +125,22 @@ routes.get('/getFlowers',async (req,res)=>{
     res.json(result)
 })
 routes.get('/',async(req,res)=>{
+    try {
+        if(!req.session.visited){
+            console.log(`updated`)
+            await dashboard.updateOne({ _id: new ObjectId('6517ac53474a5ac96b8de971')},{ $inc: { visits: 1 }})
+            req.session.visited=true
+        }   
+    } catch (error) {
+        console.log(error)
+    }
     res.sendFile(path.join(__dirname,'html','index.html'))
-    //req.session.cartItems=[]
 })
 routes.get('/cart',(req,res)=>{
     res.sendFile(path.join(__dirname,'html','cart.html'))
+})
+routes.get('/track',(req,res)=>{
+    res.sendFile(path.join(__dirname,'html','track.html'))
 })
 routes.get('/login',(req,res)=>{
     res.render('login',{wrongUser:'',wrongPass:''})

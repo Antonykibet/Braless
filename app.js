@@ -1,18 +1,25 @@
-const { urlencoded } = require('body-parser')
 const express = require('express')
-const {readFile} = require('fs')
-const { get } = require('http')
 const {routes,dbClient} = require('./routes.js')
-const {dbInit} =require('./mongoConfig.js')
+const {dbInit,uri,} =require('./mongoConfig.js')
 const {admnRoute} = require('./adminRoutes.js')
 const sessions = require('express-session')
+const mongoDbSession =require('connect-mongodb-session')(sessions)
 const app = express()
 const PORT=3500
 
+const mongoStore = new mongoDbSession({
+    uri:uri,
+    collection:'sessions',
+})
+
+mongoStore.on('error',(error)=>{
+    console.error('mongoDb session store down !!',error)
+})
 app.use(sessions({
         secret:'sayMyName',
         resave:false,
         saveUninitialized:false,
+        //store:mongoStore,
         cookie:{
             name: 'braless',
             secure:false,//set to true in production

@@ -102,3 +102,8 @@ span{
     height: 40vh;
     background-color:rgb(255, 146, 173) ;
 }
+@media screen and (max-width: 1000px) {
+    #hero{
+        display: none;
+    }
+}

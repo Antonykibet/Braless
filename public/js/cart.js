@@ -1,3 +1,4 @@
+localStorage.removeItem("cartItems")
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let cartItems = null
@@ -96,6 +97,7 @@ function removeFunc(div,item){
         
     })
 }
+
 
 async function updFunc(){
     await fetch('/updCart',{

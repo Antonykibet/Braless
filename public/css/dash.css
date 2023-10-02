@@ -139,6 +139,7 @@ form input{
 .indicatorValue{
     margin-top: 0px;
     font-size: 45px;
+    color: rgb(235, 72, 113);
 }
 #orderTrack{
     padding-top: 16px;
@@ -147,14 +148,25 @@ form input{
     flex-direction: column;
 }
 .orderRecord{
+    margin-top: 8px;
     display: flex;
-    border: solid;
+    border-bottom: solid 1px;
     justify-content: space-around;
-    align-items: center;
+    align-items: top;
+    font-family: 'Roboto';
 }
 .orderRecord h4 {
     margin-top: 0px;
-    margin-bottom: 0px;    
+    margin-bottom: 8px;    
+}
+.status{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+#statusElem{
+    height: 30%;
 }
 .credentials h4{
 }

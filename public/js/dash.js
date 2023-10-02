@@ -1,7 +1,9 @@
 let lists = document.querySelectorAll('.CRUD')
 let productList=document.getElementById('productList')
+let orderTrack=document.getElementById('orderTrack')
 let items = []
 let itemsName = []
+let orderItems = []
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
@@ -13,6 +15,8 @@ async function getItems(){
     })
 }
 getItems()
+getOrderdItems()
+
 function renderSearchList(items){
     results.innerHTML=``    
     items.forEach((item)=>{
@@ -63,7 +67,6 @@ lists.forEach((list)=>{
         if(list.getAttribute('id')=='update'){
             modalBackground.innerHTML=updateForm()
             searchFunc(modalBackground)
-            
         }
         
         modalBackground.querySelector('.closeBtn').addEventListener('click', () => {
@@ -73,6 +76,78 @@ lists.forEach((list)=>{
         document.body.appendChild(modalBackground)
     })
 })
+
+async function getOrderdItems(){
+    let response=await fetch('/admin/orderdItems')
+    orderItems=await response.json()
+    orderItems.forEach((item,index)=>{
+        const {_id,name,phoneNo,email,cart,} = item
+        let list = document.createElement('div')
+        list.classList.add('orderRecord')
+        list.innerHTML=orderList(index,name,email,phoneNo)
+        orderTrack.appendChild(list)
+
+        let productItems = list.querySelector('.productItems')
+        cart.forEach((item)=>{
+            productItems.innerHTML+=`
+            <div>
+                <h4>${item.catalogue}:${item.type}</h4>
+                <h4>Unit:${item.unit}</h4>
+            </div>
+            `
+        })
+        let status =list.querySelector('#statusElem')
+        status.value=item.status
+        status.addEventListener('change',async()=>{
+            try {
+                const data = {name,status:status.value}
+                await fetch('/admin/statusUpdate',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify(data)
+                })    
+                alert('Success')
+            } catch (error) {
+                alert('Error: Status not updated')
+            }
+        })
+    })
+}
+
+function orderList(index,name,email,phoneNo){
+    return `
+    <div><h1>${index}</h1></div>
+    <div class="credentials">
+        <h4 id="name">${name}</h4>
+        <h4>${email}</h4>
+        <h4>${phoneNo}</h4>
+    </div>
+    <div class="productItems">
+
+    </div>
+
+    <div class="status">
+        <select name="" id="statusElem">
+            <option value="processing">Processing</option>
+            <option value="complete">Complete</option>
+            <option value="shipping">Shipping</option>
+            <option value="delivered">Delivered</option>
+        </select>
+    </div>
+    `
+}
+
+
+
+
+
+
+
+
+
+
 function updateForm(){
     return  `
     <div class='modal'>
@@ -132,6 +207,8 @@ function createForm(){
     </div>
     `
 }
+
+
 
 //Dropdown menu
 

@@ -5,11 +5,12 @@ let result=null
 let addcartBtn
 let items =[]
 
-async function getCartItems(){
+ async function getCartItems(){
     let response = await fetch('/addCart')
     cartItems = await response.json()
 }
 getCartItems()
+
 async function getTopProducts(){
     let response = await fetch('/topProducts')
     let result = await response.json()
@@ -33,7 +34,7 @@ async function fetchAndDisplayProducts(productType, sectionId) {
 
 getTopProducts()
 getItems()
-adminBtn()
+
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
@@ -44,9 +45,18 @@ async function getItems(){
 
 let list =document.getElementById('list')
 let results=document.getElementById('results')
+let accountDropdown=document.getElementById('accountDropdown')
+let accountIcon=document.querySelector('.bi-person-circle')
 let input = document.getElementById('filter')
+adminBtn()
 
-
+accountIcon.addEventListener(`click`,()=>{
+    if(accountDropdown.style.display==`none`){
+        accountDropdown.style.display='flex'
+    }else{
+        accountDropdown.style.display=`none`
+    }
+})
 input.addEventListener('focus',()=>{
     results.style.display='flex'
     renderList(items)
@@ -61,12 +71,18 @@ function renderList(items){
         list.innerHTML+=`<a href='/product/${item}'><li class="items">${item}</li></a>`
     })
 }
-document.addEventListener('click', (event) => {
-    if (!results.contains(event.target) && !input.contains(event.target)) {
-        // Clicked outside the list container, hide the list
-        results.style.display = 'none';
-    }
-});
+function hideOnClickOutside(container, element, property) {
+    document.addEventListener('click', (event) => {
+        if (!container.contains(event.target) && !element.contains(event.target)) {
+            // Clicked outside the list container, hide the list
+            container.style[property] = 'none';
+        }
+    });
+}
+
+// Usage
+hideOnClickOutside(accountDropdown, accountIcon, 'display');
+hideOnClickOutside(results, input, 'display');
 
 
 // Check if the session cookie exists
@@ -84,7 +100,7 @@ function isAdmin() {
 
 
 async function adminBtn(){
-    if(isAdmin) headerIconsDiv.innerHTML+=`<a href='/admin/dashboard'><button>Admin</button></a>`
+    if(isAdmin) accountDropdown.innerHTML+=`<a href='/admin/dashboard'><p>Admin Dashboard</p></a>`
 }
 
 
