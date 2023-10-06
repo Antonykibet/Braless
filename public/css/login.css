@@ -127,3 +127,26 @@ a{
     font-size: 17px;
     height: 40px
 }
+
+@media screen and (max-width:1000px) {
+    .title{
+        margin-bottom: 24px;
+    }
+    #loginBody{
+        align-items: end;
+    }
+    #loginImage{
+        display: none;
+    }
+    #loginContents{
+        width: 100%;
+        justify-content: space-around;
+        height: 70%;
+    }
+    #Form{
+        width: 90%;
+    }
+    #altOptions{
+        width: 90%;
+    }
+}

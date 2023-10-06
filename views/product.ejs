@@ -52,35 +52,53 @@
                 <%= description %>
             </p>
             <h2 class="productPriceMain"><%= price %></h2>
-            <div style="display: flex;align-items: center;" >
-                <div class="icons"></div>
-                lorem
-            </div>
-            <div style="display: flex;align-items: center;" >
-                <div class="icons"></div>
-                lorem
-            </div>
-            <div style="display: flex;align-items: center;" >
-                <div class="icons"></div>
-                lorem
+            <h4 style="margin: 0px;margin-bottom: 0px;">Available colors:</h4>
+            <div id="colorSection">
+                <div id="colorsData" style="display: none;"><%= colors %></div>
             </div>
             <div class="btnDiv">
-                <button class="continueBtn">Continue shopping</button>
-                <button class="cartBtn">Add to cart</button>
+                <button class="CTOs" id="continueBtn">Continue shopping</button>
+                <button class="CTOs" id="cartBtn">Add to cart</button>
             </div>
         </div>
     </section>
-    <script src="/js/script.js"></script>
+    <footer id="footer">
+        <img id="footerLogo" src="/images/logo.png" alt="">
+        <div id="footerLinks">
+            <a  href="/"><p class="footerLink">Boob Tapes</p></a>
+            <p class="separator">|</p>
+            <a  href="/"><p class="footerLink">Bunny Ears</p></a>
+            <p class="separator">|</p>
+            <a href="/"><p class="footerLink">Nipple covers</p></a>
+            <p class="separator">|</p>
+            <a href="/"><p class="footerLink">Sex Toys</p></a>
+        </div>
+        <div id="contacts">
+            <a href="https://wa.me/254707088266" target="_blank"><i class="bi bi-whatsapp"></i></a>
+            <a href="https://www.instagram.com/bralessnation_/" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="mailto:wanjirumwaura465@gmail.com" target="_blank"><i class="bi bi-envelope-at"></i></a>  
+        </div>
+    </footer>
+    <footer id="lowerFooter"> Designed and developed by<span style="margin-left: 8px;color: rgb(228, 228, 228);text-decoration: underline;"> <a href="https://wa.me/254769819306">webGuy.</a> </span> </footer>
       <script>
             let productImageMain = document.getElementsByClassName('productImageMain').item(0)
             let imgCollection = document.getElementById('imgCollection')
             let otherImgDiv = document.getElementById('otherImgDiv')
-            let images = document.getElementById('images').innerText
-            images=JSON.parse(images)
+            let images = JSON.parse(document.getElementById('images').innerText)
+            let colors = JSON.parse(document.getElementById('colorsData').innerText)
             images.forEach((image)=>{
                 imgCollection.innerHTML+=`
                 <img class="otherImg" src="${image}" alt="">
                 `
+            })
+            colors.forEach((color)=>{
+                let colorDiv = document.createElement('div')
+                colorDiv.classList.add('colorDiv')
+                colorDiv.innerHTML+=`
+                    <div class='colorCode' style='background-color:${color.colorCode}'>..</div>
+                    <h3 class='colorName'>${color.colorName}</h3>
+                `
+                document.getElementById('colorSection').appendChild(colorDiv)
             })
             let otherImg = document.querySelectorAll('.otherImg')
             otherImg.forEach((image)=>{
@@ -93,13 +111,6 @@
                     image.style.borderColor = 'green'
                 })
             })
-
-            async function getProducts(){
-            let response = await fetch(`/products/addOns`)
-            let result =await response.json()
-            productDisplay(result,'addOns')
-            }
-            getProducts()
       </script>
 </body>
 </html>

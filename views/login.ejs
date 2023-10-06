@@ -11,9 +11,9 @@
     <section id="loginBody">
         <img id="loginImage" src="/images/otherImage.jpg" alt="">
         <div id="loginContents">
-            <h1 class="title" >Login</h1>
-            <div id="formDiv" style="width: 100%;display: flex;justify-content: center;">
-
+            
+            <div id="formDiv" style="width: 100%;display: flex;flex-direction: column; justify-content: center;align-items: center;">
+                <h1 class="title" >Login</h1>
                 <form id="Form" action="/login" method="post">
                     <input class="formInput" type="text" name="email" id="username" placeholder="Email" required><br>
                     <p class="errorMsg"><%= wrongUser %></p>
@@ -30,15 +30,6 @@
 
             </div>
             <div id="altOptions">
-                <p>Or Sign in with</p>
-                <button class="altButton" type="submit">
-                    <img class="icon" src="/icons/google Icon.png" alt="">
-                    Google
-                </button>
-                <button class="altButton" type="submit">
-                    <img id="facebook" class="icon" src="/icons/facebook icon.png" alt="">
-                    Facebook
-                </button>
                 <p>Don't have an account? <a href="/signUp"><strong style="color: #eb4871;">Sign Up</strong></a></p>
             </div>
         </div>

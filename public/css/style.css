@@ -121,55 +121,6 @@ span{
 .carouselScreen:hover{
     cursor: pointer;
 }
-#footer{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #f07090;
-    margin-top: 10vh;
-}
-#footerLogo{
-    width: 100px;
-}
-#footerLinks{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-family: 'Montserrat';
-}
-.footerLink{
-    margin-right: 16px;
-    margin-left: 16px;
-}
-#contacts i {
-    
-    font-weight: bold;
-    margin-left: 16px;
-    color: white;
-}
-.bi-envelope-at{
-    font-size: 28px;
-}
-.bi-instagram{
-    font-size: 24px;
-}
-.bi-whatsapp{
-    font-size: 24px;
-}
-#lowerFooter{
-    background-color: rgb(156, 156, 156);
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    color: whitesmoke;
-    font-family: 'Roboto',sans-serif;
-    font-size: 13px;
-    margin: 0px;
-    padding: 4px;
-
-}
 @media screen and (max-width: 1000px) {
     body{
         padding-top: 0vh;
@@ -245,25 +196,5 @@ span{
     #productCatalogue{
         flex-direction: column;
     }
-    #footerLogo{
-        margin-bottom: 0px;
-    }
-    #footer{
-        flex-direction: column;
-    }
-    #footerLinks{
-        flex-direction: column;
-    }
-    .footerLink{
-        padding-top: 0px;
-        margin: 0px;
-        margin-bottom: 8px;
-    }
-    .separator{
-        display: none;
-    }
-    #contacts{
-        margin-top: 16px;
-        margin-bottom: 16px;
-    }
+   
 }

@@ -3,10 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-
-body{
-  
-}
 .title{
     font-family: 'Inter';
     width: 90%;
@@ -29,12 +25,10 @@ body{
     justify-content: space-between;
     align-items: top;
     font-family: 'Montserrat';
-    /* border: solid  1px rgba(148, 148, 148, 0.89); */
     border-radius: 4px;
 }
 #imgSection{
     width: 50%;
-    /* height: 100%; */
 }
 #imgCollection{
     display: flex;
@@ -88,6 +82,26 @@ body{
     justify-content: start;
     flex-direction: column;
 }
+#colorSection{
+    display: flex;
+    flex-direction: column;
+}
+.colorDiv{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 8px;
+}
+.colorCode{
+    width:30px;
+    height:30px;
+    border-radius: 15px;
+    margin: 0px;
+}
+.colorName{
+    margin: 0px;
+    margin-left: 16px;
+}
 .icons{
     width: 32px;
     height: 32px;
@@ -102,39 +116,47 @@ body{
     margin-bottom: 0px;
     width: 100%;
 }
-.continueBtn{
+.CTOs{
+    border-radius: 4px;
+    font-family: 'Poppins',sans-serif;
+}
+#continueBtn{
     width: 49%;
     height: 5vh;
     margin-bottom: 8px;
+    color: rgb(46, 46, 46);
+    background-color: white;
+    border: solid 2px;
 }
-.cartBtn{
+#cartBtn{
     width: 49%;
     height: 5vh;
+    background-color: rgb(235, 72, 113);
+    color: white;
+    border: none;
 }
-#addOns{
-    width: 80%;
-    margin-bottom: 0px;
 
-    display: flex;
-    overflow: auto;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 8px;
+
+
+@media screen  and (max-width:1000px) {
+    body{
+        padding-top: 10vh;
+        overflow-y:hidden;
+    }
+    #content{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+    }
+    #imgSection{
+        width: 100%;
+        border: solid;
+    }
+    .productImageMain{
+        height: 40vh;
+    }
+    .productInfo{
+        width: 100%;
+    }
 }
-#addOns::-webkit-scrollbar {
-    background-color: rgba(223, 223, 223, 0.89) ;
-    height: 8px;
-    width: 70%;
-}
-#addOns::-webkit-scrollbar-thumb{
-    background-color: rgb(155, 155, 155);
-    border-radius: 4px; 
-}
-/* .productDiv{
-    display: flex;
-    flex: 0 0 20%;
-    margin-left: 8px;
-    margin-right: 8px;
-    height: 40vh;
-    width: 20%;
-} */
