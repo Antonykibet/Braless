@@ -12,10 +12,10 @@
 }
 #content{
     width: 95%;
+    justify-content: flex-start;
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
     align-items: top; 
     margin-top: 16px;
     margin-bottom: 24px;
@@ -31,9 +31,11 @@
 }
 .cartProductImage{
     width: 30%;
-    height: 30vh;
+    height: auto;
+    border: solid;
     object-fit: cover;
     margin: 0px;
+    margin-right: 24px;
 }
 .productDiv{
     width: 20%;
@@ -57,17 +59,28 @@
     margin-top: 16px;
     margin-bottom: 8px;
 }
-.productPrice{
+.secondRow{
+    border: solid;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.productCatalogue{
+    border: solid;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.cartPrice{
     font-family: 'Roboto';
     margin-top: 0px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
+    border: solid;
+    color: red;
 }
 .cartName{
     margin-bottom: 8px;
-}
-.cartPrice{
-    margin-top: 0px;
-    margin-bottom: 16px;
 }
 .bi-dash-lg{
     color: #2e2e2e;
@@ -85,6 +98,15 @@
     margin-left: 8px;
     margin-right: 8px;
 }
+.removeBtn{
+    padding: 4px;
+    border-radius: 4px;
+    border: solid #2e2e2e 2px;
+    background-color: white;
+    color: #2e2e2e;
+    font-family: 'Poppins';
+    margin-bottom: 16px;
+}
 #billingDiv{
     position: absolute;
     top: 0px;
@@ -96,12 +118,7 @@
     flex-direction: column;
     justify-content: space-around;
     padding: 24px;
-}
-#addNote{
-    width: 95%;
-    height: 15vh;
-    margin-bottom: 24px;
-
+    color: #2e2e2e;
 }
 #totalDiv{
     width: 95%;
@@ -120,19 +137,40 @@
 .billingLabel,.billingInput{
     margin-bottom: 8px;
 }
+.billingInput{
+    border: solid #2e2e2e 2px;
+    padding: 4px;
+    border-radius:  4px;
+    font-family:'Montserrat' ;
+    color: #2e2e2e;
+    outline: none;
+}
+#checkoutBtn{
+    background-color: rgb(235, 72, 113);
+    color: white;
+    border: none;
+}
 #continueBtn,#checkoutBtn{
     width: 95%;
     padding: 8px;
     margin-bottom: 8px;
+    font-family: 'Poppins',sans-serif;
+    border-radius: 4px;
 }
 #continueBtn{
     width: 100%;
+    border: solid 2px; 
+    color: #2e2e2e;
+    background-color: white;
 }
 #error{
     width: 95%;
     padding: 0px;
 }
 @media screen and (max-width: 1000px) {
+    body{
+        padding-bottom: 30vh;
+    }
     #mobileHeader{
         height: 7vh;
         width: 100%;
@@ -159,4 +197,75 @@
         object-fit: cover;
         object-position: center 35%;
     }
+    #content{
+        width: 100%;
+        justify-content: center;
+    }
+    #billingDiv{
+        position: fixed;
+        bottom: 0px;
+        top: auto;
+        width: 90%;
+        right: 0px;
+        left: 0px;
+        background-color: white;
+        box-shadow: none;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        padding-top: 24px;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+    }
+    #billingForm{
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    .billingInput{
+        width: 95%;
+    }
+    .cartProductDiv{
+        width: 90%;
+        flex-direction: column;
+    }
+    .cartProductImage{
+        width: 100%;
+        height: 30vh;
+        margin-right: 0px;
+    }
+    .productDesc{
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    .secondRow{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px;
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }
+    .cartName{
+        margin-top: 8px;
+        margin-bottom: 0px;
+    }
+    .productCatalogue{
+        margin: 0px;
+    }
+    .cartPrice{
+        margin-bottom: 0px;
+    }
+    .thirdRow{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+    .removeBtn{
+        margin-bottom: 8px;
+    }
+    
 }

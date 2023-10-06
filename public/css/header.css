@@ -135,6 +135,9 @@ a{
     body{
         padding-top: 8vh;
     }
+    #desktopHeader{
+        width: 100vw;
+    }
     #filter,.bi-search,#results{
         display: none;
     }

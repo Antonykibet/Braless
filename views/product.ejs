@@ -16,22 +16,26 @@
             <div style="position: relative;width: 50%;height: 5vh;margin-right: 16px;">
                 <input id="filter" type="text" placeholder="Search">
                 <i class="bi bi-search"></i>
-                <div id="results">
-                    <ul id="list">
-                    </ul>
+                <div class="dropDowns" id="results">
+                    <ul id="list"></ul>
+                </div>
+                <div class="dropDowns" id="accountDropdown">
+                    <a href="/login"><p>Login</p></a>
+                    <a href="/track"><p>Track Orders</p></a>
                 </div>
             </div>
 
-            <div style="display: flex;justify-content: space-evenly;align-items: center;">
+            <div id="headerIconsDiv">
                 <div class="headerIcons">
-                    <i class="bi bi-person-circle"></i>
+                    <i  class="bi bi-person-circle"></i>
                 </div>
                 <div class="headerIcons">
-                    <i class="bi bi-cart4"></i>
+                    <a href="/cart"><i class="bi bi-cart4"></i></a>
                 </div>
             </div>
         </div>
     </header>
+
     
     <h1 class="title">Product</h1>
     <section id="content">
@@ -42,7 +46,8 @@
             </div>
         </div>
         <div class="productInfo">
-            <h2 class="productNameMain"><%= name %></h2>
+            <h2 class="productNameMain"><%= catalogue %></h2>
+            <h3 class="productNameMain"><%= type %></h3>
             <p class="productDescMain">
                 <%= description %>
             </p>
@@ -65,11 +70,7 @@
             </div>
         </div>
     </section>
-    <div class="line"></div>
-    <h1 class="title">Goes well with...</h1>
-    <section id="addOns">
-    </section>
-        <script src="/js/script.js"></script>
+    <script src="/js/script.js"></script>
       <script>
             let productImageMain = document.getElementsByClassName('productImageMain').item(0)
             let imgCollection = document.getElementById('imgCollection')

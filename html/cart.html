@@ -10,19 +10,22 @@
 <body>
     <header id="desktopHeader">
         <img id="logo" src="images/logo.png" alt="">
-        
         <div style="display: flex;flex-direction: row;">
             <div style="position: relative;width: 50%;height: 5vh;margin-right: 16px;">
                 <input id="filter" type="text" placeholder="Search">
                 <i class="bi bi-search"></i>
-                <div id="results">
+                <div class="dropDowns" id="results">
                     <ul id="list"></ul>
+                </div>
+                <div class="dropDowns" id="accountDropdown">
+                    <a href="/login"><p>Login</p></a>
+                    <a href="/track"><p>Track Orders</p></a>
                 </div>
             </div>
 
-            <div style="display: flex;justify-content: space-evenly;align-items: center;width: 45%;">
+            <div id="headerIconsDiv">
                 <div class="headerIcons">
-                    <a href="/login"><i class="bi bi-person-circle"></i></a>
+                    <i  class="bi bi-person-circle"></i>
                 </div>
                 <div class="headerIcons">
                     <a href="/cart"><i class="bi bi-cart4"></i></a>
@@ -31,7 +34,6 @@
         </div>
     </header>
     <h1 class="title" id="cartTitle">Cart</h1>
-    <div id="itemDiv">No items in Cart</div>
 
     <section id="content">
         <div id="billingDiv">
@@ -43,7 +45,7 @@
                 <input type="hidden" name="totalPrice" id="total">
                 <div id="totalDiv">
                     <h3 class="totalElem">Total</h3>
-                    <h3 class="totalElem" id="totalPrice"></h3>
+                    <h3 class="totalElem" id="totalPrice">0</h3>
                 </div>
                 <button id="checkoutBtn" type="submit">Check Out</button>
                 <a id="error"  href="/"><button type="button" id="continueBtn">Continue shopping</button></a>

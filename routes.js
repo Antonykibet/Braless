@@ -12,7 +12,6 @@ routes.post('/addCart',async(req,res)=>{
 routes.post('/checkOrder',async(req,res)=>{
     const {phonenumber} = req.body
     let result = await orders.find({phoneNo:phonenumber}).toArray()
-    console.log(``)
     res.json(result)
 })
 routes.post('/updCart',(req,res)=>{
@@ -108,18 +107,20 @@ routes.get('/products/:product',async(req,res)=>{
     let result = await products.find({catalogue:`${product}`}).toArray()
     res.json(result)
 })
-routes.get('/product/:productName',async(req,res)=>{
-    let {productName} =req.params
-    let {image,name,description,price,images} = await products.findOne({name:`${productName}`})
+routes.get('/product/:id',async(req,res)=>{
+    let {id} =req.params
+    let {image,catalogue,type,description,price,images} = await products.findOne({_id:new ObjectId(id)})
     let details={
-        image:image,
+        image,
         images:JSON.stringify(images),
-        name:name,
-        description:description,
-        price:price
+        catalogue,
+        type,
+        description,
+        price
     }
     await res.render('product',details)
 })
+
 routes.get('/getFlowers',async (req,res)=>{
     let result = await products.find().toArray()
     res.json(result)

@@ -7,15 +7,22 @@
 body{
     margin: 0;
     padding-top: 9.5vh;
-    background-color: whitesmoke;
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+html{
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
 span{
     margin: 0px;
     padding: 0px;
+}
+#mobileHero{
+    display: none;
 }
 #hero{
     width: 100%;
@@ -75,14 +82,6 @@ span{
     justify-content: center;
     align-items: center;
 }
-#topProducts{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    overflow: auto;
-    justify-content: center;
-    align-items: center;
-}
 #productCatalogue{
     width: 100%;
     display: flex;
@@ -92,18 +91,179 @@ span{
     margin-top: 24px;
 }
 .catalogue{
+    position: relative;
     width: 25%;
     height: 50vh;
-    border: solid;
     margin: 40px;
+    border-radius: 8px;
+    overflow: auto;
+    overflow-y: hidden;
+}
+.catalogueImage{
+    width: 100%;
+    height: 100%;
+
+}
+.catalogueScreen{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0px;
+    bottom: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.503);
+    color: white;
+    font-family: 'Poppins',sans-serif;
+    font-size: 30px;
+}
+.carouselScreen:hover{
+    cursor: pointer;
 }
 #footer{
     width: 100%;
-    height: 40vh;
-    background-color:rgb(255, 146, 173) ;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f07090;
+    margin-top: 10vh;
+}
+#footerLogo{
+    width: 100px;
+}
+#footerLinks{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Montserrat';
+}
+.footerLink{
+    margin-right: 16px;
+    margin-left: 16px;
+}
+#contacts i {
+    
+    font-weight: bold;
+    margin-left: 16px;
+    color: white;
+}
+.bi-envelope-at{
+    font-size: 28px;
+}
+.bi-instagram{
+    font-size: 24px;
+}
+.bi-whatsapp{
+    font-size: 24px;
+}
+#lowerFooter{
+    background-color: rgb(156, 156, 156);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: whitesmoke;
+    font-family: 'Roboto',sans-serif;
+    font-size: 13px;
+    margin: 0px;
+    padding: 4px;
+
 }
 @media screen and (max-width: 1000px) {
+    body{
+        padding-top: 0vh;
+        overflow-x: hidden;
+    }
     #hero{
         display: none;
+    }
+    #mobileHero {
+        position: relative;
+        overflow: hidden;
+        border: solid;
+        display: block;
+    }
+    #carouselScreen{
+        position: absolute;
+        top: 0;
+        bottom: 0px;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.712);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: start;
+        padding: 16px;
+    }
+    .carousel {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .heroImage {
+        width: 100%;
+        height: 100vh;
+    }
+    .heroImage:first-child {
+        clip-path: none;
+        object-fit:cover;
+        object-position:left;
+    }
+    .heroImage:nth-child(2) {
+        clip-path: none;
+    }
+    .productSection{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #catchPhrase{
+        margin: 0px;
+        font-size: 15vw;
+    }
+    #miniCatchphrase{
+        color: white;
+        font-family: 'Montserrat';
+        width: 90%;
+    }
+    .catalogue{
+        width: 90%;
+        height: 30vh;
+    }
+    .catalogueImage{
+        object-fit: cover;
+        object-position: center;
+    }
+    .catalogue:first-child .catalogueImage {
+        object-position: top;
+    }    
+    #productCatalogue{
+        flex-direction: column;
+    }
+    #footerLogo{
+        margin-bottom: 0px;
+    }
+    #footer{
+        flex-direction: column;
+    }
+    #footerLinks{
+        flex-direction: column;
+    }
+    .footerLink{
+        padding-top: 0px;
+        margin: 0px;
+        margin-bottom: 8px;
+    }
+    .separator{
+        display: none;
+    }
+    #contacts{
+        margin-top: 16px;
+        margin-bottom: 16px;
     }
 }

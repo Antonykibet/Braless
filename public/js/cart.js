@@ -34,15 +34,18 @@ function displayCartItems(){
             <img class='cartProductImage' src='${image}'>
             <div class='productDesc'>
                 <h2 class='cartName'>${type}</h2>
-                <h3>${catalogue}<h3>
-                <h3 class='cartPrice'>${price}</h3>
+                <div class='secondRow'>
+                    <h3 class='productCatalogue'>${catalogue}<h3>
+                    <h3 class='cartPrice'>${price}</h3>
+                </div>
                 <div style='display:flex;align-items:center;margin-bottom:8px;'>
                     <i class="bi bi-dash-lg" index='${index}'></i>
                     <div class='digitDisplay ' id='div${index}' >${unit}</div>
                     <i class="bi bi-plus-lg " index='${index}'></i>
                 </div>
-                <button class='removeBtn index='${index}' >Remove</button>
-            </div>
+                <div class='thirdRow'>
+                    <button class='removeBtn' index='${index}' >Remove</button></div>
+                 </div>
             `
             contentDiv.appendChild(bigDiv)
             addFunc(bigDiv,item)
@@ -61,7 +64,6 @@ function addFunc(div,item){
         let itemIndex = cartItems.indexOf(item)
         cartItems[itemIndex].unit = unit
         div.querySelector('.digitDisplay').innerText=unit
-        localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()
         await updFunc()
     })
@@ -76,7 +78,6 @@ function subFunc(div,item){
             let itemIndex = cartItems.indexOf(item)
             cartItems[itemIndex].unit = unit
             div.querySelector('.digitDisplay').innerText=unit
-            localStorage.setItem('cartItems',JSON.stringify(cartItems))
             calcTotal()
             await updFunc()
         }
@@ -91,7 +92,6 @@ function removeFunc(div,item){
         let index = cartItems.indexOf(item)
         cartItems.splice(index,1)
         div.remove()
-        localStorage.setItem('cartItems',JSON.stringify(cartItems))
         calcTotal()
         await updFunc()
         
@@ -107,5 +107,18 @@ async function updFunc(){
         },
         body:JSON.stringify({cartItems:cartItems}),
     })
-    alert('updated')
 }
+document.addEventListener("DOMContentLoaded", function() {
+    let form = document.getElementById("billingForm");
+
+    form.addEventListener("submit", function(event) {
+        let totalPrice = parseFloat(document.getElementById("totalPrice").textContent);
+        // Check the condition (totalPrice is 0)
+        if (totalPrice === 0) {
+            // Prevent the form from submitting
+            event.preventDefault();
+            // Display an error message or take other actions
+            alert("Cart is Empty, continue shopping.");
+        }
+    });
+});

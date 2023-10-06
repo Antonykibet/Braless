@@ -11,6 +11,62 @@ let items =[]
 }
 getCartItems()
 
+const carousel = document.querySelector('.carousel');
+const carouselScreen =document.getElementById('carouselScreen')
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let currentIndex = 0;
+
+function updateCarousel() {
+    const offset = -currentIndex * carousel.offsetWidth;
+    carousel.style.transform = `translateX(${offset}px)`;
+}
+
+function showPrev() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+    }
+}
+
+function showNext() {
+    if (currentIndex < carousel.children.length - 1) {
+        currentIndex++;
+        updateCarousel();
+    }
+}
+
+let startX = 0;
+let startY = 0;
+
+carouselScreen.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+});
+
+carouselScreen.addEventListener('touchmove', (e) => {
+    const endX = e.touches[0].clientX;
+    const endY = e.touches[0].clientY;
+    const deltaX = startX - endX;
+    const deltaY = startY - endY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0) {
+            // Swiped left
+            showNext();
+        } else {
+            // Swiped right
+            showPrev();
+        }
+    }
+});
+
+
+
+
+
+
 async function getTopProducts(){
     let response = await fetch('/topProducts')
     let result = await response.json()
@@ -116,7 +172,7 @@ function productDisplay(result,section = 'content'){
                 <img class='productImage' src='${image}'>
             </a>
             <div id='type' class='nameDiv'>
-            <h3  class='productName'>${catalogue}</h3>
+                <h3  class='productName'>${catalogue}</h3>
             </div>
             <div id='type' class='nameDiv'>
                 <h4 class='productName'>${type}</h4>
