@@ -4,6 +4,7 @@ let orderTrack=document.getElementById('orderTrack')
 let items = []
 let itemsName = []
 let orderItems = []
+let colorArray=[]
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
@@ -59,17 +60,38 @@ function searchFunc(div){
             });
 }
 
+function addColor(div){
+    let colorName = div.querySelector('#colorName')
+    let colorInput =div.querySelector('#colorInput')
+    let colorDisplay = div.querySelector('#colorDisplay')
+    div.querySelector('#addColorBtn').addEventListener('click',()=>{
+        colorArray.push({colorName:colorName.value,colorCode:colorInput.value})
+        colorName.value=''
+        div.querySelector('#colorData').value=JSON.stringify(colorArray)
+        colorDisplay.innerHTML=''
+        colorArray.forEach((colorItem)=>{
+            colorDisplay.innerHTML+=`
+                <div style='height:26px;width:26px;border-radius:13px;background-color:${colorItem.colorCode};margin-left:8px;'></div>
+                <p style='margin-left:6px;'>${colorItem.colorName}</p>
+            `
+        })
+    })
+}
+
 lists.forEach((list)=>{
     list.addEventListener('click',()=>{
         let modalBackground = document.createElement('div')
         modalBackground.classList.add('modalBackground')
-        if(list.getAttribute('id')=='create') modalBackground.innerHTML=createForm()
+        if(list.getAttribute('id')=='create'){
+            modalBackground.innerHTML=createForm()
+            addColor(modalBackground)
+        } 
         if(list.getAttribute('id')=='update'){
             modalBackground.innerHTML=updateForm()
             searchFunc(modalBackground)
         }
         
-        modalBackground.querySelector('.closeBtn').addEventListener('click', () => {
+        modalBackground.querySelector('.bi-x-circle').addEventListener('click', () => {
             // Close the modal or perform any desired action here
             modalBackground.remove();
         });
@@ -141,41 +163,34 @@ function orderList(index,name,email,phoneNo){
 
 
 
-
-
-
-
-
-
-
 function updateForm(){
     return  `
     <div class='modal'>
-        <button class='closeBtn'>X</button>
-        <form action="/admin/create" method="post">
+    <i class="bi bi-x-circle"></i>
+        <form action="/admin/update" method="post">
             <div style="position: relative;border: solid;">
-                <input type="text" name="product" id="productSearch" placeholder="Product">
+                <input class='input' type="text" name="product" id="productSearch" placeholder="Product">
                 <div id="results"></div>
             </div>
-            <input id='price' type="text" placeholder="price">
-            <input id='mainImage' type="text" placeholder="mainImage">
-            <input id='description' type="text" placeholder="description">
+            <input class='input' id='price' type="text" placeholder="price">
+            <input class='input' id='mainImage' type="text" placeholder="mainImage">
+            <input class='input' id='description' type="text" placeholder="description">
             <div>
                 <label for="catalogue">Catalogue</label>
-                <select  name="catalogue" id="catalogue">
+                <select class='input'  name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
                     <option value="Rabbit Bra">Rabbit Bra</option>
                     <option value="Floral">Floral</option>
                     <option value="">Sex Toys</option>
                 </select>
             </div>
-            <input id='otherImages' type="text" placeholder="Other Images">
-            <input id='type' type="text" placeholder="Type eg 1m x 10cm or small">
+            <input class='input' id='otherImages' type="text" placeholder="Other Images">
+            <input class='input' id='type' type="text" placeholder="Type eg 1m x 10cm or small">
             <div>
-                <input type="checkbox" name="topProduct" id="topProduct">
+                <input class='input' type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>
             </div>
-            <button type ='submit'>Update<button>
+            <button type ='submit' class='submitBtn'>Update<button>
         </form>
     </div>
     `
@@ -183,26 +198,38 @@ function updateForm(){
 function createForm(){
     return `
     <div class='modal'>
-        <button class='closeBtn'>X</button>
-        <form action="/admin/create" method="post">
-            <input type="text" placeholder="price">
-            <input type="text" placeholder="mainImage">
-            <input type="text" placeholder="description">
+        <i class="bi bi-x-circle"></i>
+        <h1 style='padding-top:56px;'>Create Product</h1>
+        <form action="/admin/create" method="post" enctype="multipart/form-data">
             <div>
-                <label for="catalogue">Catalogue</label>
-                <select name="catalogue" id="catalogue">
+                <label for="catalogue">Catalogue :</label> 
+                <select class='input' name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
                     <option value="Rabbit Bra">Rabbit Bra</option>
                     <option value="Floral">Floral</option>
                     <option value="">Sex Toys</option>
                 </select>
             </div>
-            <input type="text" placeholder="Other Images">
-            <input type="text" placeholder="Type eg 1m x 10cm or small">
+            <input class='input' type="text" name='type' placeholder="Type eg 1m x 10cm or small">
+            <input class='input' type="text" name='price' placeholder="Price">
+            <input class='input' type="text" name='description' placeholder="Description">
+            <input style='display:none;' id='colorData' type='text' name=colorData>
+
+            <h2 id='chooseTitle'>Choose color</h2>
+            <div id='colorDiv'>
+                <div id='colorDisplay' style='display:flex;align-items:center;'></div>
+                    <input class='input'  id='colorName' type='text' placeholder='Color name'>
+                    <input id='colorInput' type='color'>
+                <div class='submitBtn' id='addColorBtn'>Add</div>
+            </div>
+
+            <input class='input' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage">
+            <input class='input' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images">
             <div>
                 <input type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>
             </div>
+            <button type='submit' class='submitBtn'>Create</button>
         </form>
     </div>
     `
