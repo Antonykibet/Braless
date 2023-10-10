@@ -103,6 +103,9 @@ form input{
     
     background-color: grey;
 }
+#deleteModal{
+    height: auto;
+}
 .input{
     border-radius: 4px;
     padding: 4px;
@@ -110,6 +113,11 @@ form input{
     color: #2e2e2e;
     font-family: 'Montserrat';
     border: solid 2px #2e2e2e;
+}
+#productsDropdown{
+    width: 30%;
+    margin-top: 8px;
+    margin-bottom: 16px;
 }
 #colorDisplay{
     display: flex;
@@ -146,8 +154,6 @@ form input{
     width: 20vw;
     max-height: 35vh;
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
-    overflow: auto;
 }
 #firstColumn{
     width: 15vw;
@@ -170,6 +176,8 @@ form input{
     height: 23%;
     border: solid 2px rgb(155, 155, 155);
     border-radius: 8px;
+    color: #2e2e2e;
+    font-family: 'Montserrat';
 }
 #productList{
     height: 73%;
@@ -228,7 +236,90 @@ form input{
     height: 100%;
 }
 #statusElem{
-    height: 30%;
+    height: 56px;
 }
 .credentials h4{
+}
+@media screen and (max-width:1000px) {
+    body{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+    }
+    #dashHeader{
+        padding: 0px;
+    }
+    #adminHeaderTitle{
+        margin-bottom: 0px;
+        margin-top: 0px;
+        margin-right: 0px;
+        font-size: 17px;
+    }
+    #logo{
+        width: 100px;
+        height: 56px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    #firstColumn{
+        width: 90%;
+        height: auto;
+    }
+    #secondColumn{
+        width: 90%;
+        margin-top: 56px;
+    }
+    #thirdColumn{
+        display: none;
+    }
+    #productList{
+        display: none;
+    }
+    #productLab{
+        padding-bottom: 16px;
+    }
+    #indicators{
+        flex-direction: column;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+    .indicator{
+        width: 100%;
+        margin-bottom: 16px;
+    }
+    .index{
+        display: none;
+    }
+    .orderRecord{
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 95%;
+    }
+    #orderTrack{
+        width: auto;
+    }
+    .credentials{
+        width: 100%;
+    }
+    .productItems{
+        width:100%;
+    }
+    .status{
+        height: auto;
+        margin-top: 8px;
+        margin-bottom: 16px;
+    }
+    #statusElem{
+        height: 100%;
+    }
+
+    .modal{
+        margin-top: 10vh;
+        padding-top: 0px;
+        width: 80%;
+    }
 }

@@ -28,10 +28,11 @@ function calcTotal(){
 function displayCartItems(){
     cartItems.forEach((item,index)=>{
         let {type,catalogue,price,image,unit} = item
+        alert(JSON.stringify(item))
         let bigDiv = document.createElement('div')
         bigDiv.classList.add('cartProductDiv')
         bigDiv.innerHTML=`
-            <img class='cartProductImage' src='${image}'>
+            <img class='cartProductImage' src='/images/${image}'>
             <div class='productDesc'>
                 <h2 class='cartName'>${type}</h2>
                 <div class='secondRow'>

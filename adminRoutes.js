@@ -9,6 +9,7 @@ const { log } = require('console');
 const { ObjectId } = require('mongodb');
 const multer = require('multer');
 const { type } = require('os');
+const { ObjectID } = require('mongodb');
 
 const storage = multer.diskStorage(
     {
@@ -43,6 +44,7 @@ admnRoute.get('/admin/dashboard', async (req,res)=>{
 
 admnRoute.post('/admin/create', upload.fields([{ name: 'mainImage', maxCount: 1 },{ name: 'otherImages', maxCount: 5 }]), async (req, res) => {
     let {catalogue,type,price,description,topProduct,colorData}=req.body
+    console.log(catalogue)
     topProduct = Boolean(topProduct)
     let mainFile = req.files.mainImage ? req.files.mainImage[0].filename : null
     let otherImages = req.files.otherImages ? req.files.otherImages.map(file=>file.filename) : null
@@ -61,6 +63,40 @@ admnRoute.post('/admin/create', upload.fields([{ name: 'mainImage', maxCount: 1 
     res.redirect('/admin/dashboard')
 })
 
+admnRoute.post('/admin/upload', upload.fields([{ name: 'mainImage', maxCount: 1 },{ name: 'otherImages', maxCount: 5 }]), async (req, res) => {
+    let {_id,catalogue,type,price,description,topProduct,colorData}=req.body
+    let mainFile = req.files.mainImage ? req.files.mainImage[0].filename : null
+    let otherImages = req.files.otherImages ? req.files.otherImages.map(file=>file.filename) : null
+    if(catalogue){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:catalogue})
+    }
+    if(type){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:type})
+    }
+    if(price){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:price})
+    }
+    if(description){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:description})
+    }
+    if(mainFile){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:mainFile})
+    }
+    if(otherImages){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:otherImages})
+    }
+    res.redirect('/admin/dashboard')
+})
+admnRoute.post('/admin/delete',async(req,res)=>{
+    const {prodName} =req.body
+    const filters =prodName.split(':')
+    try {
+        await products.deleteOne({catalogue:filters[0],type:filters[1]})   
+    } catch (error) {
+        console.log(`Product delete failed!!! ${error}`)
+    }
+    res.redirect('/admin/dashboard')
+})
 admnRoute.get('/admin/orderdItems',async(req,res)=>{
     let items = await orders.find().toArray()
     res.json(items)

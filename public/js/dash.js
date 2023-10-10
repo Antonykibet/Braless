@@ -18,47 +18,27 @@ async function getItems(){
 getItems()
 getOrderdItems()
 
-function renderSearchList(items){
-    results.innerHTML=``    
-    items.forEach((item)=>{
-        results.innerHTML+=`<li class="items">${item}</li>`
+
+function productDropdownFunc(div){
+    const productsDropdown = div.querySelector('#productsDropdown')
+    itemsName.forEach((item)=>{
+        productsDropdown.innerHTML+=`<option  class='productItems' value="${item}" >${item}</option>`
+    })
+    
+}
+
+function updateSelectFunc(div){
+    const productsDropdown = div.querySelector('#productsDropdown')
+    productsDropdown.addEventListener('change',()=>{  
+        const [prodCatalogue,prodType] = productsDropdown.value.split(':')
+        const product = items.find((item)=>item.catalogue==prodCatalogue&&item.type==prodType)
+        const {catalogue,top,_id} = product 
+        div.querySelector('#identifier').value=_id
+        div.querySelector('#topProduct').checked=top
+        div.querySelector('#catalogue').value=catalogue
     })
 }
 
-function searchFunc(div){
-    const input = div.querySelector('#productSearch');
-            const results = div.querySelector('#results')
-            input.addEventListener('focus', () => {
-                results.style.display = 'flex';
-                renderSearchList(itemsName);
-                let prodList = div.querySelectorAll('.items')
-                prodList.forEach((item)=>{
-                    item.addEventListener('click',()=>{
-                        div.querySelector('#productSearch').value=item.innerHTML
-                        const [prodCatalogue,prodType] = item.innerHTML.split(':')
-                        const product = items.find((item)=>item.catalogue==prodCatalogue&&item.type==prodType)
-                        const {price,description,catalogue,type,top} = product
-                        div.querySelector('#price').value=price
-                        div.querySelector('#description').value=description
-                        div.querySelector('#type').value=type
-                        div.querySelector('#topProduct').checked=top
-                        div.querySelector('#catalogue').value=catalogue
-                        
-                    })
-                })
-            });
-        
-            input.addEventListener('keyup', () => {
-                const filteredItems = itemsName.filter(item => item.toLowerCase().includes(input.value));
-                renderSearchList(filteredItems);
-                let prodList = div.querySelectorAll('.items')
-                prodList.forEach((item)=>{
-                    item.addEventListener('click',()=>{
-                        div.querySelector('#productSearch').value=item.innerHTML
-                    })
-                })
-            });
-}
 
 function addColor(div){
     let colorName = div.querySelector('#colorName')
@@ -88,8 +68,14 @@ lists.forEach((list)=>{
         } 
         if(list.getAttribute('id')=='update'){
             modalBackground.innerHTML=updateForm()
-            searchFunc(modalBackground)
+            productDropdownFunc(modalBackground)
+            updateSelectFunc(modalBackground)
         }
+        if(list.getAttribute('id')=='delete'){
+            modalBackground.innerHTML=deleteForm()
+            productDropdownFunc(modalBackground)
+        }
+        
         
         modalBackground.querySelector('.bi-x-circle').addEventListener('click', () => {
             // Close the modal or perform any desired action here
@@ -113,8 +99,8 @@ async function getOrderdItems(){
         cart.forEach((item)=>{
             productItems.innerHTML+=`
             <div>
-                <h4>${item.catalogue}:${item.type}</h4>
-                <h4>Unit:${item.unit}</h4>
+                <p>${item.catalogue}:${item.type}</p>
+                <p>Unit:${item.unit}</p>
             </div>
             `
         })
@@ -140,11 +126,11 @@ async function getOrderdItems(){
 
 function orderList(index,name,email,phoneNo){
     return `
-    <div><h1>${index}</h1></div>
+    <div class='index'><h1>${index}</h1></div>
     <div class="credentials">
-        <h4 id="name">${name}</h4>
-        <h4>${email}</h4>
-        <h4>${phoneNo}</h4>
+        <p id="name">${name}</p>
+        <p>${email}</p>
+        <p>${phoneNo}</p>
     </div>
     <div class="productItems">
 
@@ -167,14 +153,10 @@ function updateForm(){
     return  `
     <div class='modal'>
     <i class="bi bi-x-circle"></i>
-        <form action="/admin/update" method="post">
-            <div style="position: relative;border: solid;">
-                <input class='input' type="text" name="product" id="productSearch" placeholder="Product">
-                <div id="results"></div>
-            </div>
-            <input class='input' id='price' type="text" placeholder="price">
-            <input class='input' id='mainImage' type="text" placeholder="mainImage">
-            <input class='input' id='description' type="text" placeholder="description">
+    <h1 style='padding-top:24px;'>Update Product</h1>
+        <form action="/admin/update" method="post" enctype='multipart/form-data'>
+            <label for='productsDropdown'>Product name</label>
+            <select class='input' id="productsDropdown" name='prodName'></select>
             <div>
                 <label for="catalogue">Catalogue</label>
                 <select class='input'  name="catalogue" id="catalogue">
@@ -184,8 +166,13 @@ function updateForm(){
                     <option value="">Sex Toys</option>
                 </select>
             </div>
-            <input class='input' id='otherImages' type="text" placeholder="Other Images">
+            <input type='text' id='identifier' style='display:none;'>
             <input class='input' id='type' type="text" placeholder="Type eg 1m x 10cm or small">
+            <input class='input' id='price' type="text" placeholder="price">
+            <input class='input' id='description' type="text" placeholder="description">
+            <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage">
+            <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images">
+            
             <div>
                 <input class='input' type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>
@@ -199,15 +186,15 @@ function createForm(){
     return `
     <div class='modal'>
         <i class="bi bi-x-circle"></i>
-        <h1 style='padding-top:56px;'>Create Product</h1>
+        <h1 style='padding-top:24px;'>Create Product</h1>
         <form action="/admin/create" method="post" enctype="multipart/form-data">
             <div>
                 <label for="catalogue">Catalogue :</label> 
                 <select class='input' name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
-                    <option value="Rabbit Bra">Rabbit Bra</option>
+                    <option value="Bunny Ear">Rabbit Bra</option>
                     <option value="Floral">Floral</option>
-                    <option value="">Sex Toys</option>
+                    <option value="Sex Toys">Sex Toys</option>
                 </select>
             </div>
             <input class='input' type="text" name='type' placeholder="Type eg 1m x 10cm or small">
@@ -235,6 +222,19 @@ function createForm(){
     `
 }
 
+function deleteForm(){
+    return `
+    <div id='deleteModal' class='modal'>
+        <i class="bi bi-x-circle"></i>
+        <h1 >Delete Product</h1>
+        <form action="/admin/delete" method="post" >
+            <label for='productsDropdown'>Product name</label>
+            <select class='input' id="productsDropdown" name='prodName'></select>
+            <button type='submit'>Delete</button>
+        </form>
+    </div>
+    `
+}
 
 
 //Dropdown menu

@@ -40,7 +40,7 @@
     <h1 class="title">Product</h1>
     <section id="content">
         <div id="imgSection">
-            <img class="productImageMain" src="/<%= image %>"alt="">
+            <img class="productImageMain" src="/images/<%= image %>"alt="">
             <div id="imgCollection">
                 <div id="images" style="display: none;"><%= images %></div>    
             </div>
@@ -60,6 +60,7 @@
                 <button class="CTOs" id="continueBtn">Continue shopping</button>
                 <button class="CTOs" id="cartBtn">Add to cart</button>
             </div>
+            <div style="display: none;" id="items"><%= items %></div>
         </div>
     </section>
     <footer id="footer">
@@ -86,9 +87,28 @@
             let otherImgDiv = document.getElementById('otherImgDiv')
             let images = JSON.parse(document.getElementById('images').innerText)
             let colors = JSON.parse(document.getElementById('colorsData').innerText)
+            let addCartBtn = document.querySelector('#cartBtn')
+            const item = JSON.parse(document.querySelector('#items').innerText) 
+            let cartItems = []
+            async function getCartItems(){
+                let response = await fetch('/addCart')
+                cartItems = await response.json()
+            }
+            getCartItems()
+            addCartBtn.addEventListener('click', async()=>{
+                if(cartItems.some(cartItem=>cartItem._id===item._id)) return
+                cartItems.push(item)
+                await fetch('/addCart',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                    },
+                    body:JSON.stringify({cartItems:cartItems}),
+                })
+            })
             images.forEach((image)=>{
                 imgCollection.innerHTML+=`
-                <img class="otherImg" src="${image}" alt="">
+                <img class="otherImg" src="/images/${image}" alt="">
                 `
             })
             colors.forEach((color)=>{
@@ -108,7 +128,7 @@
                     otherImg.forEach((otherImage) => {
                     otherImage.style.borderColor = 'transparent';
                     });
-                    image.style.borderColor = 'green'
+                    image.style.borderColor = '#eb4871'
                 })
             })
       </script>

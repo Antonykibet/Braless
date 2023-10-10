@@ -140,12 +140,26 @@ span{
         top: 0;
         bottom: 0px;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.712);
+        background-color: rgba(0, 0, 0, 0.377);
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: start;
-        padding: 16px;
+        padding-left: 24px;
+    }
+    .bi-arrow-left-circle{
+        position: absolute;
+        top: 50%;
+        left: 24px;
+        color: white;
+        font-size: 28px;
+    }
+    .bi-arrow-right-circle{
+        position: absolute;
+        top: 50%;
+        right: 48px;
+        font-size: 28px;
+        color: white;
     }
     .carousel {
         display: flex;

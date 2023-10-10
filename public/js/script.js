@@ -1,22 +1,29 @@
-let cartItems = []
 let headerIconsDiv =document.getElementById('headerIconsDiv')
 let projectSection = document.querySelectorAll('.projectSection')
 let result=null
 let addcartBtn
 let items =[]
 
+let cartItems = []
  async function getCartItems(){
     let response = await fetch('/addCart')
     cartItems = await response.json()
 }
 getCartItems()
 
+let currentIndex = 0;
 const carousel = document.querySelector('.carousel');
 const carouselScreen =document.getElementById('carouselScreen')
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
+const prevBtn = document.querySelector('.bi-arrow-left-circle');
+const nextBtn = document.querySelector('.bi-arrow-right-circle');
 
-let currentIndex = 0;
+prevBtn.addEventListener('click',()=>{
+    showPrev()
+})
+nextBtn.addEventListener('click',()=>{
+    showNext()
+})
+
 
 function updateCarousel() {
     const offset = -currentIndex * carousel.offsetWidth;
@@ -37,32 +44,6 @@ function showNext() {
     }
 }
 
-let startX = 0;
-let startY = 0;
-
-carouselScreen.addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-});
-
-carouselScreen.addEventListener('touchmove', (e) => {
-    const endX = e.touches[0].clientX;
-    const endY = e.touches[0].clientY;
-    const deltaX = startX - endX;
-    const deltaY = startY - endY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 0) {
-            // Swiped left
-            showNext();
-        } else {
-            // Swiped right
-            showPrev();
-        }
-    }
-});
-
-
 
 
 
@@ -79,13 +60,13 @@ async function fetchAndDisplayProducts(productType, sectionId) {
       let result = await response.json();
       productDisplay(result, sectionId);
     } catch (error) {
-      console.error(`Error fetching ${productType} products: ${error}`);
+      alert(`Error fetching ${productType} products: ${error}`);
     }
   }
   
   // Call the generic function for different product types
   fetchAndDisplayProducts('Boob Tapes', 'tapeSection');
-  fetchAndDisplayProducts('Rabbit', 'rabbitSection');
+  fetchAndDisplayProducts('Bunny Ear', 'bunnySection');
   fetchAndDisplayProducts('Sex Toys', 'sexSection');
 
 getTopProducts()
@@ -169,7 +150,7 @@ function productDisplay(result,section = 'content'){
         productDiv.classList.add('productDiv')
         productDiv.innerHTML=`
             <a class='imageHyperlink' href='/product/${_id}'>
-                <img class='productImage' src='${image}'>
+                <img class='productImage' src='images/${image}'>
             </a>
             <div id='type' class='nameDiv'>
                 <h3  class='productName'>${catalogue}</h3>

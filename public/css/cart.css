@@ -169,7 +169,7 @@
 }
 @media screen and (max-width: 1000px) {
     body{
-        padding-bottom: 30vh;
+        padding-bottom: 40vh;
     }
     #mobileHeader{
         height: 7vh;
@@ -228,6 +228,9 @@
     .cartProductDiv{
         width: 90%;
         flex-direction: column;
+    }
+    #continueBtn{
+        display: none;
     }
     .cartProductImage{
         width: 100%;
