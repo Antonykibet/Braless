@@ -20,7 +20,7 @@ routes.post('/updCart',(req,res)=>{
     res.redirect('/cart')
 })
 routes.get('/addCart',(req,res)=>{
-    res.json(req.session.cartItems)
+    res.json(req.session.cartItems||[])
 })
 routes.get('/role',(req,res)=>{
     if(req.session.user){

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cart.css">
     <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
     <title>Cart</title>
 </head>
 <body>
@@ -47,12 +48,29 @@
                     <h3 class="totalElem">Total</h3>
                     <h3 class="totalElem" id="totalPrice">0</h3>
                 </div>
-                <button id="checkoutBtn" type="submit">Check Out</button>
+                <button type="submit" class="intaSendPayButton" id="checkoutBtn"  data-amount="10" data-currency="KES" >Checkout</button>
                 <a id="error"  href="/"><button type="button" id="continueBtn">Continue shopping</button></a>
             </form>
         </div>
     </section>
 
     <script src="js/cart.js"></script>
+    <script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInput = document.querySelector("#phoneNo");
+        window.intlTelInput(phoneInput, {
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+            autoInsertDialCode: true,
+            nationalMode:false,
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                .then(function(res) { return res.json(); })
+                .then(function(data) { callback(data.country_code); })
+                .catch(function() { callback("us"); });
+            }
+        });
+    </script>
 </body>
 </html>

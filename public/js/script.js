@@ -6,7 +6,8 @@ let items =[]
 
  async function getCartItems(){
     let response = await fetch('/addCart')
-    return await response.json()
+    let result = await response.json()
+    return result
 }
 
 
@@ -173,15 +174,20 @@ function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
         let cartItems = await getCartItems()
+        alert(cartItems)
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
-        await fetch('/addCart',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify({cartItems:cartItems}),
-        })
+        try {
+            await fetch('/addCart',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({cartItems:cartItems}),
+            })
+        } catch (error) {
+            alert(`Did not add to cart succesfully:${error}`)
+        }
     })
 }
 
