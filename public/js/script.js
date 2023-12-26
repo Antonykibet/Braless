@@ -9,7 +9,7 @@ let cartItems = []
     let response = await fetch('/addCart')
     cartItems = await response.json()
 }
-getCartItems()
+
 
 let currentIndex = 0;
 const carousel = document.querySelector('.carousel');
@@ -173,6 +173,7 @@ function productDisplay(result,section = 'content'){
 function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
+        getCartItems()
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
         await fetch('/addCart',{

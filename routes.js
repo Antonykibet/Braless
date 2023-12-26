@@ -132,7 +132,6 @@ routes.get('/getFlowers',async (req,res)=>{
 routes.get('/',async(req,res)=>{
     try {
         if(!req.session.visited){
-            console.log(`updated`)
             await dashboard.updateOne({ _id: new ObjectId('6517ac53474a5ac96b8de971')},{ $inc: { visits: 1 }})
             req.session.visited=true
         }   

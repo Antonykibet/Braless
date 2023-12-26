@@ -27,8 +27,7 @@ function calcTotal(){
 
 function displayCartItems(){
     cartItems.forEach((item,index)=>{
-        let {type,catalogue,price,image,unit} = item
-        alert(JSON.stringify(item))
+        let {type,catalogue,price,image,unit,colors} = item
         let bigDiv = document.createElement('div')
         bigDiv.classList.add('cartProductDiv')
         bigDiv.innerHTML=`
@@ -36,16 +35,19 @@ function displayCartItems(){
             <div class='productDesc'>
                 <h2 class='cartName'>${type}</h2>
                 <div class='secondRow'>
-                    <h3 class='productCatalogue'>${catalogue}<h3>
+                    <h3 class='productCatalogue'>${catalogue}</h3>
                     <h3 class='cartPrice'>${price}</h3>
                 </div>
-                <div style='display:flex;align-items:center;margin-bottom:8px;'>
+                <div style='display:flex;align-items:center;margin-bottom:8px;margin-top:8px;'>
                     <i class="bi bi-dash-lg" index='${index}'></i>
                     <div class='digitDisplay ' id='div${index}' >${unit}</div>
                     <i class="bi bi-plus-lg " index='${index}'></i>
                 </div>
+                <div class='colorDiv'>
+                </div>
                 <div class='thirdRow'>
-                    <button class='removeBtn' index='${index}' >Remove</button></div>
+                    <i index='${index}' class="bi bi-trash3-fill removeBtn"></i>
+            
                  </div>
             `
             contentDiv.appendChild(bigDiv)
@@ -54,6 +56,13 @@ function displayCartItems(){
             removeFunc(bigDiv,item)
         })
         //calcTotal()
+}
+
+function selectColor(div){
+    let colorDiv=div.querySelector('.colorDiv')
+    colorDiv.innerHTML+=`
+        
+    `
 }
 
 
@@ -89,13 +98,11 @@ function subFunc(div,item){
 function removeFunc(div,item){
     let removeBtn =div.querySelector('.removeBtn')
     removeBtn.addEventListener('click',async()=>{
-        alert('hello')
         let index = cartItems.indexOf(item)
         cartItems.splice(index,1)
-        div.remove()
         calcTotal()
         await updFunc()
-        
+        location.reload()
     })
 }
 

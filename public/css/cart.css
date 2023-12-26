@@ -28,6 +28,7 @@
     box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
     font-family:'Montserrat' ;
     margin-bottom: 24px;
+    position: relative;
 }
 .cartProductImage{
     width: 30%;
@@ -60,24 +61,21 @@
     margin-bottom: 8px;
 }
 .secondRow{
-    border: solid;
     padding: 0px;
+    border: solid;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
 }
 .productCatalogue{
-    border: solid;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 .cartPrice{
     font-family: 'Roboto';
-    margin-top: 0px;
+    margin-top: 8px;
     margin-bottom: 0px;
-    border: solid;
-    color: red;
 }
 .cartName{
     margin-bottom: 8px;
@@ -106,6 +104,9 @@
     color: #2e2e2e;
     font-family: 'Poppins';
     margin-bottom: 16px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }
 #billingDiv{
     position: absolute;
