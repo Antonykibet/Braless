@@ -4,10 +4,9 @@ let result=null
 let addcartBtn
 let items =[]
 
-let cartItems = []
  async function getCartItems(){
     let response = await fetch('/addCart')
-    cartItems = await response.json()
+    return await response.json()
 }
 
 
@@ -173,7 +172,7 @@ function productDisplay(result,section = 'content'){
 function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
-        getCartItems()
+        let cartItems = await getCartItems()
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
         await fetch('/addCart',{
