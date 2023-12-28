@@ -1,33 +1,48 @@
-
+alert(window.innerWidth)
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
 let creditBtn = document.querySelector('.intaSendPayButton')
 let cartItems = null
 
+function paymentApi(){
+    IntaSend({
+        publicAPIKey: "ISPubKey_test_87bb04e5-be8e-49d2-a4e2-a749b532a0f3",
+        live: false //set to true when going live
+      })
+        .on("COMPLETE", (results) => {
+          // Handle successful payment
+          alert("Payment successful!");
+          // Submit the form after successful payment
+          form.submit();
+        })
+        .on("FAILED", (results) => {
+          // Handle failed payment
+          alert("Payment failed!");
+        })
+        .on("IN-PROGRESS", (results) => {
+          // Handle payment in progress status
+          alert("Payment in progress...");
+        });
+}
+
+
 creditBtn.addEventListener('click',(event)=>{
     event.preventDefault();
-    creditBtn.setAttribute('data-amount',totalPrice.textContent)
+    alert('Hello')
+    let price = totalPrice.textContent
+    if(parseFloat(price)<=0){
+        alert('Cart is empty, continue shopping!')
+        return
+    }
+    creditBtn.setAttribute('data-amount',price)
     creditBtn.setAttribute('data-phone_number',phoneNo.textContent)
   // Trigger IntaSend popup
-  IntaSend({
-    publicAPIKey: "ISPubKey_test_87bb04e5-be8e-49d2-a4e2-a749b532a0f3",
-    live: false //set to true when going live
-  })
-    .on("COMPLETE", (results) => {
-      // Handle successful payment
-      alert("Payment successful!");
-      // Submit the form after successful payment
-      form.submit();
-    })
-    .on("FAILED", (results) => {
-      // Handle failed payment
-      alert("Payment failed!");
-    })
-    .on("IN-PROGRESS", (results) => {
-      // Handle payment in progress status
-      alert("Payment in progress...");
-    });
+   paymentApi()
+  //calling it twice due to error with intasend
+  setTimeout(()=>{
+    paymentApi()
+  },1000)
 })
 async function getCartItems(){
     let response = await fetch('/addCart')

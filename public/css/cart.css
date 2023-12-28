@@ -23,6 +23,7 @@
 .cartProductDiv{
     display: flex;
     width: 65%;
+    height: 30vh;
     background-color: #FFFFFF;
     border-radius: 8px;
     box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
@@ -32,11 +33,11 @@
 }
 .cartProductImage{
     width: 30%;
-    height: auto;
-    border: solid;
     object-fit: cover;
     margin: 0px;
     margin-right: 24px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
 }
 .productDiv{
     width: 20%;
@@ -62,7 +63,6 @@
 }
 .secondRow{
     padding: 0px;
-    border: solid;
     display: flex;
     justify-content: center;
     align-items: start;
@@ -158,6 +158,10 @@
     font-family: 'Poppins',sans-serif;
     border-radius: 4px;
 }
+.iti--allow-dropdown{
+    margin-bottom: 8px;
+    width: 100%;
+}
 #continueBtn{
     width: 100%;
     border: solid 2px; 
@@ -168,7 +172,10 @@
     width: 95%;
     padding: 0px;
 }
-@media screen and (max-width: 1000px) {
+#phoneNo{
+    width: 100%;
+}
+@media screen and (max-width: 1300px) {
     body{
         padding-bottom: 40vh;
     }
@@ -204,19 +211,17 @@
     }
     #billingDiv{
         position: fixed;
+        z-index: 10;
         bottom: 0px;
         top: auto;
-        width: 90%;
-        right: 0px;
-        left: 0px;
+        width: 100%;
         background-color: white;
-        box-shadow: none;
         justify-content: center;
         align-items: center;
-        padding: 16px;
+        padding: 0px;
         padding-top: 24px;
-        border-top-right-radius: 8px;
-        border-top-left-radius: 8px;
+        border-radius: 0px;
+        box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
     }
     #billingForm{
         width: 100%;
@@ -224,17 +229,26 @@
         align-items: center;
     }
     .billingInput{
-        width: 95%;
+        width: 90%;
+    }
+    #totalDiv{
+        width: 90%;
     }
     .cartProductDiv{
         width: 90%;
+        height: auto;
         flex-direction: column;
+        box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
     }
     #continueBtn{
         display: none;
     }
+    #checkoutBtn{
+        width: 90%;
+    }
     .cartProductImage{
         width: 100%;
+        border-radius:8px ;
         height: 30vh;
         margin-right: 0px;
     }
@@ -270,6 +284,13 @@
     }
     .removeBtn{
         margin-bottom: 8px;
+        position: static;
+    }
+    .iti--allow-dropdown{
+        width: 90%;
+    }
+    #phoneNo{
+        width: 100%;
     }
     
 }
