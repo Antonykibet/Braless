@@ -174,7 +174,6 @@ function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
         let cartItems = await getCartItems()
-        alert(cartItems)
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
         try {
@@ -183,6 +182,7 @@ function addCartFunc(elem,item){
                 headers:{
                     'Content-Type':'application/json',
                 },
+                
                 body:JSON.stringify({cartItems:cartItems}),
             })
         } catch (error) {

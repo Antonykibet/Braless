@@ -1,9 +1,27 @@
-alert(window.innerWidth)
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
 let creditBtn = document.querySelector('.intaSendPayButton')
+let formInputs = document.querySelectorAll('.billingInput')
 let cartItems = null
+
+function formValidation(){
+    let price = totalPrice.textContent
+    if(phoneNo.value.length < 10){
+        alert('Incomplete phone number')
+        return
+    }
+    for(let i=0;i<formInputs.length;i++){
+        if(formInputs[i].value.trim()===''){
+            alert(`${formInputs[i].placeholder} input is empty!`)
+            return
+        }
+    }
+    if(parseFloat(price)<=0){
+        alert('Cart is empty, continue shopping!')
+        return
+    }
+}
 
 function paymentApi(){
     IntaSend({
@@ -29,21 +47,14 @@ function paymentApi(){
 
 creditBtn.addEventListener('click',(event)=>{
     event.preventDefault();
-    alert('Hello')
-    let price = totalPrice.textContent
-    if(parseFloat(price)<=0){
-        alert('Cart is empty, continue shopping!')
-        return
-    }
+    formValidation()
     creditBtn.setAttribute('data-amount',price)
-    creditBtn.setAttribute('data-phone_number',phoneNo.textContent)
   // Trigger IntaSend popup
    paymentApi()
   //calling it twice due to error with intasend
-  setTimeout(()=>{
-    paymentApi()
-  },1000)
+    creditBtn.click()
 })
+
 async function getCartItems(){
     let response = await fetch('/addCart')
     cartItems = await response.json()
