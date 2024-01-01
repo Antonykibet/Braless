@@ -4,6 +4,17 @@ let result=null
 let addcartBtn
 let items =[]
 
+skeleton()
+function skeleton(){
+    const cardTemplate = document.getElementById('card-template')
+    let contentContainer = document.querySelectorAll('.productSection')
+    contentContainer.forEach((container)=>{
+        for (let i = 0; i < 4; i++) {
+            container.append(cardTemplate.content.cloneNode(true))
+          }
+    })
+}
+
  async function getCartItems(){
     let response = await fetch('/addCart')
     let result = await response.json()
@@ -144,6 +155,7 @@ async function adminBtn(){
 
 function productDisplay(result,section = 'content'){
     let contentDiv = document.getElementById(section)
+    contentDiv.innerHTML=''
     result.forEach((item, index)=>{
         let {_id,catalogue,type,description,price,image} = item
         let productDiv = document.createElement('div')
