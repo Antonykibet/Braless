@@ -1,7 +1,7 @@
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
-let creditBtn = document.querySelector('.intaSendPayButton')
+let checkoutBtn = document.querySelector('.intaSendPayButton')
 let formInputs = document.querySelectorAll('.billingInput')
 let cartItems = null
 
@@ -45,14 +45,14 @@ function paymentApi(){
 }
 
 
-creditBtn.addEventListener('click',(event)=>{
-    event.preventDefault();
+checkoutBtn.addEventListener('click',(event)=>{
+    //event.preventDefault();
     formValidation()
-    creditBtn.setAttribute('data-amount',price)
+    checkoutBtn.setAttribute('data-amount',10)
   // Trigger IntaSend popup
    paymentApi()
   //calling it twice due to error with intasend
-    creditBtn.click()
+    checkoutBtn.click()
 })
 
 async function getCartItems(){

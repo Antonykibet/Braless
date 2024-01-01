@@ -2,6 +2,7 @@ const express = require('express')
 const routes = express.Router()
 const path =require('path')
 const {dbInit,accounts,products,orders,dashboard,ObjectId} = require('./mongoConfig')
+const {mailOrder} = require('./mailer')
 
 routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
@@ -31,7 +32,6 @@ routes.get('/role',(req,res)=>{
     
 })
 routes.post('/checkout',async(req,res)=>{
-    
     try {
         const {fname,lname,phoneNo,email,totalPrice} = req.body
         const cart = req.session.cartItems
@@ -44,6 +44,7 @@ routes.post('/checkout',async(req,res)=>{
             cart,
         }
         await orders.insertOne(order)
+        mailOrder(order)
         req.session.cartItems=[]
         res.redirect('/')
     } catch (error) {

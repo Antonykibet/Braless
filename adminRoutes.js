@@ -1,15 +1,10 @@
 const express = require('express')
 const admnRoute = express.Router()
 const path =require('path')
-const fs = require('fs')
 const bodyParser = require('body-parser'); 
 const {dbInit,products,accountCollection, orders, dashboard} = require('./mongoConfig');
-const { name } = require('ejs');
-const { log } = require('console');
 const { ObjectId } = require('mongodb');
 const multer = require('multer');
-const { type } = require('os');
-const { ObjectID } = require('mongodb');
 
 const storage = multer.diskStorage(
     {
