@@ -3,6 +3,9 @@ const routes = express.Router()
 const path =require('path')
 const {dbInit,accounts,products,orders,dashboard,ObjectId} = require('./mongoConfig')
 const {mailOrder} = require('./mailer')
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
+
 
 routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
@@ -65,7 +68,7 @@ routes.post('/login',async (req,res)=>{
     }catch{
         res.render('login',{wrongUser:'Wrong Username' ,wrongPass:''})    
     }
-    if(user.password !== password){
+    if(!await bcrypt.compare(password, user.password)){
         res.render('login',{wrongUser:'',wrongPass:'Wrong Password'})
         return
     }
@@ -160,13 +163,17 @@ routes.post('/signUp',async(req,res)=>{
         res.render('sign',{error:'Email already exists!'})
         return
     }
-    let user ={
-        name:`${firstname} ${lastname}`,
-        email:email,
-        password:password,
+    try {
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        let user ={
+            name:`${firstname} ${lastname}`,
+            email:email,
+            password:hashedPassword,
+        }
+        await accounts.insertOne(user)
+    } catch(err) {
+        res.status(500).send(`Sign in error ${err}`);
     }
-    await accounts.insertOne(user)
-    console.log('Success')
     res.render('login',{wrongUser:'',wrongPass:''})
 })
 module.exports = {routes,dbInit}
