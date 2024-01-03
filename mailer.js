@@ -29,13 +29,15 @@ function mailOrder(order){
         }
       });
 }
- function resetPassword(order){
-    let orderInfo = `${order.name} Tell number:${order.phoneNo} has purchased:${order.cart}`
+ function resetPassword(resetToken,receiverEmail){
     let mailOptions = {
-        from: 'youremail@gmail.com',
-        to: 'myfriend@yahoo.com',
+        from: 'antonykibet059@gmail.com',
+        to: receiverEmail,
         subject: 'Password reset',
-        text: orderInfo
+        text: 'You are receiving this because you (or someone else) has requested the reset of the password for your account.\n\n' +
+        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        'https://n3vj0vz2-3500.uks1.devtunnels.ms/reset-password/' + resetToken + '\n\n' +
+        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       }
       
       transporter.sendMail(mailOptions, function(error, info){

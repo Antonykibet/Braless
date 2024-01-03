@@ -2,7 +2,8 @@ const express = require('express')
 const routes = express.Router()
 const path =require('path')
 const {dbInit,accounts,products,orders,dashboard,ObjectId} = require('./mongoConfig')
-const {mailOrder} = require('./mailer')
+const {mailOrder, resetPassword} = require('./mailer')
+const crypto = require('crypto');
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
@@ -55,6 +56,47 @@ routes.post('/checkout',async(req,res)=>{
         console.log(error)
     }
 })
+routes.post('/forgotPassword',async(req,res)=>{
+    let {email} = req.body
+    const resetToken = crypto.randomBytes(20).toString('hex');
+    const hashedToken = await bcrypt.hash(resetToken, 10);
+    try {
+        await accounts.updateOne({email},{$set:{
+            resetPasswordToken : hashedToken,
+            resetPasswordExpires : Date.now() + 3600000, // 1 hour
+        }})
+        resetPassword(resetToken,email)
+        res.json('You will get an email with the reset link')    
+    } catch (error) {
+        console.log(error)
+    }
+    
+})
+routes.get('/reset-password/:token',(req,res)=>{
+    let token = req.params.token
+    res.render('resetPassword',{tokenplaceholder:token})
+})
+routes.post('/reset-password/:token', async (req, res) => {
+    const user = await accounts.findOne({email:req.body.email});
+    const tokenMatches = await bcrypt.compare(req.params.token, user.resetPasswordToken);
+    if (!tokenMatches || Date.now() > user.resetPasswordExpires) {
+        res.status(400).send('Password reset token is invalid or has expired.');
+        return;
+    }
+
+    // Update Password
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    try {
+        await accounts.updateOne({email:req.body.email},{$set:{
+            password:hashedPassword,
+            resetPasswordToken : undefined,
+            resetPasswordExpires : undefined,
+        }})   
+        res.send('Password update succesfull')
+    } catch (error) {
+        console.log(error)
+    }
+});
 routes.post('/login',async (req,res)=>{
     const {email,password} = req.body
     let user
