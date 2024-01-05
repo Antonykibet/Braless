@@ -2,7 +2,7 @@ let headerIconsDiv =document.getElementById('headerIconsDiv')
 let projectSection = document.querySelectorAll('.projectSection')
 let result=null
 let addcartBtn
-let items =[]
+let items 
 
 skeleton()
 function skeleton(){
@@ -85,9 +85,7 @@ getItems()
 
 async function getItems(){
     let response = await fetch('/allProducts')
-    let result = await response.json()
-    result=result.result
-    result.forEach(item=>items.push(item.name))
+    items = await response.json()
 }
 
 
@@ -116,7 +114,7 @@ input.addEventListener('keyup',()=>{
 function renderList(items){
     list.innerHTML=``    
     items.forEach((item)=>{
-        list.innerHTML+=`<a href='/product/${item}'><li class="items">${item}</li></a>`
+        list.innerHTML+=`<a href='/product/${item._id}'><li class="items">${item.catalogue}:${item.type}</li></a>`
     })
 }
 function hideOnClickOutside(container, element, property) {
