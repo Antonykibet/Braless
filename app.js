@@ -12,9 +12,9 @@ const mongoStore = new mongoDbSession({
     collection:'sessions',
 })
 
-mongoStore.on('error',(error)=>{
-    console.error('mongoDb session store down !!',error)
-})
+//mongoStore.on('error',(error)=>{
+  //  console.error('mongoDb session store down !!',error)
+//})
 app.use(sessions({
         secret:'sayMyName',
         resave:false,

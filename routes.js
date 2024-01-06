@@ -121,28 +121,9 @@ routes.post('/login',async (req,res)=>{
     res.redirect('/')
 })
 
-routes.get('/category/:page',async (req,res)=>{
-    const {page} = req.params
-    collection= await db.collection('flowers');
-    // let product = await collection.findOne({catalogue:page})
-     await res.render('page',{title:page})
-
-})
-
 routes.get('/allProducts',async(req,res)=>{
     let result = await products.find().toArray()
-    res.json({result})
-})
-
-routes.get('/flower',(req,res)=>{
-    // res.sendFile(path.join(__dirname,'/product.html'))
-    readFile('product.html','utf-8',(err,html)=>{
-        if(err){
-            res.status(404).sendFile(path.join(__dirname,'/fail.html'))
-            return
-        }
-        res.send(html)
-    })
+    res.json(result)
 })
 routes.get('/topProducts',async(req,res)=>{
     let result = await products.find({top:true}).toArray()
@@ -155,7 +136,6 @@ routes.get('/products/:product',async(req,res)=>{
 })
 routes.get('/product/:id',async(req,res)=>{
     let {id} =req.params
-    console.log(id)
     const product = await products.findOne({_id:new ObjectId(id)})
     let {image,catalogue,type,description,price,images,colors} = product
     let details={
