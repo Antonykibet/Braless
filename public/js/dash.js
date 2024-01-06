@@ -8,7 +8,6 @@ let colorArray=[]
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
-    result=result.result
     result.forEach((item)=>{
         items.push(item)
         itemsName.push(`${item.catalogue}:${item.type}`)
@@ -32,10 +31,15 @@ function updateSelectFunc(div){
     productsDropdown.addEventListener('change',()=>{  
         const [prodCatalogue,prodType] = productsDropdown.value.split(':')
         const product = items.find((item)=>item.catalogue==prodCatalogue&&item.type==prodType)
-        const {catalogue,top,_id} = product 
+        const {catalogue,top,_id,price,description,mainImage,otherImages,type} = product 
+        alert(_id)
         div.querySelector('#identifier').value=_id
         div.querySelector('#topProduct').checked=top
-        div.querySelector('#catalogue').value=catalogue
+        div.querySelector('#description').value=description
+        div.querySelector('#type').value=type
+        div.querySelector('#price').value=price
+        div.querySelector('#mainImage').value=mainImage
+        div.querySelector('#otherImages').value=otherImages
     })
 }
 
@@ -166,10 +170,10 @@ function updateForm(){
                     <option value="">Sex Toys</option>
                 </select>
             </div>
-            <input type='text' id='identifier' style='display:none;'>
-            <input class='input' id='type' type="text" placeholder="Type eg 1m x 10cm or small">
-            <input class='input' id='price' type="text" placeholder="price">
-            <input class='input' id='description' type="text" placeholder="description">
+            <input type='text' id='identifier' name='_id' style='display:none;'>
+            <input class='input' id='type' name='type' type="text" placeholder="Type eg 1m x 10cm or small">
+            <input class='input' id='price' name='price' type="text" placeholder="price">
+            <input class='input' id='description' name='description' type="text" placeholder="description">
             <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage">
             <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images">
             

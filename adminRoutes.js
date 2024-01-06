@@ -33,7 +33,7 @@ admnRoute.use(bodyParser.text({ type: 'text/plain' }));
 //admnRoute.use('/admin',auth)
 admnRoute.get('/admin/dashboard', async (req,res)=>{
     const orderdItems = await orders.countDocuments()
-    const {visits, cartItems} = await dashboard.findOne({_id:new ObjectId(`6517ac53474a5ac96b8de971`)})
+    const {visits, cartItems} = await dashboard.findOne({name:'dashBoardDetails'})
     res.render('dashboard.ejs',{siteVisits:visits,carts:cartItems,checkouts:orderdItems})
 })
 
@@ -58,27 +58,27 @@ admnRoute.post('/admin/create', upload.fields([{ name: 'mainImage', maxCount: 1 
     res.redirect('/admin/dashboard')
 })
 
-admnRoute.post('/admin/upload', upload.fields([{ name: 'mainImage', maxCount: 1 },{ name: 'otherImages', maxCount: 5 }]), async (req, res) => {
+admnRoute.post('/admin/update', upload.fields([{ name: 'mainImage', maxCount: 1 },{ name: 'otherImages', maxCount: 5 }]), async (req, res) => {
     let {_id,catalogue,type,price,description,topProduct,colorData}=req.body
     let mainFile = req.files.mainImage ? req.files.mainImage[0].filename : null
     let otherImages = req.files.otherImages ? req.files.otherImages.map(file=>file.filename) : null
     if(catalogue){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:catalogue})
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{catalogue}})
     }
     if(type){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:type})
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{type:type}})
     }
     if(price){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:price})
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{price}})
     }
     if(description){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:description})
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{description}})
     }
     if(mainFile){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:mainFile})
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{mainFile}})
     }
     if(otherImages){
-        await products.updateOne({_id: new ObjectId(_id)},{$set:otherImages})
+        await products.updateOne({_id: new ObjectId(_id)},{ $addToSet: { arrayField: { $each: otherImages} }})
     }
     res.redirect('/admin/dashboard')
 })

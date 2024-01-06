@@ -2,7 +2,6 @@ let items =[]
 async function getItems(){
     let response = await fetch('/allProducts')
     let result = await response.json()
-    result=result.result
     result.forEach(item=>items.push(item.name))
 }
 getItems()
