@@ -5,22 +5,23 @@ let checkoutBtn = document.querySelector('.intaSendPayButton')
 let formInputs = document.querySelectorAll('.billingInput')
 let cartItems = null
 
-function formValidation(){
+function isFormValid(){
     let price = totalPrice.textContent
+    if(parseFloat(price)<=0){
+        alert('Cart is empty, continue shopping!')
+        return false
+    }
     if(phoneNo.value.length < 10){
         alert('Incomplete phone number')
-        return
+        return false
     }
     for(let i=0;i<formInputs.length;i++){
         if(formInputs[i].value.trim()===''){
             alert(`${formInputs[i].placeholder} input is empty!`)
-            return
+            return false
         }
     }
-    if(parseFloat(price)<=0){
-        alert('Cart is empty, continue shopping!')
-        return
-    }
+    return true;
 }
 
 function paymentApi(){
@@ -46,8 +47,8 @@ function paymentApi(){
 
 
 checkoutBtn.addEventListener('click',(event)=>{
-    //event.preventDefault();
-    formValidation()
+    event.preventDefault();
+    if(!isFormValid()) return
     checkoutBtn.setAttribute('data-amount',10)
   // Trigger IntaSend popup
    paymentApi()

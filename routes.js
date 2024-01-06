@@ -29,11 +29,11 @@ routes.get('/addCart',(req,res)=>{
 })
 routes.get('/role',(req,res)=>{
     if(req.session.user){
-        const {role} = req.session.user 
-        res.json(role)
+        const user = req.session.user 
+        res.json(user)
         return
     }
-    
+    res.redirect('back')
 })
 routes.post('/checkout',async(req,res)=>{
     try {
@@ -114,8 +114,7 @@ routes.post('/login',async (req,res)=>{
         res.render('login',{wrongUser:'',wrongPass:'Wrong Password'})
         return
     }
-    if(email=='antonykibet059@gmail.com' && password=='123@Anto'){
-        res.cookie('braless', 'boss', { maxAge: 1000*60*60*24});
+    if(email=='antonykibet059@gmail.com' && password=='123'){
         req.session.user = {email,role:'Admin'}
     }     
     res.redirect('/')

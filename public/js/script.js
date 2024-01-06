@@ -21,7 +21,7 @@ function skeleton(){
     return result
 }
 
-
+// Carousel on mobile
 let currentIndex = 0;
 const carousel = document.querySelector('.carousel');
 const carouselScreen =document.getElementById('carouselScreen')
@@ -132,21 +132,15 @@ hideOnClickOutside(results, input, 'display');
 
 
 // Check if the session cookie exists
-function isAdmin() {
-    var cookies = document.cookie.split('; ');
-    alert(cookies)
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].split('=');
-        if (cookie[0] === 'braless') {
-            return true; // Found the "braless" session cookie
-        }
-    }
-    return false; // "braless" session cookie not found
+async function isAdmin() {
+    let response = await fetch('/role')
+    let {role} = await response.json()
+    return role === 'Admin' ? true : false
 }
 
 
 async function adminBtn(){
-    if(isAdmin) accountDropdown.innerHTML+=`<a href='/admin/dashboard'><p>Admin Dashboard</p></a>`
+    if(await isAdmin()) accountDropdown.innerHTML+=`<a href='/admin/dashboard'><p>Admin Dashboard</p></a>`
 }
 
 
