@@ -131,11 +131,11 @@ hideOnClickOutside(accountDropdown, accountIcon, 'display');
 hideOnClickOutside(results, input, 'display');
 
 
-// Check if the session cookie exists
+
 async function isAdmin() {
     let response = await fetch('/role')
     let {role} = await response.json()
-    return role === 'Admin' ? true : false
+    return role === 'admin' ? true : false
 }
 
 

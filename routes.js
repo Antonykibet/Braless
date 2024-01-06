@@ -98,7 +98,7 @@ routes.post('/reset-password/:token', async (req, res) => {
     }
 });
 routes.post('/login',async (req,res)=>{
-    const {email,password} = req.body
+    const {email,password,} = req.body
     let user
     try{
         user = await accounts.findOne({email:email})
@@ -106,17 +106,16 @@ routes.post('/login',async (req,res)=>{
             res.render('login',{wrongUser:'Wrong Username',wrongPass:''})
             return
         }
-
+        if(!await bcrypt.compare(password, user.password)){
+            res.render('login',{wrongUser:'',wrongPass:'Wrong Password'})
+            return
+        }  
+        req.session.user = {role:user.role}
+        
     }catch{
         res.render('login',{wrongUser:'Wrong Username' ,wrongPass:''})    
     }
-    if(!await bcrypt.compare(password, user.password)){
-        res.render('login',{wrongUser:'',wrongPass:'Wrong Password'})
-        return
-    }
-    if(email=='antonykibet059@gmail.com' && password=='123'){
-        req.session.user = {email,role:'Admin'}
-    }     
+      
     res.redirect('/')
 })
 
@@ -190,6 +189,7 @@ routes.post('/signUp',async(req,res)=>{
             name:`${firstname} ${lastname}`,
             email:email,
             password:hashedPassword,
+            role:'user',
         }
         await accounts.insertOne(user)
     } catch(err) {
