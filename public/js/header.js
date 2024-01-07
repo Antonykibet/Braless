@@ -8,7 +8,7 @@ adminBtn()
 let list =document.getElementById('list')
 let results=document.getElementById('results')
 let accountDropdown=document.getElementById('accountDropdown')
-let accountIcon=document.querySelector('.bi-person-circle')
+let accountIcon=document.querySelector('.personIconCircle')
 let input = document.getElementById('filter')
 
 

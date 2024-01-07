@@ -71,7 +71,7 @@ getCartItems()
 function calcTotal(){
     let total = 0
     cartItems.forEach((item)=>{
-        total+= Number(item.price*item.unit) 
+        total+= Number(parseInt(item.price)*item.unit) 
     })
     totalPrice.innerText=total
     document.getElementById('total').value=total

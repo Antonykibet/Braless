@@ -15,8 +15,8 @@ routes.post('/addCart',async(req,res)=>{
     res.redirect('/')
 })
 routes.post('/checkOrder',async(req,res)=>{
-    const {phonenumber} = req.body
-    let result = await orders.find({phoneNo:phonenumber}).toArray()
+    const {email} = req.body
+    let result = await orders.find({email:email}).toArray()
     res.json(result)
 })
 routes.post('/updCart',(req,res)=>{

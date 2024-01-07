@@ -32,7 +32,6 @@ function updateSelectFunc(div){
         const [prodCatalogue,prodType] = productsDropdown.value.split(':')
         const product = items.find((item)=>item.catalogue==prodCatalogue&&item.type==prodType)
         const {catalogue,top,_id,price,description,mainImage,otherImages,type} = product 
-        alert(_id)
         div.querySelector('#identifier').value=_id
         div.querySelector('#topProduct').checked=top
         div.querySelector('#description').value=description
@@ -153,7 +152,6 @@ function orderList(index,name,email,phoneNo){
 }
 
 
-
 function updateForm(){
     return  `
     <div class='modal'>
@@ -161,7 +159,9 @@ function updateForm(){
     <h1 style='padding-top:24px;'>Update Product</h1>
         <form action="/admin/update" method="post" enctype='multipart/form-data'>
             <label for='productsDropdown'>Product name</label>
-            <select class='input' id="productsDropdown" name='prodName'></select>
+            <select class='input' id="productsDropdown" name='prodName'>
+                <option  class='productItems'  >Select product Item</option>
+            </select>
             <div>
                 <label for="catalogue">Catalogue</label>
                 <select class='input'  name="catalogue" id="catalogue">
@@ -173,7 +173,7 @@ function updateForm(){
             </div>
             <input type='text' id='identifier' name='_id' style='display:none;'>
             <input class='input' id='type' name='type' type="text" placeholder="Type eg 1m x 10cm or small" >
-            <input class='input' id='price' name='price' type="text" placeholder="price">
+            <input class='input' id='price' name='price' type="text" placeholder="Price(in numerics you can add symbols(/=,$,Ksh) at the end)">
             <input class='input' id='description' name='description' type="text" placeholder="description">
             <h2 id='chooseTitle'>Thumbnail</h2>
             <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage" required>
@@ -205,7 +205,7 @@ function createForm(){
                 </select>
             </div>
             <input class='input' type="text" name='type' placeholder="Type eg 1m x 10cm or small" required>
-            <input class='input' type="text" name='price' placeholder="Price" required>
+            <input class='input' type="text" name='price' placeholder="Price(in numerics you can add symbols(/=,$,Ksh) at the end)"  required>
             <input class='input' type="text" name='description' placeholder="Description" required>
             <input style='display:none;' id='colorData' type='text' name=colorData >
 

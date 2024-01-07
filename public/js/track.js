@@ -8,7 +8,7 @@ async function displayPopup(){
     let input = background.querySelector('#input')
     let subBtn = background.querySelector('#submitBtn')
     subBtn.addEventListener('click',async()=>{
-        let requestData = { phonenumber: input.value };
+        let requestData = { email: input.value };
         let response = await fetch('/checkOrder',{
             method:'POST',
             headers:{
@@ -32,7 +32,6 @@ async function displayPopup(){
                 list.innerHTML=orderList(index,status)
                 content.appendChild(list)
                 let statusBtn = list.querySelector('.status')
-                alert(statusBtn.innerText)
                 if(statusBtn.innerText=='processing'){
                     statusBtn.style.background='#4CAF50'
                 }
@@ -64,7 +63,7 @@ async function displayPopup(){
 function trackForm(){
     return `
     <div id='trackForm'>
-            <input id='input' type='text' name='phonenumber' placeholder='Enter Phone number used during Checkout'><br>
+            <input id='input' type='text' name='email' placeholder='Enter Email used during Checkout'><br>
             <button type id='submitBtn' >Submit</button>
     </div>`
 }
