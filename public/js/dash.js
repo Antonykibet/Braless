@@ -36,6 +36,7 @@ function updateSelectFunc(div){
         div.querySelector('#identifier').value=_id
         div.querySelector('#topProduct').checked=top
         div.querySelector('#description').value=description
+        div.querySelector('#catalogue').value=catalogue
         div.querySelector('#type').value=type
         div.querySelector('#price').value=price
         div.querySelector('#mainImage').value=mainImage
@@ -165,17 +166,19 @@ function updateForm(){
                 <label for="catalogue">Catalogue</label>
                 <select class='input'  name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
-                    <option value="Rabbit Bra">Rabbit Bra</option>
+                    <option value="Bunny Ear">Bunny Ear</option>
                     <option value="Floral">Floral</option>
-                    <option value="">Sex Toys</option>
+                    <option value="Sex Toys">Sex Toys</option>
                 </select>
             </div>
             <input type='text' id='identifier' name='_id' style='display:none;'>
-            <input class='input' id='type' name='type' type="text" placeholder="Type eg 1m x 10cm or small">
+            <input class='input' id='type' name='type' type="text" placeholder="Type eg 1m x 10cm or small" >
             <input class='input' id='price' name='price' type="text" placeholder="price">
             <input class='input' id='description' name='description' type="text" placeholder="description">
-            <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage">
-            <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images">
+            <h2 id='chooseTitle'>Thumbnail</h2>
+            <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage" required>
+            <h2 id='chooseTitle'>Other images</h2>
+            <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images" required>
             
             <div>
                 <input class='input' type="checkbox" name="topProduct" id="topProduct">
@@ -196,15 +199,15 @@ function createForm(){
                 <label for="catalogue">Catalogue :</label> 
                 <select class='input' name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
-                    <option value="Bunny Ear">Rabbit Bra</option>
+                    <option value="Bunny Ear">Bunny Ear</option>
                     <option value="Floral">Floral</option>
                     <option value="Sex Toys">Sex Toys</option>
                 </select>
             </div>
-            <input class='input' type="text" name='type' placeholder="Type eg 1m x 10cm or small">
-            <input class='input' type="text" name='price' placeholder="Price">
-            <input class='input' type="text" name='description' placeholder="Description">
-            <input style='display:none;' id='colorData' type='text' name=colorData>
+            <input class='input' type="text" name='type' placeholder="Type eg 1m x 10cm or small" required>
+            <input class='input' type="text" name='price' placeholder="Price" required>
+            <input class='input' type="text" name='description' placeholder="Description" required>
+            <input style='display:none;' id='colorData' type='text' name=colorData >
 
             <h2 id='chooseTitle'>Choose color</h2>
             <div id='colorDiv'>
@@ -213,9 +216,10 @@ function createForm(){
                     <input id='colorInput' type='color'>
                 <div class='submitBtn' id='addColorBtn'>Add</div>
             </div>
-
-            <input class='input' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage">
-            <input class='input' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images">
+            <h2 id='chooseTitle'>Thumbnail</h2>
+            <input class='input' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage" required>
+            <h2 id='chooseTitle'>Other images</h2>
+            <input class='input' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images" required>
             <div>
                 <input type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>

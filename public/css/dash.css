@@ -76,10 +76,11 @@ form input{
     width: 100vw;
     background-color: rgba(26, 26, 26, 0.61);
     backdrop-filter: blur(1px);
+    z-index: 100;
 }
 .modal{
     width: 50%;
-    height: 75vh;
+    max-height: 90vh;
     overflow-y: scroll;
     display: flex;
     justify-content: center;
@@ -90,7 +91,7 @@ form input{
     border-radius: 8px;
     font-family: 'Roboto';
     color: #2e2e2e;
-    margin-top: 17vh;
+    margin-top: 10vh;
     padding-bottom: 24px;
     padding-top: 24px;
 }

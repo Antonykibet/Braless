@@ -1,16 +1,16 @@
-let items =[]
+let items 
 async function getItems(){
     let response = await fetch('/allProducts')
-    let result = await response.json()
-    result.forEach(item=>items.push(item.name))
+    items = await response.json()
 }
 getItems()
-
+adminBtn()
 let list =document.getElementById('list')
 let results=document.getElementById('results')
 let accountDropdown=document.getElementById('accountDropdown')
 let accountIcon=document.querySelector('.bi-person-circle')
 let input = document.getElementById('filter')
+
 
 accountIcon.addEventListener(`click`,()=>{
     if(accountDropdown.style.display==`none`){
@@ -30,7 +30,7 @@ input.addEventListener('keyup',()=>{
 function renderList(items){
     list.innerHTML=``    
     items.forEach((item)=>{
-        list.innerHTML+=`<a href='/product/${item}'><li class="items">${item}</li></a>`
+        list.innerHTML+=`<a href='/product/${item._id}'><li class="items">${item.catalogue}:${item.type}</li></a>`
     })
 }
 function hideOnClickOutside(container, element, property) {
@@ -46,3 +46,11 @@ function hideOnClickOutside(container, element, property) {
 hideOnClickOutside(accountDropdown, accountIcon, 'display');
 hideOnClickOutside(results, input, 'display');
 
+async function isAdmin() {
+    let response = await fetch('/role')
+    let {role} = await response.json()
+    return role === 'admin' ? true : false
+}
+async function adminBtn(){
+    if(await isAdmin()) accountDropdown.innerHTML+=`<a href='/admin/dashboard'><p>Admin Dashboard</p></a>`
+}

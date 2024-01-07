@@ -82,6 +82,7 @@
     </footer>
     <footer id="lowerFooter"> Designed and developed by<span style="margin-left: 8px;color: rgb(228, 228, 228);text-decoration: underline;"> <a href="https://wa.me/254769819306">webGuy.</a> </span> </footer>
       <script>
+            let continueBtn = document.getElementById('continueBtn')
             let productImageMain = document.getElementsByClassName('productImageMain').item(0)
             let imgCollection = document.getElementById('imgCollection')
             let otherImgDiv = document.getElementById('otherImgDiv')
@@ -95,6 +96,9 @@
                 cartItems = await response.json()
             }
             getCartItems()
+            continueBtn.addEventListener('click',()=>{
+                window.location.href='/'
+            })
             addCartBtn.addEventListener('click', async()=>{
                 if(cartItems.some(cartItem=>cartItem._id===item._id)) return
                 cartItems.push(item)

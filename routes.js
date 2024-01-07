@@ -11,7 +11,7 @@ const saltRounds = 10;
 routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
     req.session.cartItems=cartItems
-    await dashboard.updateOne({ _id: new ObjectId('6517ac53474a5ac96b8de971')},{ $inc: {cartItems: 1 }})
+    await dashboard.updateOne({ name: 'dashBoardDetails'},{ $inc: {cartItems: 1 }})
     res.redirect('/')
 })
 routes.post('/checkOrder',async(req,res)=>{
@@ -47,6 +47,7 @@ routes.post('/checkout',async(req,res)=>{
             status:'processing',
             cart,
         }
+        console.log(order)
         await orders.insertOne(order)
         mailOrder(order)
         req.session.cartItems=[]
@@ -156,7 +157,7 @@ routes.get('/getFlowers',async (req,res)=>{
 routes.get('/',async(req,res)=>{
     try {
         if(!req.session.visited){
-            await dashboard.updateOne({ _id: new ObjectId('6517ac53474a5ac96b8de971')},{ $inc: { visits: 1 }})
+            await dashboard.updateOne({ name:'dashBoardDetails'},{ $inc: { visits: 1 }})
             req.session.visited=true
         }   
     } catch (error) {
