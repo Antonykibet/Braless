@@ -8,15 +8,15 @@ adminBtn()
 let list =document.getElementById('list')
 let results=document.getElementById('results')
 let accountDropdown=document.getElementById('accountDropdown')
-let accountIcon=document.querySelector('.personIconCircle')
+let accountIcon=document.querySelector('.headerIcons')
 let input = document.getElementById('filter')
 
 
 accountIcon.addEventListener(`click`,()=>{
-    if(accountDropdown.style.display==`none`){
-        accountDropdown.style.display='flex'
-    }else{
-        accountDropdown.style.display=`none`
+    if (accountDropdown.style.display === 'flex') {
+        accountDropdown.style.display = 'none';
+    } else {
+        accountDropdown.style.display = 'flex';
     }
 })
 input.addEventListener('focus',()=>{
