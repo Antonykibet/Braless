@@ -133,6 +133,9 @@ span{
         position: relative;
         overflow: hidden;
         display: block;
+        border-bottom-left-radius:8px;
+        border-bottom-right-radius:8px;
+        width: 100vw;
     }
     #carouselScreen{
         position: absolute;
@@ -149,9 +152,9 @@ span{
     #catchPhraseMobile{
         position: absolute;
         left: 20px;
-        top: 30%;
+        bottom: 5%;
         margin: 0px;
-        font-size: 10vw;
+        font-size: 8vw;
         color: whitesmoke;
         font-family: 'Poppins';
     }
@@ -172,7 +175,6 @@ span{
     .carousel {
         display: flex;
         width: 100vw;
-    
         transition: transform 0.3s ease-in-out;
     }
     .heroImageMobile{
@@ -183,7 +185,7 @@ span{
         object-fit: cover;
     }
     .heroImageMobile:first-child{
-        object-position: bottom;
+        object-position:  bottom;
     }
     .heroImage {
         width: 100%;
