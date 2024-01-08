@@ -1,7 +1,7 @@
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
-let checkoutBtn = document.querySelector('.intaSendPayButton')
+let checkoutBtn = document.querySelector('#checkoutBtn')
 let formInputs = document.querySelectorAll('.billingInput')
 let cartItems = null
 
@@ -47,13 +47,73 @@ function paymentApi(){
 
 
 checkoutBtn.addEventListener('click',(event)=>{
-    event.preventDefault();
+    let deliveryOption = document.querySelector('#deliveryOptions').value
+    if(deliveryOption===''){
+        alert('Select delivery option')
+        return
+    }
+    let checkoutModalBackground = document.createElement('div')
+    let checkoutModal = document.createElement('div')
+    checkoutModalBackground.setAttribute('id','checkoutModalBackground')
+    checkoutModal.setAttribute('id','checkoutModal')
+    checkoutModal.innerHTML=`
+        <h1 style='padding-top: 32px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
+        <h2 style='margin-bottom:8px;width:100%;font-family:'Roboto, sans-serif' class='title'>Shipping Info</h2>
+        <form id="billingForm"  action='/checkout' method='Post'>
+            <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
+            <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
+            <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
+            <div id='formAdditionSection'></div>
+            <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
+            <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
+            <div style='width:100%' id="totalCheckout">
+                <div id='totalDiv'>
+                    <h4 class="totalElem">Sub total</h4>
+                    <h4 class="totalElem" id="subTotal">0</h4>
+                </div>
+                <div id='totalDiv'>
+                    <h4 class="totalElem">Shipping</h4>
+                    <h4 class="totalElem" id="shippingPrice">0</h4>
+                </div>
+                <div id='totalDiv'>
+                    <h4 class="totalElem">Total</h4>
+                    <h4 class="totalElem" id="totalPriceCheckout">0</h4>
+                </div>
+            </div>
+            <input type="hidden" name="totalPrice" id="total">
+            <button type='submit' id='payBtn'>Proceed to Payment</button>
+        <form/>
+    `
+    checkoutModalBackground.appendChild(checkoutModal)
+    document.body.appendChild(checkoutModalBackground)
+    let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
+    if(deliveryOption==='pickUp'){
+        addSection.innerHTML=`
+        <h1>Works!</h1>
+        `
+    }
+    if(deliveryOption==='cbd'){
+        addSection.innerHTML=``
+    }
+    if(deliveryOption==='parcel'){
+        addSection.innerHTML=`
+        <input class="billingInput" placeholder="Sacco" type="text" name="sacco" id="sacco" required>
+        <input class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
+        `
+    }
+    if(deliveryOption==='mtaani'){
+        addSection.innerHTML=`
+        <h1>Works!</h1>
+        `
+    }
+
+    /*event.preventDefault();
     if(!isFormValid()) return
     checkoutBtn.setAttribute('data-amount',10)
   // Trigger IntaSend popup
    paymentApi()
   //calling it twice due to error with intasend
-    checkoutBtn.click()
+    checkoutBtn.click()*/
 })
 
 async function getCartItems(){
@@ -171,7 +231,7 @@ async function updFunc(){
     })
 }
 document.addEventListener("DOMContentLoaded", function() {
-    let form = document.getElementById("billingForm");
+    let form = document.getElementById("checkoutForm");
 
     form.addEventListener("submit", function(event) {
         let totalPrice = parseFloat(document.getElementById("totalPrice").textContent);

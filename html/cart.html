@@ -35,20 +35,23 @@
         </div>
     </header>
     <h1 class="title" id="cartTitle">Cart</h1>
-
     <section id="content">
         <div id="billingDiv">
             <form id="billingForm" action="/checkout" method="post">
-                <input class="billingInput" placeholder="First Name" type="text" id="fname" name="fname" required>
-                <input class="billingInput" placeholder="Last Name" type="text" id="lname" name="lname" required>
-                <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
-                <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
-                <input type="hidden" name="totalPrice" id="total">
+                <h3 class="formTitle">Delivery Options</h3>
+                <select  class="billingInput" id="deliveryOptions" >
+                    <option value="">Select delivery option</option>
+                    <option value="pickUp">Pick up at shop(CBD Star Mall)</option>
+                    <option value="cbd">CBD Delivery</option>
+                    <option value="parcel">Parcel</option>
+                    <option value="mtaani">Pick up Mtaani</option>
+                </select>
                 <div id="totalDiv">
                     <h3 class="totalElem">Total</h3>
                     <h3 class="totalElem" id="totalPrice">0</h3>
                 </div>
-                <button type="submit" class="intaSendPayButton" id="checkoutBtn"  data-amount="10" data-currency="KES" >Checkout</button>
+                <button type="button" id="checkoutBtn">Checkout</button>
+                <!--<button type="submit" class="intaSendPayButton" id="checkoutBtn"  data-amount="10" data-currency="KES" >ffs</button>-->
                 <a id="error"  href="/"><button type="button" id="continueBtn">Continue shopping</button></a>
             </form>
         </div>
