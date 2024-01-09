@@ -57,9 +57,9 @@ checkoutBtn.addEventListener('click',(event)=>{
     checkoutModalBackground.setAttribute('id','checkoutModalBackground')
     checkoutModal.setAttribute('id','checkoutModal')
     checkoutModal.innerHTML=`
-        <h1 style='padding-top: 32px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
-        <h2 style='margin-bottom:8px;width:100%;font-family:'Roboto, sans-serif' class='title'>Shipping Info</h2>
+        <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
         <form id="billingForm"  action='/checkout' method='Post'>
+            <div id='pickupMtaaniOptions'></div>
             <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
             <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
             <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
@@ -86,25 +86,17 @@ checkoutBtn.addEventListener('click',(event)=>{
     `
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
+    document.getElementById('billingDiv').remove()
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
-    if(deliveryOption==='pickUp'){
-        addSection.innerHTML=`
-        <h1>Works!</h1>
-        `
-    }
-    if(deliveryOption==='cbd'){
-        addSection.innerHTML=``
-    }
+    let pickupMtaaniOptions = checkoutModalBackground.querySelector('#pickupMtaaniOptions')
     if(deliveryOption==='parcel'){
         addSection.innerHTML=`
-        <input class="billingInput" placeholder="Sacco" type="text" name="sacco" id="sacco" required>
-        <input class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
+        <input style='width:97%;' class="billingInput" placeholder="Sacco" type="text" name="sacco" id="sacco" required>
+        <input style='width:97%;' class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
         `
     }
     if(deliveryOption==='mtaani'){
-        addSection.innerHTML=`
-        <h1>Works!</h1>
-        `
+        pickupMtaaniOptions.innerHTML=``
     }
 
     /*event.preventDefault();

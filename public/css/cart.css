@@ -214,6 +214,9 @@
     margin-bottom: 8px;
     margin-top: 8px;
 }
+#formAdditionSection{
+    width: 103%;
+}
 #payBtn{
     background-color: rgb(235, 72, 113);
     color: white;
@@ -223,6 +226,9 @@
     margin-bottom: 8px;
     font-family: 'Poppins',sans-serif;
     border-radius: 4px;
+}
+#totalCheckout{
+    margin-top: 16px;
 }
 @media screen and (max-width: 1300px) {
     body{
@@ -339,7 +345,22 @@
         width: 90%;
     }
     #phoneNo{
-        width: 100%;
+        width: 90%;
+        border: solid red;
+    }
+    #checkoutModalBackground{
+        top: 0px;
+    }
+    #checkoutModal{
+        width: 80%;
+        height: auto;
+        justify-content: start;
+    }
+    #formAdditionSection{
+        width: 93%;
+    }
+    #pickupMtaaniOptions{
+        margin-top: 16px;
     }
     
 }
