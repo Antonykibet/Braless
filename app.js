@@ -39,7 +39,6 @@ app.use(admnRoute)
 app.listen(PORT, async () => {
     try {
         await dbInit();
-        console.log(`db connected...`);
         console.log(`Server listening at Port ${PORT}...`);
     } catch (error) {
         console.error("Error initializing the database:", error);

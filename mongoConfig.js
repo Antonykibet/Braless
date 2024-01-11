@@ -11,7 +11,12 @@ let dashboard =db.collection('dashboard')
 
 
 async function dbInit(){
-    await dbClient.connect();
+    try {
+        await dbClient.connect();
+        console.log(`db connected...`);
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 module.exports = {uri,dbInit,products,accounts,orders,dashboard,ObjectId}

@@ -5,6 +5,21 @@ let checkoutBtn = document.querySelector('#checkoutBtn')
 let formInputs = document.querySelectorAll('.billingInput')
 let cartItems = null
 
+let agents=null
+async function getAgents(){
+    let response = await fetch('http://localhost:5500/agents')
+    agents= await response.json()
+}
+getAgents()
+function agentsRender(agentslocation,selectId){
+    let locationObject =  agents.find((item)=>item.location == agentslocation)
+    let selectElem = document.getElementById(selectId)
+    locationObject.agents.forEach((item)=>{
+        selectElem.innerHTML+=`<option>${item}</option>`
+    })
+}
+
+
 function isFormValid(){
     let price = totalPrice.textContent
     if(parseFloat(price)<=0){
@@ -59,7 +74,7 @@ checkoutBtn.addEventListener('click',(event)=>{
     checkoutModal.innerHTML=`
         <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
         <form id="billingForm"  action='/checkout' method='Post'>
-            <div id='pickupMtaaniOptions'></div>
+            <div style='width:90%' id='pickupMtaaniOptions'></div>
             <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
             <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
             <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
@@ -96,7 +111,20 @@ checkoutBtn.addEventListener('click',(event)=>{
         `
     }
     if(deliveryOption==='mtaani'){
-        pickupMtaaniOptions.innerHTML=``
+        pickupMtaaniOptions.innerHTML=`
+            <label id='mbsRoadLabel' for='mbsRoad'>Mombasa road :</label> 
+            <select style='width:90%' id='mombasaSelect' onclick=agentsRender('mombasaroad',this.id)>
+            </select>
+            <label id='langataRoadLabel' for='langataRoad'>Langata road :</label> 
+            <select style='width:90%' id='langataRoadSelect' onclick=agentsRender('langataRoad',this.id)>
+            </select>
+            <label id='waiyakiwayLabel' for='waiyakiway'>Waiyaki way :</label> 
+            <select style='width:90%' id='waiyakiWaySelect' onclick=agentsRender('waiyakiWay',this.id)>
+            </select>
+            <label id='kiambuLabel' for='kiambu'>Kiambu :</label> 
+            <select style='width:90%' id='kiambuSelect' onclick=agentsRender('kiambu',this.id)>
+            </select>
+        `
     }
 
     /*event.preventDefault();
