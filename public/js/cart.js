@@ -3,29 +3,65 @@ let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
 let checkoutBtn = document.querySelector('#checkoutBtn')
 let formInputs = document.querySelectorAll('.billingInput')
+let deliveryOptions = document.getElementById('deliveryOptions')
 let cartItems = null
 
+deliveryOptions.addEventListener('change',(event)=>{
+    let pickupMtaaniDiv = document.getElementById('pickupMtaani')
+    if(event.target.value=='mtaani'){
+        renderAgents(pickupMtaaniDiv)
+    }else{
+        pickupMtaaniDiv.innerHTML=''
+    }
+})
 let agents=null
 async function getAgents(){
-    let response = await fetch('http://localhost:5500/agents')
-    agents= await response.json()
+    let response = await fetch('http://localhost:5500/api/agents')
+    return await response.json()
 }
 getAgents()
-function agentsRender(agentslocation,selectId){
+/*function agentsRender(agentslocation,selectId){
     let locationObject =  agents.find((item)=>item.location == agentslocation)
     let selectElem = document.getElementById(selectId)
     locationObject.agents.forEach((item)=>{
         selectElem.innerHTML+=`<option>${item}</option>`
     })
+}*/
+async function renderAgents(div){
+    div.innerHTML=``
+    let agents = await getAgents()
+    agents.forEach((item)=>{
+        let agentDiv = document.createElement('div')
+        let label = document.createElement('label')
+        let selectElem = document.createElement('select')
+        selectElem.classList.add('pickupSelect')
+        label.classList.add('pickupLabel')
+        label.textContent=`${item.location}: `
+        item.agents.forEach((item)=>{
+            selectElem.innerHTML+=`<option class='pickupOption' style='width:100%;' value='${item}'>${item}</option>`
+        })
+        selectElem.addEventListener('change',()=>{
+            checkoutBtn.setAttribute('location',selectElem.value)
+        })
+        agentDiv.append(label,selectElem)
+        div.append(agentDiv)
+    })
 }
 
-
-function isFormValid(){
-    let price = totalPrice.textContent
-    if(parseFloat(price)<=0){
-        alert('Cart is empty, continue shopping!')
+function isDeliveryOptionsFormValid(deliveryOption){
+    let totalPrice = parseFloat(document.getElementById("totalPrice").textContent);
+    if (totalPrice === 0) {
+        alert('Cart is empty!!')
         return false
     }
+    if(deliveryOption===''){
+        alert('Select delivery option')
+        return false
+    }
+    return true
+}
+
+function isCheckoutFormValid(){
     if(phoneNo.value.length < 10){
         alert('Incomplete phone number')
         return false
@@ -63,67 +99,24 @@ function paymentApi(){
 
 checkoutBtn.addEventListener('click',(event)=>{
     let deliveryOption = document.querySelector('#deliveryOptions').value
-    if(deliveryOption===''){
-        alert('Select delivery option')
+   /* if(!isDeliveryOptionsFormValid(deliveryOption)){
         return
-    }
+    }*/
+    let deliveryLocation = event.target.getAttribute('location')
     let checkoutModalBackground = document.createElement('div')
     let checkoutModal = document.createElement('div')
     checkoutModalBackground.setAttribute('id','checkoutModalBackground')
     checkoutModal.setAttribute('id','checkoutModal')
-    checkoutModal.innerHTML=`
-        <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
-        <form id="billingForm"  action='/checkout' method='Post'>
-            <div style='width:90%' id='pickupMtaaniOptions'></div>
-            <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
-            <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
-            <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
-            <div id='formAdditionSection'></div>
-            <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
-            <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
-            <div style='width:100%' id="totalCheckout">
-                <div id='totalDiv'>
-                    <h4 class="totalElem">Sub total</h4>
-                    <h4 class="totalElem" id="subTotal">0</h4>
-                </div>
-                <div id='totalDiv'>
-                    <h4 class="totalElem">Shipping</h4>
-                    <h4 class="totalElem" id="shippingPrice">0</h4>
-                </div>
-                <div id='totalDiv'>
-                    <h4 class="totalElem">Total</h4>
-                    <h4 class="totalElem" id="totalPriceCheckout">0</h4>
-                </div>
-            </div>
-            <input type="hidden" name="totalPrice" id="total">
-            <button type='submit' id='payBtn'>Proceed to Payment</button>
-        <form/>
-    `
+    checkoutModal.innerHTML=checkoutModalHtml(deliveryLocation)
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
     document.getElementById('billingDiv').remove()
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
-    let pickupMtaaniOptions = checkoutModalBackground.querySelector('#pickupMtaaniOptions')
     if(deliveryOption==='parcel'){
+        checkoutModal.querySelector('#shippingPrice').innerText= 1000
         addSection.innerHTML=`
         <input style='width:97%;' class="billingInput" placeholder="Sacco" type="text" name="sacco" id="sacco" required>
         <input style='width:97%;' class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
-        `
-    }
-    if(deliveryOption==='mtaani'){
-        pickupMtaaniOptions.innerHTML=`
-            <label id='mbsRoadLabel' for='mbsRoad'>Mombasa road :</label> 
-            <select style='width:90%' id='mombasaSelect' onclick=agentsRender('mombasaroad',this.id)>
-            </select>
-            <label id='langataRoadLabel' for='langataRoad'>Langata road :</label> 
-            <select style='width:90%' id='langataRoadSelect' onclick=agentsRender('langataRoad',this.id)>
-            </select>
-            <label id='waiyakiwayLabel' for='waiyakiway'>Waiyaki way :</label> 
-            <select style='width:90%' id='waiyakiWaySelect' onclick=agentsRender('waiyakiWay',this.id)>
-            </select>
-            <label id='kiambuLabel' for='kiambu'>Kiambu :</label> 
-            <select style='width:90%' id='kiambuSelect' onclick=agentsRender('kiambu',this.id)>
-            </select>
         `
     }
 
@@ -144,7 +137,37 @@ async function getCartItems(){
 }
 getCartItems()
 
-
+function checkoutModalHtml(deliveryLocation){
+    return `
+    <input style='display:none;' name='location' value='${deliveryLocation}'>
+    <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
+    <form id="billingForm"  action='/checkout' method='Post'>
+        <div style='width:90%' id='pickupMtaaniOptions'></div>
+        <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
+        <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
+        <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
+        <div id='formAdditionSection'></div>
+        <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
+        <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
+        <div style='width:100%' id="totalCheckout">
+            <div id='totalDiv'>
+                <h4 class="totalElem">Sub total</h4>
+                <h4 class="totalElem" id="subTotal">0</h4>
+            </div>
+            <div id='totalDiv'>
+                <h4 class="totalElem">Shipping</h4>
+                <h4 class="totalElem" id="shippingPrice">0</h4>
+            </div>
+            <div id='totalDiv'>
+                <h4 class="totalElem">Total</h4>
+                <h4 class="totalElem" id="totalPriceCheckout">0</h4>
+            </div>
+        </div>
+        <input type="hidden" name="totalPrice" id="total">
+        <button type='submit' id='payBtn'>Proceed to Payment</button>
+    <form/>
+  `
+}
 
 
 
@@ -242,6 +265,7 @@ function removeFunc(div,item){
 
 
 async function updFunc(){
+    document.getElementById('total') = calcTotal()
     await fetch('/updCart',{
         method:'POST',
         headers:{
@@ -250,17 +274,3 @@ async function updFunc(){
         body:JSON.stringify({cartItems:cartItems}),
     })
 }
-document.addEventListener("DOMContentLoaded", function() {
-    let form = document.getElementById("checkoutForm");
-
-    form.addEventListener("submit", function(event) {
-        let totalPrice = parseFloat(document.getElementById("totalPrice").textContent);
-        // Check the condition (totalPrice is 0)
-        if (totalPrice === 0) {
-            // Prevent the form from submitting
-            event.preventDefault();
-            // Display an error message or take other actions
-            alert("Cart is Empty, continue shopping.");
-        }
-    });
-});

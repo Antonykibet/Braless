@@ -165,6 +165,9 @@ routes.get('/',async(req,res)=>{
     }
     res.sendFile(path.join(__dirname,'html','index.html'))
 })
+routes.get('/test',(req,res)=>{
+    res.sendFile(path.join(__dirname,'html','test.html'))
+})
 routes.get('/cart',(req,res)=>{
     res.sendFile(path.join(__dirname,'html','cart.html'))
 })

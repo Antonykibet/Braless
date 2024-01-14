@@ -230,6 +230,14 @@
 #totalCheckout{
     margin-top: 16px;
 }
+.pickupSelect{
+    width: 90%;
+    margin-bottom: 8px;
+}
+.pickupLabel{
+    font-weight: 500;
+    margin-bottom: 8px;
+}
 @media screen and (max-width: 1300px) {
     body{
         padding-bottom: 40vh;
