@@ -20,13 +20,6 @@ async function getAgents(){
     return await response.json()
 }
 getAgents()
-/*function agentsRender(agentslocation,selectId){
-    let locationObject =  agents.find((item)=>item.location == agentslocation)
-    let selectElem = document.getElementById(selectId)
-    locationObject.agents.forEach((item)=>{
-        selectElem.innerHTML+=`<option>${item}</option>`
-    })
-}*/
 async function renderAgents(div){
     div.innerHTML=``
     let agents = await getAgents()
@@ -110,6 +103,7 @@ checkoutBtn.addEventListener('click',(event)=>{
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
     document.getElementById('billingDiv').remove()
+    intlPhoneNoRender(checkoutModal)
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
     if(deliveryOption==='parcel'){
         checkoutModal.querySelector('#shippingPrice').innerText= 1000
@@ -135,6 +129,22 @@ async function getCartItems(){
     totalPrice.innerText= calcTotal()
 }
 getCartItems()
+
+function intlPhoneNoRender(div){
+    const phoneInput = div.querySelector("#phoneNo");
+        window.intlTelInput(phoneInput, {
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+            autoInsertDialCode: true,
+            nationalMode:false,
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                .then(function(res) { return res.json(); })
+                .then(function(data) { callback(data.country_code); })
+                .catch(function() { callback("us"); });
+            }
+        });
+}
 
 function checkoutModalHtml(deliveryLocation,deliveryOption){
     function deliveryPrice(){

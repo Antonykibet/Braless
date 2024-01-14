@@ -37,9 +37,9 @@
     <h1 class="title" id="cartTitle">Cart</h1>
     <section id="content">
         <div id="billingDiv">
-            <form id="billingForm" action="/checkout" method="post">
-                <h3 class="formTitle">Delivery Options</h3>
-                <select  class="billingInput" id="deliveryOptions" >
+            <form id="billingForm">
+                <h2 class="formTitle">Delivery Options</h2>
+                <select style="width: 90%;" class="billingInput" id="deliveryOptions" >
                     <option value="">Select delivery option</option>
                     <option value="pickUp">Pick up at shop(CBD Star Mall)</option>
                     <option value="cbdDelivery">CBD Delivery</option>
@@ -57,25 +57,9 @@
             </form>
         </div>
     </section>
-
+    <script src="js/cart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
     <script src="https://unpkg.com/intasend-inlinejs-sdk@3.0.4/build/intasend-inline.js"></script>
-    <script src="js/cart.js"></script>
     <script src="js/header.js"></script>
-    <script>
-        const phoneInput = document.querySelector("#phoneNo");
-        window.intlTelInput(phoneInput, {
-            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
-            autoInsertDialCode: true,
-            nationalMode:false,
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-                fetch("https://ipapi.co/json")
-                .then(function(res) { return res.json(); })
-                .then(function(data) { callback(data.country_code); })
-                .catch(function() { callback("us"); });
-            }
-        });
-    </script>
 </body>
 </html>
