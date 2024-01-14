@@ -49,8 +49,7 @@ async function renderAgents(div){
 }
 
 function isDeliveryOptionsFormValid(deliveryOption){
-    let totalPrice = parseFloat(document.getElementById("totalPrice").textContent);
-    if (totalPrice === 0) {
+    if (calcTotal() <= 0) {
         alert('Cart is empty!!')
         return false
     }
@@ -99,15 +98,15 @@ function paymentApi(){
 
 checkoutBtn.addEventListener('click',(event)=>{
     let deliveryOption = document.querySelector('#deliveryOptions').value
-   /* if(!isDeliveryOptionsFormValid(deliveryOption)){
+    if(!isDeliveryOptionsFormValid(deliveryOption)){
         return
-    }*/
+    }
     let deliveryLocation = event.target.getAttribute('location')
     let checkoutModalBackground = document.createElement('div')
     let checkoutModal = document.createElement('div')
     checkoutModalBackground.setAttribute('id','checkoutModalBackground')
     checkoutModal.setAttribute('id','checkoutModal')
-    checkoutModal.innerHTML=checkoutModalHtml(deliveryLocation)
+    checkoutModal.innerHTML=checkoutModalHtml(deliveryLocation,deliveryOption)
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
     document.getElementById('billingDiv').remove()
@@ -133,11 +132,17 @@ async function getCartItems(){
     let response = await fetch('/addCart')
     cartItems = await response.json()
     displayCartItems()
-    calcTotal()
+    totalPrice.innerText= calcTotal()
 }
 getCartItems()
 
-function checkoutModalHtml(deliveryLocation){
+function checkoutModalHtml(deliveryLocation,deliveryOption){
+    function deliveryPrice(){
+        if(deliveryOption=='parcel') return 1000
+        if(deliveryOption=='cbdDelivery') return 100
+        if(deliveryOption=='mtaani') return 120
+        return 0
+    }
     return `
     <input style='display:none;' name='location' value='${deliveryLocation}'>
     <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
@@ -152,18 +157,18 @@ function checkoutModalHtml(deliveryLocation){
         <div style='width:100%' id="totalCheckout">
             <div id='totalDiv'>
                 <h4 class="totalElem">Sub total</h4>
-                <h4 class="totalElem" id="subTotal">0</h4>
+                <h4 class="totalElem" id="subTotal">${calcTotal()}</h4>
             </div>
             <div id='totalDiv'>
                 <h4 class="totalElem">Shipping</h4>
-                <h4 class="totalElem" id="shippingPrice">0</h4>
+                <h4 class="totalElem" id="shippingPrice">${deliveryPrice()}</h4>
             </div>
             <div id='totalDiv'>
                 <h4 class="totalElem">Total</h4>
-                <h4 class="totalElem" id="totalPriceCheckout">0</h4>
+                <h4 class="totalElem" id="totalPriceCheckout">${calcTotal() + deliveryPrice()}</h4>
             </div>
         </div>
-        <input type="hidden" name="totalPrice" id="total">
+        <input type="hidden" name="totalPrice" id="total" value='${calcTotal() + deliveryPrice()}'>
         <button type='submit' id='payBtn'>Proceed to Payment</button>
     <form/>
   `
@@ -176,8 +181,7 @@ function calcTotal(){
     cartItems.forEach((item)=>{
         total+= Number(parseInt(item.price)*item.unit) 
     })
-    totalPrice.innerText=total
-    document.getElementById('total').value=total
+    return total;
 }
 
 
@@ -212,7 +216,6 @@ function displayCartItems(){
             subFunc(bigDiv,item)
             removeFunc(bigDiv,item)
         })
-        //calcTotal()
 }
 
 function selectColor(div){
@@ -265,7 +268,7 @@ function removeFunc(div,item){
 
 
 async function updFunc(){
-    document.getElementById('total') = calcTotal()
+    totalPrice.innerText= calcTotal()
     await fetch('/updCart',{
         method:'POST',
         headers:{
