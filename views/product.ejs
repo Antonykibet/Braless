@@ -90,26 +90,31 @@
             let images = JSON.parse(document.getElementById('images').innerText)
             let colors = JSON.parse(document.getElementById('colorsData').innerText)
             let addCartBtn = document.querySelector('#cartBtn')
-            const item = JSON.parse(document.querySelector('#items').innerText) 
-            let cartItems = []
+            const item = JSON.parse(document.querySelector('#items').innerText)
+            let selectedBtn = null; // to keep track of the selected button 
             async function getCartItems(){
                 let response = await fetch('/addCart')
-                cartItems = await response.json()
+                return await response.json()
             }
-            getCartItems()
+            
             continueBtn.addEventListener('click',()=>{
                 window.location.href='/'
             })
             addCartBtn.addEventListener('click', async()=>{
-                if(cartItems.some(cartItem=>cartItem._id===item._id)) return
-                cartItems.push(item)
-                await fetch('/addCart',{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json',
-                    },
-                    body:JSON.stringify({cartItems:cartItems}),
-                })
+                try {
+                    let cartItems = await getCartItems()
+                    if(cartItems.some(cartItem=>cartItem._id===item._id)) return
+                    cartItems.push(item)
+                    await fetch('/addCart',{
+                        method:'POST',
+                        headers:{
+                            'Content-Type':'application/json',
+                        },
+                        body:JSON.stringify({cartItems:cartItems}),
+                    })
+                } catch (error) {
+                    alert('Cannot add item to cart')
+                }
             })
             images.forEach((image)=>{
                 imgCollection.innerHTML+=`
@@ -120,10 +125,21 @@
                 let colorDiv = document.createElement('div')
                 colorDiv.classList.add('colorDiv')
                 colorDiv.innerHTML+=`
-                    <div class='colorCode' style='background-color:${color.colorCode}'>..</div>
+                    <div class='colorBtn' style='background-color:${color.colorCode}'>..</div>
                     <h3 class='colorName'>${color.colorName}</h3>
                 `
                 document.getElementById('colorSection').appendChild(colorDiv)
+                let colorBtns = colorDiv.querySelectorAll('.colorBtn')
+                colorBtns.forEach((btn)=>{
+                    btn.addEventListener('click',(event)=>{
+                        if(selectedBtn){
+                            selectedBtn.style.border='none'
+                        }
+                        event.target.style.border='solid rgb(235, 72, 113)'
+                        selectedBtn = event.target
+                    })
+                    
+                })
             })
             let otherImg = document.querySelectorAll('.otherImg')
             otherImg.forEach((image)=>{

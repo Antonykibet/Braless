@@ -106,9 +106,14 @@ checkoutBtn.addEventListener('click',(event)=>{
     intlPhoneNoRender(checkoutModal)
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
     if(deliveryOption==='parcel'){
-        checkoutModal.querySelector('#shippingPrice').innerText= 1000
         addSection.innerHTML=`
         <input style='width:97%;' class="billingInput" placeholder="Sacco" type="text" name="sacco" id="sacco" required>
+        <input style='width:97%;' class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
+        `
+    }
+    if(deliveryOption==='parcelEast'){
+        addSection.innerHTML=`
+        <input style='width:97%;' class="billingInput" placeholder="Country" type="text" name="country" id="country" required>
         <input style='width:97%;' class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
         `
     }
@@ -148,7 +153,8 @@ function intlPhoneNoRender(div){
 
 function checkoutModalHtml(deliveryLocation,deliveryOption){
     function deliveryPrice(){
-        if(deliveryOption=='parcel') return 1000
+        if(deliveryOption=='parcel') return 350
+        if(deliveryOption=='parcelEast') return 800
         if(deliveryOption=='cbdDelivery') return 100
         if(deliveryOption=='mtaani') return 120
         return 0

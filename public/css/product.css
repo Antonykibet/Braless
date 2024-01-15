@@ -93,10 +93,10 @@
     align-items: center;
     margin-top: 8px;
 }
-.colorCode{
+.colorBtn{
     width:30px;
     height:30px;
-    border-radius: 15px;
+    border-radius: 50%;
     margin: 0px;
 }
 .colorName{
