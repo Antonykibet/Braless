@@ -16,7 +16,7 @@ deliveryOptions.addEventListener('change',(event)=>{
 })
 let agents=null
 async function getAgents(){
-    let response = await fetch('http://localhost:5500/api/agents')
+    let response = await fetch('/agents')
     return await response.json()
 }
 
@@ -213,8 +213,12 @@ async function displayCartItems(){
     cartItems.forEach((item,index)=>{
         let {_id,type,catalogue,price,image,unit,colors} = item
         let selectedColor =selectedColors.find((colorItem)=>colorItem.productId===_id)
-        alert(selectedColor)
-        
+        let backgroundColor = null 
+        if(selectedColor){
+            backgroundColor = selectedColor.color
+        }else{
+            backgroundColor ='white'
+        }
         let bigDiv = document.createElement('div')
         bigDiv.classList.add('cartProductDiv')
         bigDiv.innerHTML=`
@@ -230,7 +234,7 @@ async function displayCartItems(){
                     <div class='digitDisplay ' id='div${index}' >${unit}</div>
                     <i class="bi bi-plus-lg " index='${index}'></i>
                 </div>
-                <div class='colorDiv' style='background-color:${selectedColor.color};margin-top:8px;'>
+                <div class='colorDiv' style='background-color:${backgroundColor};margin-top:8px;'>
                 </div>
                 <div class='thirdRow'>
                     <i index='${index}' class="bi bi-trash3-fill removeBtn"></i>

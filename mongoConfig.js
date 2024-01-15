@@ -7,6 +7,7 @@ let db = dbClient.db('Braless');
 let products = db.collection('products')
 let accounts =  db.collection('accounts')
 let orders = db.collection('Orders')
+let pickupMtaani = db.collection('pickupMtaani')
 let dashboard =db.collection('dashboard')
 
 
@@ -19,4 +20,4 @@ async function dbInit(){
     }
 }
 
-module.exports = {uri,dbInit,products,accounts,orders,dashboard,ObjectId}
+module.exports = {uri,dbInit,products,accounts,orders,dashboard,pickupMtaani,ObjectId}

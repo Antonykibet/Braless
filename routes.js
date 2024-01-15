@@ -1,13 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 const path =require('path')
-const {dbInit,accounts,products,orders,dashboard,ObjectId} = require('./mongoConfig')
+const {dbInit,accounts,products,orders,dashboard,pickupMtaani,ObjectId} = require('./mongoConfig')
 const {mailOrder, resetPassword} = require('./mailer')
 const crypto = require('crypto');
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
 
 
+routes.get('/agents',async(req,res)=>{
+    let agents = await pickupMtaani.find().toArray()
+    res.json(agents)
+})
 routes.post('/addCart',async(req,res)=>{
     const {cartItems} = req.body
     req.session.cartItems=cartItems
