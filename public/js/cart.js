@@ -19,7 +19,7 @@ async function getAgents(){
     let response = await fetch('http://localhost:5500/api/agents')
     return await response.json()
 }
-getAgents()
+
 async function renderAgents(div){
     div.innerHTML=``
     let agents = await getAgents()
@@ -127,13 +127,16 @@ checkoutBtn.addEventListener('click',(event)=>{
     checkoutBtn.click()*/
 })
 
-async function getCartItems(){
+ async function getCartItems(){
     let response = await fetch('/addCart')
-    cartItems = await response.json()
+    return await response.json()
+ }
+async function init(){
+    cartItems = await getCartItems()
     displayCartItems()
     totalPrice.innerText= calcTotal()
 }
-getCartItems()
+init()
 
 function intlPhoneNoRender(div){
     const phoneInput = div.querySelector("#phoneNo");
@@ -200,11 +203,18 @@ function calcTotal(){
     return total;
 }
 
+async function getSelectedColors(){
+    let response = await fetch('/colorSelect')
+    return response.json()
+}
 
-
-function displayCartItems(){
+async function displayCartItems(){
+    let selectedColors = await getSelectedColors()
     cartItems.forEach((item,index)=>{
-        let {type,catalogue,price,image,unit,colors} = item
+        let {_id,type,catalogue,price,image,unit,colors} = item
+        let selectedColor =selectedColors.find((colorItem)=>colorItem.productId===_id)
+        alert(selectedColor)
+        
         let bigDiv = document.createElement('div')
         bigDiv.classList.add('cartProductDiv')
         bigDiv.innerHTML=`
@@ -220,7 +230,7 @@ function displayCartItems(){
                     <div class='digitDisplay ' id='div${index}' >${unit}</div>
                     <i class="bi bi-plus-lg " index='${index}'></i>
                 </div>
-                <div class='colorDiv'>
+                <div class='colorDiv' style='background-color:${selectedColor.color};margin-top:8px;'>
                 </div>
                 <div class='thirdRow'>
                     <i index='${index}' class="bi bi-trash3-fill removeBtn"></i>

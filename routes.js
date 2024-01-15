@@ -19,6 +19,16 @@ routes.post('/checkOrder',async(req,res)=>{
     let result = await orders.find({email:email}).toArray()
     res.json(result)
 })
+routes.post('/colorSelect',(req,res)=>{
+    if(!req.session.selectedColor){
+        req.session.selectedColor=[]
+    }
+    req.session.selectedColor.push(req.body)
+    res.redirect('back')
+})
+routes.get('/colorSelect',(req,res)=>{
+    res.json(req.session.selectedColor||[])
+})
 routes.post('/updCart',(req,res)=>{
     const {cartItems} =req.body
     req.session.cartItems=cartItems

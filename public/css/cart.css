@@ -23,7 +23,7 @@
 .cartProductDiv{
     display: flex;
     width: 65%;
-    height: 30vh;
+    height: auto;
     background-color: #FFFFFF;
     border-radius: 8px;
     box-shadow: 0 8px 16px 0 rgba(54, 53, 53, 0.3);
@@ -175,6 +175,12 @@
 #error{
     width: 95%;
     padding: 0px;
+}
+.colorDiv{
+    width:30px;
+    height:30px;
+    border-radius: 50%;
+    margin: 0px;
 }
 #phoneNo{
     width: 100%;
