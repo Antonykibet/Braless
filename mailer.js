@@ -36,7 +36,7 @@ function mailOrder(order){
         subject: 'Password reset',
         text: 'You are receiving this because you (or someone else) has requested the reset of the password for your account.\n\n' +
         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-        'https://n3vj0vz2-3500.uks1.devtunnels.ms/reset-password/' + resetToken + '\n\n' +
+        'https://bralessnation.com/reset-password/' + resetToken + '\n\n' +
         'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       }
       
