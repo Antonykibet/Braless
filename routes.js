@@ -63,9 +63,9 @@ routes.post('/checkout',async(req,res)=>{
         }
         console.log(order)
         await orders.insertOne(order)
-        mailOrder(order)
+        //mailOrder(order)
         req.session.cartItems=[]
-        res.redirect('/')
+        //res.redirect('/')
     } catch (error) {
         console.log(`Failed CheckOut ${fname} ${lname}`)
         console.log(error)
@@ -81,7 +81,7 @@ routes.post('/forgotPassword',async(req,res)=>{
             resetPasswordExpires : Date.now() + 3600000, // 1 hour
         }})
         resetPassword(resetToken,email)
-        res.json('You will get an email with the reset link')    
+        res.json('Check your email!')    
     } catch (error) {
         console.log(error)
     }
@@ -107,7 +107,7 @@ routes.post('/reset-password/:token', async (req, res) => {
             resetPasswordToken : undefined,
             resetPasswordExpires : undefined,
         }})   
-        res.send('Password update succesfull')
+        res.redirect('/')
     } catch (error) {
         console.log(error)
     }

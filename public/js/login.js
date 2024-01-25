@@ -5,7 +5,7 @@ let forgotBtn = document.getElementById('forgot')
 
 forgotBtn.addEventListener('click',async()=>{
     let email = document.getElementById('username').value
-    if(email==null||undefined){
+    if(email==''){
         alert('Enter email address')
         return
     }

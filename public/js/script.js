@@ -107,6 +107,7 @@ function productDisplay(result,section = 'content'){
         `
         contentDiv.appendChild(productDiv)
         addCartFunc(productDiv,item)
+        
     })
     
 }
@@ -114,6 +115,7 @@ function productDisplay(result,section = 'content'){
 function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
+        alert('adding to cart...')
         let cartItems = await getCartItems()
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
@@ -126,6 +128,7 @@ function addCartFunc(elem,item){
                 
                 body:JSON.stringify({cartItems:cartItems}),
             })
+            alert('Added to cart')
         } catch (error) {
             alert(`Did not add to cart succesfully:${error}`)
         }

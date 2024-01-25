@@ -1,7 +1,7 @@
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
-let checkoutBtn = document.querySelector('#checkoutBtn')
+let checkoutModalBtn = document.querySelector('#checkoutModalBtn')
 let formInputs = document.querySelectorAll('.billingInput')
 let deliveryOptions = document.getElementById('deliveryOptions')
 let cartItems = null
@@ -34,7 +34,7 @@ async function renderAgents(div){
             selectElem.innerHTML+=`<option class='pickupOption' style='width:100%;' value='${item}'>${item}</option>`
         })
         selectElem.addEventListener('change',()=>{
-            checkoutBtn.setAttribute('location',selectElem.value)
+            checkoutModalBtn.setAttribute('location',selectElem.value)
         })
         agentDiv.append(label,selectElem)
         div.append(agentDiv)
@@ -53,21 +53,23 @@ function isDeliveryOptionsFormValid(deliveryOption){
     return true
 }
 
-function isCheckoutFormValid(){
+function isCheckoutFormValid(div){
+    let phoneNo = div.querySelector('#phoneNo')
+    let formInputs =div.querySelectorAll('.billingInput')
     if(phoneNo.value.length < 10){
         alert('Incomplete phone number')
-        return false
+        return true
     }
     for(let i=0;i<formInputs.length;i++){
         if(formInputs[i].value.trim()===''){
             alert(`${formInputs[i].placeholder} input is empty!`)
-            return false
+            return true
         }
     }
-    return true;
+    return false;
 }
 
-function paymentApi(){
+function paymentApi(form){
     IntaSend({
         publicAPIKey: "ISPubKey_test_87bb04e5-be8e-49d2-a4e2-a749b532a0f3",
         live: false //set to true when going live
@@ -80,7 +82,7 @@ function paymentApi(){
         })
         .on("FAILED", (results) => {
           // Handle failed payment
-          alert("Payment failed!");
+          alert("Payment failed! "+results );
         })
         .on("IN-PROGRESS", (results) => {
           // Handle payment in progress status
@@ -89,7 +91,7 @@ function paymentApi(){
 }
 
 
-checkoutBtn.addEventListener('click',(event)=>{
+checkoutModalBtn.addEventListener('click',(event)=>{
     let deliveryOption = document.querySelector('#deliveryOptions').value
     if(!isDeliveryOptionsFormValid(deliveryOption)){
         return
@@ -104,6 +106,29 @@ checkoutBtn.addEventListener('click',(event)=>{
     document.body.appendChild(checkoutModalBackground)
     document.getElementById('billingDiv').remove()
     intlPhoneNoRender(checkoutModal)
+    let checkoutBtn = checkoutModal.querySelector('#checkoutBtn')
+    checkoutBtn.addEventListener('click',(event)=>{
+        event.preventDefault();
+        //if(isCheckoutFormValid(checkoutModal)) return
+        event.target.setAttribute('data-amount',10)
+        new window.IntaSend({
+            publicAPIKey: "ISPubKey_live_e54ca1a5-84ce-481c-bef9-c78498ce7369",
+            live: true //set to true when going live
+            })
+            .on("COMPLETE", (results) =>{
+                alert("Payment succesfull", results)
+                event.target.form.submit()
+            })
+            .on("FAILED", (results) =>{
+                alert("Payment failed", results)
+            })
+            .on("IN-PROGRESS", (results) => alert("Payment in progress", results))
+        // Trigger IntaSend popup
+        //paymentApi(event)
+        //calling it twice due to error with intasend
+        event.target.click()
+        
+    })
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
     if(deliveryOption==='parcel'){
         addSection.innerHTML=`
@@ -117,14 +142,6 @@ checkoutBtn.addEventListener('click',(event)=>{
         <input style='width:97%;' class="billingInput" placeholder="Town" type="text" name="town" id="town" required>
         `
     }
-
-    /*event.preventDefault();
-    if(!isFormValid()) return
-    checkoutBtn.setAttribute('data-amount',10)
-  // Trigger IntaSend popup
-   paymentApi()
-  //calling it twice due to error with intasend
-    checkoutBtn.click()*/
 })
 
  async function getCartItems(){
@@ -188,7 +205,7 @@ function checkoutModalHtml(deliveryLocation,deliveryOption){
             </div>
         </div>
         <input type="hidden" name="totalPrice" id="total" value='${calcTotal() + deliveryPrice()}'>
-        <button type='submit' id='payBtn'>Proceed to Payment</button>
+        <button type="submit" class="intaSendPayButton" id="checkoutBtn"  data-amount="10" data-currency="KES" >Proceed to payment</button>
     <form/>
   `
 }

@@ -22,15 +22,17 @@ const upload = multer({storage})
 
 
 function auth(req,res,next){
-    if(req.session.user){
+    let {role} = req.session.user || false
+    if(role=='admin'){
         next()
+        return
     }else{
         res.send('intruder')
     }
 }
 
 admnRoute.use(bodyParser.text({ type: 'text/plain' }));
-//admnRoute.use('/admin',auth)
+admnRoute.use('/admin',auth)
 admnRoute.get('/admin/dashboard', async (req,res)=>{
     const orderdItems = await orders.countDocuments()
     const {visits, cartItems} = await dashboard.findOne({name:'dashBoardDetails'})

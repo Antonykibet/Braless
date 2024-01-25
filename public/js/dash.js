@@ -93,7 +93,8 @@ async function getOrderdItems(){
     let response=await fetch('/admin/orderdItems')
     orderItems=await response.json()
     orderItems.forEach((item,index)=>{
-        const {_id,name,phoneNo,email,cart,} = item
+        const {name,phoneNo,email} = item
+        let cart =item.cart||[]
         let list = document.createElement('div')
         list.classList.add('orderRecord')
         list.innerHTML=orderList(index,name,email,phoneNo)
