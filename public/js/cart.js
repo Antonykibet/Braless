@@ -106,12 +106,14 @@ checkoutModalBtn.addEventListener('click',(event)=>{
     checkoutModal.innerHTML=checkoutModalHtml(deliveryLocation,deliveryOption)
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
-    document.getElementById('billingDiv').remove()
     intlPhoneNoRender(checkoutModal)
+    let closeBtn = checkoutModal.querySelector('.bi-x-circle')
+    closeBtn.addEventListener('click',(event)=>{
+        checkoutModalBackground.remove()
+    })
     let checkoutBtn = checkoutModal.querySelector('#checkoutBtn')
     checkoutBtn.addEventListener('click',(event)=>{
         event.preventDefault();
-        //if(isCheckoutFormValid(checkoutModal)) return
         event.target.setAttribute('data-amount',10)
         new window.IntaSend({
             publicAPIKey: "ISPubKey_live_e54ca1a5-84ce-481c-bef9-c78498ce7369",
@@ -125,9 +127,6 @@ checkoutModalBtn.addEventListener('click',(event)=>{
                 alert("Payment failed", results)
             })
             .on("IN-PROGRESS", (results) => alert("Payment in progress", results))
-        // Trigger IntaSend popup
-        //paymentApi(event)
-        //calling it twice due to error with intasend
         event.target.click()
         
     })
@@ -179,6 +178,7 @@ function checkoutModalHtml(deliveryLocation,deliveryOption){
         return 0
     }
     return `
+    <i class="bi bi-x-circle"></i>
     <input style='display:none;' name='location' value='${deliveryLocation}'>
     <h1 style='padding-top: 0px;margin-bottom:16px;justify-content:center;align-items:center;' class='title'>Checkout</h1>
     <form id="billingForm"  action='/checkout' method='Post'>
@@ -189,6 +189,7 @@ function checkoutModalHtml(deliveryLocation,deliveryOption){
         <div id='formAdditionSection'></div>
         <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
         <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
+        <input type='hidden' name=items value='${JSON.stringify(cartItems)}'>
         <div style='width:100%' id="totalCheckout">
             <div id='totalDiv'>
                 <h4 class="totalElem">Sub total</h4>
