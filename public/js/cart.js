@@ -1,3 +1,5 @@
+import { getCartItems,storeCartItems } from "./addCartFunc.js"
+
 let contentDiv = document.getElementById('content')
 let totalPrice =document.getElementById('totalPrice')
 let phoneNo = document.querySelector('#phoneNo')
@@ -144,10 +146,7 @@ checkoutModalBtn.addEventListener('click',(event)=>{
     }
 })
 
- async function getCartItems(){
-    let response = await fetch('/addCart')
-    return await response.json()
- }
+
 async function init(){
     cartItems = await getCartItems()
     displayCartItems()
@@ -316,11 +315,5 @@ function removeFunc(div,item){
 
 async function updFunc(){
     totalPrice.innerText= calcTotal()
-    await fetch('/updCart',{
-        method:'POST',
-        headers:{
-            'Content-Type':'application/json',
-        },
-        body:JSON.stringify({cartItems:cartItems}),
-    })
+    await storeCartItems(cartItems)
 }
