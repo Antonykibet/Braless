@@ -102,6 +102,7 @@ checkoutModalBtn.addEventListener('click',async(event)=>{
     if(!isDeliveryOptionsFormValid(deliveryOption)){
         return
     }
+    document.getElementById('billingDiv').style.display='none'
     let deliveryLocation = event.target.getAttribute('location')
     let checkoutModalBackground = document.createElement('div')
     let checkoutModal = document.createElement('div')
@@ -113,6 +114,7 @@ checkoutModalBtn.addEventListener('click',async(event)=>{
     intlPhoneNoRender(checkoutModal)
     let closeBtn = checkoutModal.querySelector('.bi-x-circle')
     closeBtn.addEventListener('click',(event)=>{
+        document.getElementById('billingDiv').style.display='flex'
         checkoutModalBackground.remove()
     })
     let checkoutBtn = checkoutModal.querySelector('#checkoutBtn')
