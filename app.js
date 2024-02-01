@@ -2,6 +2,7 @@ const express = require('express')
 const {routes,dbClient} = require('./routes.js')
 const {dbInit,uri,} =require('./mongoConfig.js')
 const {admnRoute} = require('./adminRoutes.js')
+const mtaaniapi = require('./mtaaniAPI')
 const sessions = require('express-session')
 const mongoDbSession =require('connect-mongodb-session')(sessions)
 const app = express()
@@ -33,6 +34,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(routes)
 app.use(admnRoute)
+app.use(mtaaniapi)
 
 
 

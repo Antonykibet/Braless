@@ -1,0 +1,81 @@
+const express = require('express')
+const route =express.Router()
+const cors = require('cors')
+var bodyParser = require('body-parser');
+const {dbInit,agentsCollection,adminConfigsCollection} =require('./mongoConfig.js')
+
+
+route.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    allowedHeaders: 'Content-Type, Authorization, Origin, X-Requested-With, Accept'
+}))
+
+route.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // replace '*' with your specific origin when deploying
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+route.use(bodyParser.urlencoded({ extended: false }));
+route.use(bodyParser.json());
+
+route.post('/api/toggleAvailability',async(req,res)=>{
+    let {siteId} = req.query
+    let {available} = req.body
+    console.log(available)
+    await adminConfigsCollection.updateOne({site:siteId},{$set:{isOn:available,}})
+    res.json(null)
+})
+
+route.post('/api/config',async(req,res)=>{
+    let {siteId} = req.query
+    let {available,location} = req.body
+    let deliveryPrice =210
+    if(!location){
+        location=''
+        deliveryPrice=0
+    }
+    let town =location.split(':')[0]   
+    available = available==='on'?true:false
+    if(town=='Nairobi(CBD)'){
+        deliveryPrice=120
+    }
+    try {
+        await adminConfigsCollection.updateOne({site:siteId},{$set:{isOn:available,price:deliveryPrice}})
+    } catch (error) {
+        console.log(`Error updating the admin configuration`)
+    }
+    res.redirect('back')
+})
+
+route.get('/api/getConfig',async(req,res)=>{
+    let {siteId} = req.query
+    let doc = await adminConfigsCollection.findOne({site:siteId})
+    if(!doc){
+        let config ={
+            site:siteId,
+            isOn:true,
+            price:'Not set',
+        }
+        await adminConfigsCollection.insertOne(config)
+        res.json(config)
+        return
+    }
+    res.json(doc)
+})
+route.get('/api/agents',async(req,res)=>{
+    let {siteId} = req.query
+    let doc = await adminConfigsCollection.findOne({site:siteId}) || {}
+    if(doc.isOn==false){
+        res.json([])
+        return
+    }
+    let agents = await agentsCollection.find().toArray()
+    res.json(agents)
+})
+route.get('/api/agents/:location',async(req,res)=>{
+    let agents = await agentsCollection.findOne({location:req.params.location})
+    res.json(agents)
+})
+module.exports=route
