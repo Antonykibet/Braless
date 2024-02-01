@@ -5,7 +5,7 @@ const {admnRoute} = require('./adminRoutes.js')
 const sessions = require('express-session')
 const mongoDbSession =require('connect-mongodb-session')(sessions)
 const app = express()
-const PORT=3500
+const PORT=3000
 
 const mongoStore = new mongoDbSession({
     uri:uri,

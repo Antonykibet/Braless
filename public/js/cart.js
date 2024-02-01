@@ -6,17 +6,21 @@ let phoneNo = document.querySelector('#phoneNo')
 let checkoutModalBtn = document.querySelector('#checkoutModalBtn')
 let formInputs = document.querySelectorAll('.billingInput')
 let deliveryOptions = document.getElementById('deliveryOptions')
+let pickupMtaaniDiv = document.getElementById('pickupMtaani')
 let cartItems = null
 
-deliveryOptions.addEventListener('change',(event)=>{
+/*deliveryOptions.addEventListener('change',(event)=>{
     let pickupMtaaniDiv = document.getElementById('pickupMtaani')
     if(event.target.value=='mtaani'){
         renderAgents(pickupMtaaniDiv)
     }else{
         pickupMtaaniDiv.innerHTML=''
     }
-})
-let agents=null
+})*/
+
+window.pickUpMtaaniOption(deliveryOptions,pickupMtaaniDiv);
+
+/*let agents=null
 async function getAgents(){
     let response = await fetch('/agents')
     return await response.json()
@@ -42,7 +46,7 @@ async function renderAgents(div){
         div.append(agentDiv)
     })
 }
-
+*/
 function isDeliveryOptionsFormValid(deliveryOption){
     if (calcTotal() <= 0) {
         alert('Cart is empty!!')
@@ -93,7 +97,7 @@ function paymentApi(form){
 }
 
 
-checkoutModalBtn.addEventListener('click',(event)=>{
+checkoutModalBtn.addEventListener('click',async(event)=>{
     let deliveryOption = document.querySelector('#deliveryOptions').value
     if(!isDeliveryOptionsFormValid(deliveryOption)){
         return
@@ -103,7 +107,7 @@ checkoutModalBtn.addEventListener('click',(event)=>{
     let checkoutModal = document.createElement('div')
     checkoutModalBackground.setAttribute('id','checkoutModalBackground')
     checkoutModal.setAttribute('id','checkoutModal')
-    checkoutModal.innerHTML=checkoutModalHtml(deliveryLocation,deliveryOption)
+    checkoutModal.innerHTML= await checkoutModalHtml(deliveryLocation,deliveryOption)
     checkoutModalBackground.appendChild(checkoutModal)
     document.body.appendChild(checkoutModalBackground)
     intlPhoneNoRender(checkoutModal)
@@ -169,14 +173,18 @@ function intlPhoneNoRender(div){
         });
 }
 
-function checkoutModalHtml(deliveryLocation,deliveryOption){
-    function deliveryPrice(){
-        if(deliveryOption=='parcel') return 350
-        if(deliveryOption=='parcelEast') return 800
-        if(deliveryOption=='cbdDelivery') return 100
-        if(deliveryOption=='mtaani') return 120
-        return 0
+async function checkoutModalHtml(deliveryLocation,deliveryOption){
+    async function getShippingCost() {
+        if(deliveryOption=='parcel') return 350;
+        if(deliveryOption=='parcelEast') return 800;
+        if(deliveryOption=='cbdDelivery') return 100;
+        if(deliveryOption=='pickupMtaani') {
+            alert('Alooo')
+            return await window.getPickupMtaaniCost();
+        }
+        return 0;
     }
+    let deliveryPrice = await getShippingCost()
     return `
     <i class="bi bi-x-circle"></i>
     <input style='display:none;' name='location' value='${deliveryLocation}'>
@@ -197,14 +205,14 @@ function checkoutModalHtml(deliveryLocation,deliveryOption){
             </div>
             <div id='totalDiv'>
                 <h4 class="totalElem">Shipping</h4>
-                <h4 class="totalElem" id="shippingPrice">${deliveryPrice()}</h4>
+                <h4 class="totalElem" id="shippingPrice">${deliveryPrice}</h4>
             </div>
             <div id='totalDiv'>
                 <h4 class="totalElem">Total</h4>
-                <h4 class="totalElem" id="totalPriceCheckout">${calcTotal() + deliveryPrice()}</h4>
+                <h4 class="totalElem" id="totalPriceCheckout">${calcTotal() + deliveryPrice}</h4>
             </div>
         </div>
-        <input type="hidden" name="totalPrice" id="total" value='${calcTotal() + deliveryPrice()}'>
+        <input type="hidden" name="totalPrice" id="total" value='${calcTotal() + deliveryPrice}'>
         <button type="submit" class="intaSendPayButton" id="checkoutBtn"  data-amount="10" data-currency="KES" >Proceed to payment</button>
     <form/>
   `

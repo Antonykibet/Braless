@@ -1,8 +1,8 @@
 export async function storeCartItems(cartItems){
-    (typeof(Storage) !== "undefined")?localStorage.setItem('cartItems',JSON.stringify(cartItems)):await addCartSession(cartItems)
+    (typeof(Storage) !== "undefined")?localStorage.setItem('BralessCartItems',JSON.stringify(cartItems)):await addCartSession(cartItems)
 }
 export async function getCartItems(){
-    let cartItems = (typeof(Storage) !== "undefined")?JSON.parse(localStorage.getItem('cartItems'))||[]:await getSessionCartItems()
+    let cartItems = (typeof(Storage) !== "undefined")?JSON.parse(localStorage.getItem('BralessCartItems'))||[]:await getSessionCartItems()
     console.log(cartItems)
     return cartItems
 }

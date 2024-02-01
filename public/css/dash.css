@@ -158,6 +158,7 @@ form input{
 }
 #firstColumn{
     width: 15vw;
+    justify-content: start;
 }
 #secondColumn{
     width: 67%;
@@ -179,13 +180,25 @@ form input{
     border-radius: 8px;
     color: #2e2e2e;
     font-family: 'Montserrat';
+    margin-bottom: 16px;
 }
 #productList{
-    height: 73%;
+    height: auto;
     border: solid 2px rgb(155, 155, 155);
     border-radius: 8px;
     font-size: 15px;
     font-family:'Inter';
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+#siteConfig{
+    height: auto;
+    border: solid 2px rgb(155, 155, 155);
+    border-radius: 8px;
+    font-size: 15px;
+    font-family:'Inter';
+    padding-bottom: 8px;
+    margin-bottom: 16px;
 }
 #productList li {
     margin-left: 12px
