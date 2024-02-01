@@ -179,7 +179,6 @@ async function checkoutModalHtml(deliveryLocation,deliveryOption){
         if(deliveryOption=='parcelEast') return 800;
         if(deliveryOption=='cbdDelivery') return 100;
         if(deliveryOption=='pickupMtaani') {
-            alert('Alooo')
             return await window.getPickupMtaaniCost();
         }
         return 0;
