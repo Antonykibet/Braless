@@ -168,7 +168,7 @@ function updateForm(){
                 <select class='input'  name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
                     <option value="Bunny Ear">Bunny Ear</option>
-                    <option value="Floral">Floral</option>
+                    <option value="Nipple cover">Nipple cover</option>
                     <option value="Sex Toys">Sex Toys</option>
                 </select>
             </div>
@@ -201,7 +201,7 @@ function createForm(){
                 <select class='input' name="catalogue" id="catalogue">
                     <option value="Boob Tapes">Boob Tapes</option>
                     <option value="Bunny Ear">Bunny Ear</option>
-                    <option value="Floral">Floral</option>
+                    <option value="Nipple cover">Nipple cover</option>
                     <option value="Sex Toys">Sex Toys</option>
                 </select>
             </div>

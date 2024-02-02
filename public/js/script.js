@@ -75,6 +75,7 @@ async function fetchAndDisplayProducts(productType, sectionId) {
   fetchAndDisplayProducts('Boob Tapes', 'tapeSection');
   fetchAndDisplayProducts('Bunny Ear', 'bunnySection');
   fetchAndDisplayProducts('Sex Toys', 'sexSection');
+  fetchAndDisplayProducts('Nipple cover', 'nippleCover');
 
 getTopProducts()
 
