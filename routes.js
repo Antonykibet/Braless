@@ -76,10 +76,14 @@ routes.post('/forgotPassword',async(req,res)=>{
     const resetToken = crypto.randomBytes(20).toString('hex');
     const hashedToken = await bcrypt.hash(resetToken, 10);
     try {
-        await accounts.updateOne({email},{$set:{
+        let result = await accounts.updateOne({email},{$set:{
             resetPasswordToken : hashedToken,
             resetPasswordExpires : Date.now() + 3600000, // 1 hour
         }})
+        if(result.matchedCount == 0){
+            res.json('Email non-existient')
+            return
+          }
         resetPassword(resetToken,email)
         res.json('Check your email!')    
     } catch (error) {
