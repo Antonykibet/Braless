@@ -239,6 +239,9 @@ form input{
     align-items: top;
     font-family: 'Roboto';
 }
+.orderRecord div{
+    margin-left: 16px;
+}
 .orderRecord h4 {
     margin-top: 0px;
     margin-bottom: 8px;    

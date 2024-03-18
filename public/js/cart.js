@@ -120,21 +120,18 @@ checkoutModalBtn.addEventListener('click',async(event)=>{
     let checkoutBtn = checkoutModal.querySelector('#checkoutBtn')
     checkoutBtn.addEventListener('click',(event)=>{
         event.preventDefault();
-        event.target.setAttribute('data-amount',10)
-        new window.IntaSend({
-            publicAPIKey: "ISPubKey_live_e54ca1a5-84ce-481c-bef9-c78498ce7369",
-            live: true //set to true when going live
-            })
-            .on("COMPLETE", (results) =>{
-                alert("Payment succesfull", results)
-                event.target.form.submit()
-            })
-            .on("FAILED", (results) =>{
-                alert("Payment failed", results)
-            })
-            .on("IN-PROGRESS", (results) => alert("Payment in progress", results))
-        event.target.click()
-        
+        displayPopup()
+         // Handle continuation after modal form submission
+        const modalForm = document.getElementById('mpesaInstructionModal'); // Get the modal form
+        modalForm.addEventListener('submit', (modalEvent) => {
+            modalEvent.preventDefault(); // Prevent default modal form submission
+            checkoutModal.querySelector('#checkoutMpesaCode').value=modalForm.querySelector('#mpesaCode').value
+            // Process modal form data (as shown in displayPopup())
+
+            // Now resume checkout form submission
+            const checkoutForm = event.target.form; // Get the checkout form element
+            checkoutForm.submit(); // Submit the checkout form
+        });
     })
     let addSection = checkoutModalBackground.querySelector('#formAdditionSection')
     if(deliveryOption==='parcel'){
@@ -194,11 +191,12 @@ async function checkoutModalHtml(deliveryLocation,deliveryOption){
         <div style='width:90%' id='pickupMtaaniOptions'></div>
         <input class="billingInput" placeholder="Full Names" type="text" id="fullname" name="fullname" required>
         <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
-        <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="email" id="email" required>
+        <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="address" id="email" required>
         <div id='formAdditionSection'></div>
         <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
         <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
-        <input type='hidden' name=items value='${JSON.stringify(cartItems)}'>
+        <input type='hidden' name='items' value='${JSON.stringify(cartItems)}'>
+        <input type='hidden' id='checkoutMpesaCode' name='mpesaCode' value=''>
         <div style='width:100%' id="totalCheckout">
             <div id='totalDiv'>
                 <h4 class="totalElem">Sub total</h4>
@@ -326,4 +324,37 @@ function removeFunc(div,item){
 async function updFunc(){
     totalPrice.innerText= calcTotal()
     await storeCartItems(cartItems)
+}
+
+async function displayPopup(){
+    const background =document.createElement('div')
+    background.classList.add('popupBackground')
+    background.innerHTML=mpesaCodeModal()
+    document.body.appendChild(background)
+    /*let mpesaCodeSubmit = background.querySelector('#mpesaCodeSubmit')
+    mpesaCodeSubmit.addEventListener('click',async()=>{
+        alert('working')
+        form.submit()
+        localStorage.removeItem('modalShown')
+    })
+    localStorage.setItem('modalShown', true);*/
+}
+function mpesaCodeModal(){
+    return `
+    <div class='mpesaCodeModal'>
+        <h1 style='width:100%'>Instructions</h1>
+        <label>To pay via mpesa:</label>
+        <ul>
+            <li>Go to sim tool kit</li>
+            <li>Click on Mpesa</li>
+            <li>Click on Lipa na Mpesa</li>
+            <li>Click on Buy Goods and Services</li>
+            <li>Enter till number:</li>
+            <li>Once you get the confirmation message, copy the code and paste it below</li>
+        </ul>
+        <form id='mpesaInstructionModal' style='width:100%;display:flex; justify-content:center;align-items:center;flex-direction:column;'>
+            <input id='mpesaCode' style='margin-bottom:16px; width:90%' placeholder='Enter mpesa code'/>
+            <button id='mpesaCodeSubmit' style='height:24px;border-radius:4px;width:50%;'>Complete Payment</button>
+        </form>
+    </div>`
 }

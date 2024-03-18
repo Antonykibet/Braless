@@ -251,9 +251,37 @@
     font-weight: 500;
     margin-bottom: 8px;
 }
+.popupBackground{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top:0px;
+    background-color: rgba(26, 26, 26, 0.61);
+    backdrop-filter: blur(1px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mpesaCodeModal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 8px;
+    background-color: white;
+    width: 30%;
+    height: auto;
+    padding: 16px;
+    font-family: 'Poppins',sans-serif;
+}
 @media screen and (max-width: 1300px) {
     body{
         padding-bottom: 40vh;
+    }
+    .mpesaCodeModal{
+        width: 85%;
+        height: 12%;
+        padding: 12px;
     }
     #mobileHeader{
         height: 7vh;

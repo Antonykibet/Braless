@@ -93,11 +93,11 @@ async function getOrderdItems(){
     let response=await fetch('/admin/orderdItems')
     orderItems=await response.json()
     orderItems.forEach((item,index)=>{
-        const {name,phoneNo,email} = item
+        const {fullname,phoneNo,email,mpesaCode,town,street,sacco,totalPrice} = item
         let cart =item.cart||[]
         let list = document.createElement('div')
         list.classList.add('orderRecord')
-        list.innerHTML=orderList(index,name,email,phoneNo)
+        list.innerHTML=orderList(index,fullname,email,phoneNo,mpesaCode,town,street,sacco,totalPrice)
         orderTrack.appendChild(list)
 
         let productItems = list.querySelector('.productItems')
@@ -129,9 +129,9 @@ async function getOrderdItems(){
     })
 }
 
-function orderList(index,name,email,phoneNo){
+function orderList(index,name,email,phoneNo,mpesaCode,town,street,sacco,totalPrice){
     return `
-    <div class='index'><h1>${index}</h1></div>
+    <div class='index'><h1></h1></div>
     <div class="credentials">
         <p id="name">${name}</p>
         <p>${email}</p>
@@ -140,7 +140,21 @@ function orderList(index,name,email,phoneNo){
     <div class="productItems">
 
     </div>
-
+    <div>
+        <p>${mpesaCode}</p>
+    </div>
+    <div>
+        <p>${town}</p>
+    </div>
+    <div>
+        <p>${street}</p>
+    </div>
+    <div>
+        <p>${sacco}</p>
+    </div>
+    <div>
+        <p>${totalPrice}</p>
+    </div>
     <div class="status">
         <select name="" id="statusElem">
             <option value="processing">Processing</option>
@@ -149,6 +163,7 @@ function orderList(index,name,email,phoneNo){
             <option value="delivered">Delivered</option>
         </select>
     </div>
+
     `
 }
 

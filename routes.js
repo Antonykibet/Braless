@@ -50,24 +50,18 @@ routes.get('/role',(req,res)=>{
     res.redirect('back')
 })
 routes.post('/checkout',async(req,res)=>{
+    console.log(req.body)
     try {
-        const {fname,lname,phoneNo,email,totalPrice} = req.body
-        const cart = req.session.cartItems
+        const {fullname,phoneNo,email,totalPrice,status,street,town,items,mpesaCode,sacco} = req.body
         let order ={
-            name:`${fname} ${lname}`,
-            phoneNo,
-            email,
-            totalPrice,
-            status:'processing',
-            cart,
+            fullname,phoneNo,email,totalPrice,status,street,town,cart:JSON.parse(items),mpesaCode,status:'processing',sacco
         }
-        console.log(order)
         await orders.insertOne(order)
-        //mailOrder(order)
+        mailOrder(order)
         req.session.cartItems=[]
-        //res.redirect('/')
+        res.json('success')
     } catch (error) {
-        console.log(`Failed CheckOut ${fname} ${lname}`)
+        console.log(`Failed CheckOut ${fullname}`)
         console.log(error)
     }
 })
