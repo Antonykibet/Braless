@@ -94,11 +94,11 @@ async function getOrderdItems(){
     let response=await fetch('/admin/orderdItems')
     orderItems=await response.json()
     orderItems.forEach((item,index)=>{
-        const {fullname,phoneNo,email,mpesaCode,town,street,sacco,totalPrice} = item
+        const {fullname,phoneNo,email,mpesaCode,town,street,sacco,totalPrice,pickupMtaani} = item
         let cart =item.cart||[]
         let list = document.createElement('div')
         list.classList.add('orderRecord')
-        list.innerHTML=orderList(index,fullname,email,phoneNo,mpesaCode,town,street,sacco,totalPrice)
+        list.innerHTML=orderList(index,fullname,email,phoneNo,mpesaCode,town,street,sacco,totalPrice,pickupMtaani)
         orderTrack.appendChild(list)
 
         let productItems = list.querySelector('.productItems')
@@ -130,7 +130,7 @@ async function getOrderdItems(){
     })
 }
 
-function orderList(index,name,email,phoneNo,mpesaCode,town,street,sacco,totalPrice){
+function orderList(index,name,email,phoneNo,mpesaCode,town,street,sacco,totalPrice,pickupMtaani){
     return `
     <div class='index'><h1></h1></div>
     <div class="credentials">
@@ -142,16 +142,19 @@ function orderList(index,name,email,phoneNo,mpesaCode,town,street,sacco,totalPri
 
     </div>
     <div>
-        <p>${mpesaCode}</p>
+        <p>Mpesa code: ${mpesaCode}</p>
     </div>
     <div>
-        <p>${town}</p>
+        <p>Town: ${town}</p>
     </div>
     <div>
-        <p>${street}</p>
+        <p>Street: ${street}</p>
     </div>
     <div>
-        <p>${sacco}</p>
+        <p>Sacco: ${sacco}</p>
+    </div>
+    <div>
+        <p>Pickup mtaani: ${pickupMtaani}</p>
     </div>
     <div>
         <p>${totalPrice}</p>

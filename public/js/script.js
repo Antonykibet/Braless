@@ -113,9 +113,14 @@ function productDisplay(result,section = 'content'){
 function addCartFunc(elem,item){
     addcartBtn = elem.querySelector('.cartButton')
     addcartBtn.addEventListener('click', async()=>{
-        let cartItems = await getCartItems()
-        if(cartItems.some(cartItem=>cartItem._id===item._id)) return
-        cartItems.push(item)
-        await storeCartItems(cartItems)
+       try {
+            let cartItems = await getCartItems()
+            if(cartItems.some(cartItem=>cartItem._id===item._id)) return
+            cartItems.push(item)
+            await storeCartItems(cartItems)
+            alert('Item Added to cart')
+       } catch (error) {
+            alert('Could not add Item to cart, try Again !!')
+       }
     })
 }

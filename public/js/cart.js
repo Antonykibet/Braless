@@ -193,6 +193,7 @@ async function checkoutModalHtml(deliveryLocation,deliveryOption){
         <input class="billingInput" placeholder="Street" type="text" name="street" id="street" required>
         <input style='margin-bottom:16px;' class="billingInput" placeholder="Zip Code/Address/Location" type="text" name="address" id="email" required>
         <div id='formAdditionSection'></div>
+        <input class="billingInput"  type="text" name="pickupMtaani" value='${window.selectedPickupMtaaniAgent}' hidden>
         <input class="billingInput" placeholder="Phone Number" type="text" name="phoneNo" id="phoneNo" required>
         <input class="billingInput" placeholder="Email Address" type="text" name="email" id="email" required>
         <input type='hidden' name='items' value='${JSON.stringify(cartItems)}'>

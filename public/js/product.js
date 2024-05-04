@@ -1,3 +1,4 @@
+import { getCartItems,storeCartItems } from "./addCartFunc.js"
 let continueBtn = document.getElementById('continueBtn')
 let productImageMain = document.getElementsByClassName('productImageMain').item(0)
 let imgCollection = document.getElementById('imgCollection')
@@ -7,28 +8,20 @@ let colors = JSON.parse(document.getElementById('colorsData').innerText)
 let addCartBtn = document.querySelector('#cartBtn')
 const item = JSON.parse(document.querySelector('#items').innerText)
 let selectedBtn = null; // to keep track of the selected button 
-async function getCartItems(){
-    let response = await fetch('/addCart')
-    return await response.json()
-}
 
 continueBtn.addEventListener('click',()=>{
     window.location.href='/'
 })
+
 addCartBtn.addEventListener('click', async()=>{
     try {
         let cartItems = await getCartItems()
         if(cartItems.some(cartItem=>cartItem._id===item._id)) return
         cartItems.push(item)
-        await fetch('/addCart',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-            },
-            body:JSON.stringify({cartItems:cartItems}),
-        })
+        await storeCartItems(cartItems)
+        alert('Item added to cart succesfully ')
     } catch (error) {
-        alert('Cannot add item to cart')
+        alert('Did not add item to cart, try Again !!')
     }
 })
 images.forEach((image)=>{

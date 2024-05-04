@@ -52,9 +52,9 @@ routes.get('/role',(req,res)=>{
 routes.post('/checkout',async(req,res)=>{
     console.log(req.body)
     try {
-        const {fullname,phoneNo,email,totalPrice,status,street,town,items,mpesaCode,sacco} = req.body
+        const {fullname,phoneNo,email,totalPrice,status,street,town,items,mpesaCode,sacco,pickupMtaani} = req.body
         let order ={
-            fullname,phoneNo,email,totalPrice,status,street,town,cart:JSON.parse(items),mpesaCode,status:'processing',sacco
+            fullname,phoneNo,email,totalPrice,status,street,town,cart:JSON.parse(items),mpesaCode,status:'processing',sacco,pickupMtaani
         }
         await orders.insertOne(order)
         mailOrder(order)
