@@ -62,6 +62,9 @@ admnRoute.post('/admin/create', upload.fields([{ name: 'mainImage', maxCount: 1 
 
 admnRoute.post('/admin/update', upload.fields([{ name: 'mainImage', maxCount: 1 },{ name: 'otherImages', maxCount: 5 }]), async (req, res) => {
     let {_id,catalogue,type,price,description,topProduct,colorData}=req.body
+    
+    colorData = JSON.parse(colorData)
+    console.log(colorData)
     let mainFile = req.files.mainImage ? req.files.mainImage[0].filename : null
     let otherImages = req.files.otherImages ? req.files.otherImages.map(file=>file.filename) : null
     if(catalogue){
@@ -75,6 +78,9 @@ admnRoute.post('/admin/update', upload.fields([{ name: 'mainImage', maxCount: 1 
     }
     if(description){
         await products.updateOne({_id: new ObjectId(_id)},{$set:{description}})
+    }
+    if(colorData){
+        await products.updateOne({_id: new ObjectId(_id)},{$set:{colors:colorData}})
     }
     if(mainFile){
         await products.updateOne({_id: new ObjectId(_id)},{$set:{mainFile}})

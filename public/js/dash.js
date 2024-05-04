@@ -74,6 +74,7 @@ lists.forEach((list)=>{
             modalBackground.innerHTML=updateForm()
             productDropdownFunc(modalBackground)
             updateSelectFunc(modalBackground)
+            addColor(modalBackground)
         }
         if(list.getAttribute('id')=='delete'){
             modalBackground.innerHTML=deleteForm()
@@ -192,10 +193,17 @@ function updateForm(){
             <input class='input' id='price' name='price' type="text" placeholder="Price(in numerics you can add symbols(/=,$,Ksh) at the end)">
             <input class='input' id='description' name='description' type="text" placeholder="description">
             <h2 id='chooseTitle'>Thumbnail</h2>
-            <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage" required>
+            <input class='input' id='mainImage' type="file" name='mainImage' accept='.jpeg, .jpg, .png' placeholder="MainImage" >
             <h2 id='chooseTitle'>Other images</h2>
-            <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images" required>
-            
+            <input class='input' id='otherImages' type="file" name='otherImages' multiple accept='.jpeg, .jpg, .png'  placeholder="Other Images" >
+            <input style='display:none;' id='colorData' type='text' name='colorData' >
+            <h2 id='chooseTitle'>Choose color</h2>
+            <div id='colorDiv'>
+                <div id='colorDisplay' style='display:flex;align-items:center;'></div>
+                    <input class='input'  id='colorName' type='text' placeholder='Color name'>
+                    <input id='colorInput' type='color'>
+                <div class='submitBtn' id='addColorBtn'>Add</div>
+            </div>
             <div>
                 <input class='input' type="checkbox" name="topProduct" id="topProduct">
                 <label for="topProduct">To Appear in Top Products Section</label>
